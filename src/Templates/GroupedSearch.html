@@ -1,0 +1,29 @@
+<div id="needletail-grouped-search">
+    <div class="needletail-grouped-search-result">
+        {{#data}}
+            {{index}}
+
+            <div class="needletail-group {{group}} {{^documents}}needletail-grouped-search-no-result{{/documents}}">
+                <h3 class="needletail-grouped-search-title">{{bucket}}</h3>
+
+                {{#documents}}
+                    <div class="needletail-grouped-search-result-item">
+                        {{#field}}{{attribute}}{{/field}}
+                    </div>
+                {{/documents}}
+
+                {{^documents}}
+                    <div class="needletail-grouped-search-result-item needletail-grouped-search-no-result">
+                        No results found
+                    </div>
+                {{/documents}}
+
+                {{#fallback}}
+                    <div class="needletail-grouped-search-result-item needletail-grouped-search-fallback">
+                        <a href="{{fallback.url}}">{{fallback.value}}</a>
+                    </div>
+                {{/fallback}}
+            </div>
+        {{/data}}
+    </div>
+</div>

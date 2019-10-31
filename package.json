@@ -1,0 +1,27 @@
+{
+    "name": "needletail-ui-js",
+    "version": "1.0.0",
+    "description": "Needletail-UI.js is a library to easily build search experiences using Needletail",
+    "main": "public/needletail-ui.js",
+    "dependencies": {
+        "mustache": "^3.0.1",
+        "needletail-js": "../needletail-js"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.4.4",
+        "@babel/core": "^7.4.5",
+        "@babel/preset-env": "^7.4.5",
+        "babel-loader": "^8.0.6",
+        "core-js": "^3.1.4",
+        "html-loader": "^0.5.5",
+        "webpack": "^4.35.0",
+        "webpack-cli": "^3.1.0"
+    },
+    "scripts": {
+        "webpack": "APP_ENV=production webpack",
+        "watch": "APP_ENV=development webpack --watch",
+        "start": "http-server"
+    },
+    "author": "support@needletail.io",
+    "license": "ISC"
+}

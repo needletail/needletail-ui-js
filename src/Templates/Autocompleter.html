@@ -1,0 +1,14 @@
+<div id="needletail-searchbar">
+    <div class="needletail-search-result">
+        {{#data}}
+            <div class="needletail-search-result-item" data-attribute="{{raw}}">
+                {{#value}}{{/value}}
+            </div>
+        {{/data}}
+        {{^data}}
+            <div class="needletail-search-result-item needletail-search-no-result">
+                No results found
+            </div>
+        {{/data}}
+    </div>
+</div>
