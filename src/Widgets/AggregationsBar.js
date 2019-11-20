@@ -109,6 +109,7 @@ export class AggregationsBar extends Widget {
             this.updateQueryString({
                 page: null
             })
+
             this.pagination_page = 1;
         }
 
@@ -131,6 +132,7 @@ export class AggregationsBar extends Widget {
                 request: {
                     query: this.buildSearchQuery(),
                     settings: {
+                        from: this.getPage(),
                         size: this.bucket.registered_widgets.result.size || 10
                     }
                 }

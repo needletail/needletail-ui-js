@@ -12,100 +12,91 @@ export class Aggregation {
             ...original_options.attributes
         }
 
-        let query = [];
-
-        let filtered_aggregation = {};
         const attributes = Object.keys(options.attributes);
 
+        let query = [];
+        let filtered_query = {};
+
         for (let attr of attributes) {
-            // if (!Object.keys(original_options.attributes).includes(attr)) continue;
+            if (attr === '*') continue;
 
             for (let attribute of attributes) {
                 if (attribute === 'page') continue;
 
                 if (attribute !== attr && selected_values[attribute] !== 'none' && selected_values[attribute]) {
-                    if (!filtered_aggregation[attr]) {
-                        filtered_aggregation[attr] = {};
+                    if (typeof filtered_query[attr] === 'undefined') {
+                        filtered_query[attr] = {};
                     }
 
+                    let field = attribute;
 
-                    filtered_aggregation[attr][attribute] = Aggregation.constructFilteredQuery(
-                        selected_values[attribute], options.attributes[attribute]
-                    );
-                } else {
-                    if (!Object.keys(selected_values).includes('*')) {
-                        if (!filtered_aggregation[attr]) {
-                            filtered_aggregation[attr] = {};
+                    if (options.attributes[attribute].type !== 'range') {
+                        field += '.raw';
+                    }
+
+                    let value = Aggregation.determineQuery(selected_values[attribute], options.attributes[attribute]);
+
+                    if (attribute === '*') {
+                        field = field.replace('.raw', '');
+
+                        value = value[0];
+                    }
+
+                    if (options.attributes[attr].type === 'checkbox') {
+                        if (typeof filtered_query[attr] === 'undefined' || typeof filtered_query[attr]['or'] === 'undefined') {
+                            filtered_query[attr] = {
+                                'or': []
+                            };
                         }
 
-                        filtered_aggregation[attr]['*'] = '*';
+                        filtered_query[attr]['or'].push({
+                            query: {
+                                [field]: value
+                            }
+                        })
+                    } else {
+                        filtered_query[attr][field] = value;
                     }
                 }
             }
         }
 
-        if (Object.keys(filtered_aggregation).length !== 0) {
-            query.push(filtered_aggregation);
+        for (let attribute of attributes) {
+            if (Object.keys(filtered_query).includes(attribute) || attribute === '*') continue;
+
+            query.push(attribute);
         }
 
-        return Aggregation.toLucene(query);
+        if (Object.keys(filtered_query).length > 0) {
+            query.push(filtered_query);
+        }
+
+        return query;
     }
 
     /**
-     * Convert the assembled query to a lucene query which will be send to Needletail.
+     * Determine which query should be used, e.g. a normal query or ranged.
      *
-     * @param   {Object} aggregation_query
-     * @returns {String}
+     * @param   {String|Array} value
+     * @param   {Object} options
+     * @returns {Array|Object}
      */
-    static toLucene(aggregation_query) {
-        let query = [];
-
-        for (const aggregation of aggregation_query) {
-            // Only filtered aggregations need to be converted to lucene queries.
-            if (typeof aggregation !== 'object') {
-                query.push(aggregation);
-
-                continue;
-            }
-
-            let lucene_query = {};
-
-            for (const [field, filters] of Object.entries(aggregation)) {
-                lucene_query[field] = [];
-
-                for (const [field_filter, filter] of Object.entries(filters)) {
-                    lucene_query[field].push(`${field_filter}:${filter}`);
-                }
-
-                lucene_query[field] = lucene_query[field].join(' AND ');
-            }
-
-            query.push(lucene_query);
-        }
-
-        return query.length === 0 ? {} : query;
-    }
-
-    /**
-     * Construct a filtered query which will be appended to the entire query.
-     *
-     * @param   {*} value
-     * @param   {Object} attribute
-     * @returns {*}
-     */
-    static constructFilteredQuery(value, attribute) {
-        let filtered_query = [];
-
-        if (attribute.type && attribute.type === 'range') {
+    static determineQuery(value, options) {
+        if (options.type === 'range') {
             let [from, to] = value;
 
-            filtered_query = `[${from} TO ${to}]`;
-        } else if (attribute.type && attribute.type === 'checkbox' && typeof value === 'object') {
-            filtered_query = `("${value.join('" OR "')}")`;
-        } else {
-            filtered_query = `("${value}")`;
+            return {
+                type: 'ranged',
+                filter: [
+                    `gte:${from}`, `lte:${to}`
+                ]
+            };
         }
 
-        return filtered_query;
+        if (Array.isArray(value)) {
+            return value;
+        }
+
+        return [value];
     }
 }

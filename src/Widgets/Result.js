@@ -25,8 +25,8 @@ export class Result extends Widget {
      */
     create() {
         this.query('search', {
-            query: {},
             settings: {
+                from: this.getPage(),
                 size: this.options.size,
                 ...this.options.query_settings
             }

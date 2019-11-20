@@ -1,6 +1,6 @@
 {
     "name": "needletail-ui-js",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Needletail-UI.js is a library to easily build search experiences using Needletail",
     "main": "public/needletail-ui.js",
     "dependencies": {
@@ -18,7 +18,8 @@
         "webpack-cli": "^3.1.0"
     },
     "scripts": {
-        "webpack": "APP_ENV=production webpack",
+        "prod": "npm run production",
+        "production": "APP_ENV=production webpack",
         "watch": "APP_ENV=development webpack --watch",
         "start": "http-server"
     },

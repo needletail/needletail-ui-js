@@ -159,9 +159,10 @@ export class Widget {
     /**
      * Fetch the query string as a key-value object.
      *
+     * @param   {String|null} parameter
      * @returns {Object}
      */
-    getQueryString() {
+    getQueryString(parameter = null) {
         let query = {};
 
         if (window.location.search.replace('?', '')) {
@@ -176,12 +177,6 @@ export class Widget {
 
                 if (this.bucket.excluded_attributes.includes(key)) continue;
 
-                let has_encode_plus_signs_option = this.options && typeof this.options.encodePlusSigns !== 'undefined';
-
-                if (!has_encode_plus_signs_option || (has_encode_plus_signs_option && this.options.encodePlusSigns)) {
-                    value = value.replace(/\+/g, '%20');
-                }
-
                 value = decodeURIComponent(value);
                 value = value.replace(/%20/g, ' ');
                 value = decodeURIComponent(value);
@@ -194,6 +189,10 @@ export class Widget {
             }
         }
 
+        if (parameter) {
+            return query[parameter] || null;
+        }
+
         return query;
     }
 
@@ -203,14 +202,35 @@ export class Widget {
      * @returns {Object}
      */
     buildSearchQuery() {
-        let search_query = [];
+        let search_query = {};
 
         for (let [field, value] of Object.entries(this.getQueryString())) {
             if (field === 'page') continue;
 
-            search_query.push(`${field}:${Aggregation.constructFilteredQuery(value, this.bucket.registered_widgets.aggregations.attributes[field] || {})}`);
+            const options = this.bucket.registered_widgets.aggregations.attributes[field] || {};
+
+            if (options.type !== 'range' && field !== '*') {
+                field += '.raw';
+            }
+
+            search_query[field] = Aggregation.determineQuery(value, options);
+
+            if (field === '*') {
+                search_query[field] = search_query[field][0];
+            }
         }
 
-        return search_query.length === 0 ? {} : search_query.join(' AND ');
+        return search_query;
+    }
+
+    /**
+     * Get the page on which the result widget is residing.
+     *
+     * @returns {int}
+     */
+    getPage() {
+        const page_number = this.getQueryString('page') || 1;
+
+        return (page_number - 1) * this.bucket.registered_widgets.result.size;
     }
 }
