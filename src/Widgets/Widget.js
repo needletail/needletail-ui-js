@@ -220,6 +220,12 @@ export class Widget {
             }
         }
 
+        if (this.bucket.scope) {
+            for (let [key, scope] of Object.entries(this.bucket.scope)) {
+                search_query[key] = scope;
+            }
+        }
+
         return search_query;
     }
 

@@ -28,6 +28,8 @@ export class Bucket extends NeedletailBucket {
 
         this.events = {};
 
+        this.scope = [];
+
         this.included_attributes = [];
 
         this.excluded_attributes = [];
@@ -102,6 +104,16 @@ export class Bucket extends NeedletailBucket {
         widget.updateQueryString({
             [key]: value
         });
+    }
+
+    /**
+     * Define a scope which will reflect each query run a bucket (aggreations, autocomplete and search results).
+     *
+     * @param   {Object} scope
+     * @returns {void}
+     */
+    setScope(scope) {
+        this.scope = scope;
     }
 
     /**

@@ -4,7 +4,7 @@ export class Aggregation {
      *
      * @returns {Array}
      */
-    static assembleQuery(selected_values, original_options) {
+    static assembleQuery(scope, selected_values, original_options) {
         let options = Object.assign({}, original_options);
 
         options.attributes = {
@@ -53,9 +53,39 @@ export class Aggregation {
                             query: {
                                 [field]: value
                             }
-                        })
+                        });
+
+                        if (scope) {
+                            for (let [key, scope] of Object.entries(scope)) {
+                                if (key === attr) continue;
+
+                                filtered_query[attr]['or'].push({
+                                    query: {
+                                        [key]: scope
+                                    }
+                                });
+                            }
+                        }
                     } else {
                         filtered_query[attr][field] = value;
+
+                        if (scope) {
+                            for (let [key, scope] of Object.entries(scope)) {
+                                if (key === attr) continue;
+
+                                filtered_query[attr][key] = scope;
+                            }
+                        }
+                    }
+                } else if (scope) {
+                    for (let [key, scope] of Object.entries(scope)) {
+                        if (key === attr) continue;
+
+                        if (typeof filtered_query[attr] === 'undefined') {
+                            filtered_query[attr] = {};
+                        }
+
+                        filtered_query[attr][key] = scope;
                     }
                 }
             }

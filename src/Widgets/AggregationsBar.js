@@ -118,6 +118,7 @@ export class AggregationsBar extends Widget {
             action: 'aggregation',
             request: {
                 query: Aggregation.assembleQuery(
+                    this.bucket.scope,
                     this.getQueryString(),
                     this.options
                 ),

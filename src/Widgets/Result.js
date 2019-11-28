@@ -24,7 +24,16 @@ export class Result extends Widget {
      * @returns  {void}
      */
     create() {
+        let query = {};
+
+        if (this.bucket.scope) {
+            for (let [key, scope] of Object.entries(this.bucket.scope)) {
+                query[key] = scope;
+            }
+        }
+
         this.query('search', {
+            query: query,
             settings: {
                 from: this.getPage(),
                 size: this.options.size,

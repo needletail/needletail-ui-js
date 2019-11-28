@@ -157,6 +157,12 @@ export class Autocompleter extends Widget {
                         [this.options.query_parameter || this.options.attribute]: searchbar.value
                     });
 
+                    if (this.bucket.scope) {
+                        for (let [key, scope] of Object.entries(this.bucket.scope)) {
+                            autocomplete['query'][key] = scope;
+                        }
+                    }
+
                     this.bucket.search(autocomplete, res => {
                         selected_result = -1;
 
