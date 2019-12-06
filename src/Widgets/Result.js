@@ -24,6 +24,10 @@ export class Result extends Widget {
      * @returns  {void}
      */
     create() {
+        if (!this.options.initialize) {
+            return;
+        }
+
         this.query('search', {
             query: {},
             settings: {
