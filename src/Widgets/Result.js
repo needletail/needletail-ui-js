@@ -32,6 +32,10 @@ export class Result extends Widget {
             }
         }
 
+        if (!this.options.initialize) {
+            return;
+        }
+
         this.query('search', {
             query: query,
             settings: {
