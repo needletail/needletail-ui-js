@@ -1,6 +1,6 @@
 {
     "name": "needletail-ui-js",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Needletail-UI.js is a library to easily build search experiences using Needletail",
     "main": "public/needletail-ui.js",
     "dependencies": {

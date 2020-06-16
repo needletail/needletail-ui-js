@@ -122,21 +122,29 @@ class Client extends NeedletailClient {
 
                     let batch = [];
 
-                    let query = {
+                    let searchTerm = {
                         value: e.target.value
                     };
 
                     for (let request of requests) {
+                        if (!request.attributes && request.attribute) {
+                            request.attributes = [request.attribute];
+                        }
+
+                        let query = {};
+                        for (let i in request.attributes) {
+
+                            query[request.attributes[i]] = {
+                                ...searchTerm,
+                                ...request.query_settings
+                            }
+                        }
+
                         batch.push({
                             bucket: request.bucket,
                             action: 'search',
                             request: {
-                                query: {
-                                    [request.attribute]: {
-                                        ...query,
-                                        ...request.query_settings
-                                    }
-                                },
+                                query,
                                 settings: request.settings || {}
                             }
                         })
@@ -162,6 +170,16 @@ class Client extends NeedletailClient {
                             let documents = res.data[i].data.map(document => {
                                 if (document.highlight)
                                     document.document['highlight'] = Object.values(document.highlight)[0][0];
+
+                                if ( !request.settings.ignore_highlights ) {
+                                    for (const [key, value] of Object.entries(document.document)) {
+                                        let searchFor = key + ".autocomplete";
+                                        if (document.highlight[searchFor]) {
+                                            document.document[key] = document.highlight[searchFor];
+                                        }
+                                    }
+                                }
+
 
                                 return document.document;
                             });
