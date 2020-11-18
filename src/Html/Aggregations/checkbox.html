@@ -1,0 +1,14 @@
+<div class="needletail-aggregation needletail-aggregation-checkbox needletail-aggregation-checkbox-{{classTitle}} {{collapsible}} {{collapsed}}">
+    <div class="needletail-aggregation-checkbox-title">
+        {{title}}
+    </div>
+    <div class="needletail-collapsible-container">
+        {{#options}}
+            <label class="needletail-aggregation-checkbox-option">
+                <input type="checkbox" name="{{name}}" value="{{value}}" class="needletail-aggregation-checkbox-option-input needletail-aggregation-checkbox-option-input-{{name}}">
+                <span class="needletail-aggregation-checkbox-option-checkmark"></span>
+                <span class="needletail-aggregation-checkbox-option-label">{{value}} ({{count}})</span>
+            </label>
+        {{/options}}
+    </div>
+</div>

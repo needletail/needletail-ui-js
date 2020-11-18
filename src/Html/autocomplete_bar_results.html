@@ -1,0 +1,14 @@
+<div class="needletail-autocomplete-bar-results">
+    {{#results}}
+        <div class="needletail-autocomplete-bar-result" data-attribute="{{raw}}">
+            {{{title}}}
+            <hr>
+            {{{highlight}}}
+        </div>
+    {{/results}}
+    {{^results}}
+        <div class="needletail-autocomplete-bar-no-result">
+            {{{no_result_message}}}
+        </div>
+    {{/results}}
+</div>

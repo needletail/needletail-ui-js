@@ -1,0 +1,21 @@
+<div class="needletail-grouped-search-bar-results">
+    {{#results}}
+        <div class="needletail-grouped-search-bar-result-title">
+            {{key}}
+        </div>
+        <div class="needletail-grouped-search-bar-result-results">
+            {{#results}}
+                <div class="needletail-grouped-search-bar-result" data-attribute="{{raw}}">
+                    {{{title}}}
+                    <hr>
+                    {{{highlight}}}
+                </div>
+            {{/results}}
+        </div>
+    {{/results}}
+    {{^results}}
+        <div class="needletail-grouped-search-bar-no-result">
+            {{{no_result_message}}}
+        </div>
+    {{/results}}
+</div>

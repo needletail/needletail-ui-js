@@ -1,0 +1,33 @@
+{
+  "name": "needletail-ui-js",
+  "version": "1.0.0",
+  "description": "Needletail.js is a library to build high performance instant search experiences using Needletail",
+  "browser": "needletail-ui.min.js",
+  "author": "support@needletail.io",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run eslint && npx webpack",
+    "reckless-build": "npx webpack",
+    "eslint": "eslint \"src/**/*\"",
+    "eslint-fix": "eslint \"src/**/*\" --fix"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.161",
+    "@types/mustache": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0",
+    "file-loader": "^6.1.0",
+    "html-loader": "^1.3.1",
+    "lodash": "^4.17.20",
+    "mustache": "^4.0.1",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.0.2",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {}
+}

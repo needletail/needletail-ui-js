@@ -1,0 +1,21 @@
+<div class="needletail-result">
+    <div class="needletail-result-results">
+        {{{results}}}
+    </div>
+
+    <div class="needletail-result-pagination">
+        {{#firstButton}}
+            <div class="needletail-result-pagination-page needletail-result-pagination-first {{disableFirstButton}}" data-page="{{firstPage}}">{{{firstButton}}}</div>
+        {{/firstButton}}
+        <div class="needletail-result-pagination-page needletail-result-pagination-previous {{disablePreviousButton}}" data-page="{{previousPage}}">{{{previousButton}}}</div>
+        {{#pages}}
+            <div class="needletail-result-pagination-page {{active}}" data-offset="{{offset}}" data-page="{{page}}">
+                {{page}}
+            </div>
+        {{/pages}}
+        <div class="needletail-result-pagination-page needletail-result-pagination-next {{disableNextButton}}" data-page="{{nextPage}}">{{{nextButton}}}</div>
+        {{#lastButton}}
+            <div class="needletail-result-pagination-page needletail-result-pagination-last {{disableLastButton}}" data-page="{{lastPage}}">{{{lastButton}}}</div>
+        {{/lastButton}}
+    </div>
+</div>

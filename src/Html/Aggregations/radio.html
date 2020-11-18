@@ -1,0 +1,14 @@
+<div class="needletail-aggregation needletail-aggregation-radio needletail-aggregation-radio-{{classTitle}} {{collapsible}} {{collapsed}}">
+    <div class="needletail-aggregation-radio-title">
+        {{title}}
+    </div>
+    <div class="needletail-collapsible-container">
+        {{#options}}
+            <label class="needletail-aggregation-radio-option">
+                <input type="radio" name="{{name}}" value="{{value}}" class="needletail-aggregation-radio-option-input needletail-aggregation-radio-option-input-{{name}}">
+                <span class="needletail-aggregation-radio-option-checkmark"></span>
+                <span class="needletail-aggregation-radio-option-label">{{value}}</span>
+            </label>
+        {{/options}}
+    </div>
+</div>

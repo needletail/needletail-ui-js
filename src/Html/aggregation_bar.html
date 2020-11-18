@@ -1,0 +1,17 @@
+<div class="needletail-aggregation-bar">
+    {{#showClearFiltersTop}}
+        <div class="needletail-clear-filters-top">
+            {{{clearFilters}}}
+        </div>
+    {{/showClearFiltersTop}}
+    {{#fields}}
+        <div class="needletail-aggregation-item">
+            {{{.}}}
+        </div>
+    {{/fields}}
+    {{#showClearFiltersBottom}}
+        <div class="needletail-clear-filters-bottom">
+            {{{clearFilters}}}
+        </div>
+    {{/showClearFiltersBottom}}
+</div>
