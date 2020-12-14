@@ -1,1 +1,1 @@
-export * from 'needletail-js/src/Models/Groupers';
+export * from '@needletail/js/src/Models/Groupers';

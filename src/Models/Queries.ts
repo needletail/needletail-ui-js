@@ -1,1 +1,1 @@
-export * from 'needletail-js/src/Models/Queries';
+export * from '@needletail/js/src/Models/Queries';

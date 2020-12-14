@@ -1,1 +1,1 @@
-export * from 'needletail-js/src/Models/Filters';
+export * from '@needletail/js/src/Models/Filters';

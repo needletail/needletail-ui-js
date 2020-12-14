@@ -1,4 +1,4 @@
-import {Client as NeedletailClient} from 'needletail-js';
+import {Client as NeedletailClient} from '@needletail/js';
 import {WidgetCollection} from './Imports/Collections';
 import { WidgetOptions } from './Imports/Types';
 
