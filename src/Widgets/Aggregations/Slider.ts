@@ -15,7 +15,7 @@ export class Slider extends Aggregation {
 
         this.min = options.min || 0;
         this.max = options.max || 10;
-        this.defaultValue = options.defaultValue || 5;
+        this.defaultValue = options.default_value || 5;
 
         this.value = {
             field: this.attribute,

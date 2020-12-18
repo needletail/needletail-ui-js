@@ -63,6 +63,10 @@ export class AutocompleteBar extends Widget {
      * The amount of results to show
      */
     size: number = 10;
+    /**
+     * The minimum amount of characters before executing.
+     */
+    minimumCharacters: number = 3;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -77,6 +81,16 @@ export class AutocompleteBar extends Widget {
         this.placeholder = options.placeholder || this.placeholder;
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
+        this.minimumCharacters = options.minimum_characters || this.minimumCharacters;
+    }
+
+    setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
+        this.minimumCharacters = minimumCharacters;
+        return this;
+    }
+
+    getMinimumCharacters(): number {
+        return this.minimumCharacters;
     }
 
     setSize(size: number): AutocompleteBar {
@@ -382,15 +396,28 @@ export class AutocompleteBar extends Widget {
     }
 
     handle(element: any) {
-        // Start the search
-        let data = {
-            value: element.value,
-            search_result: {},
-        };
-        this.value = {
-            field: this.attribute,
-            value: element.value
-        };
+        let data;
+
+        if (element.value.length < this.getMinimumCharacters()) {
+            data = {
+                value: '',
+                search_result: {},
+            };
+            this.value = {
+                field: this.attribute,
+                value: ''
+            };
+        }
+        else {
+            data = {
+                value: element.value,
+                search_result: {},
+            };
+            this.value = {
+                field: this.attribute,
+                value: element.value
+            };
+        }
 
         Events.emit(Events.onBeforeSearch, data);
         Events.emit(Events.onBeforeResultRequest, {});

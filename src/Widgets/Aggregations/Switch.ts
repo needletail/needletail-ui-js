@@ -8,14 +8,14 @@ export class Switch extends Aggregation {
     discriminator: string = 'Switch';
     onValue: string = 'On';
     offValue: string = 'Off';
-    attributeValue: string = 'Zondag';
+    attributeValue: string;
 
     constructor(options: SwitchSettings = {}) {
         super(options);
 
-        this.onValue = options.onValue || this.onValue;
-        this.offValue = options.offValue || this.offValue;
-        this.attributeValue = options.attributeValue || this.attributeValue;
+        this.onValue = options.on_value || this.onValue;
+        this.offValue = options.off_value || this.offValue;
+        this.attributeValue = options.attribute_value || this.attributeValue;
 
         this.value = {
             field: this.attribute,

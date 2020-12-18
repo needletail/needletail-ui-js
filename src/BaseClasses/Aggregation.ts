@@ -40,7 +40,7 @@ export class Aggregation {
         this.template = options.template || '';
         this.attribute = options.attribute || this.title;
         this.collapsible = options.collapsible || this.collapsible;
-        this.defaultCollapsed = options.defaultCollapsed || this.defaultCollapsed;
+        this.defaultCollapsed = options.default_collapsed || this.defaultCollapsed;
     }
 
     setAttribute(attribute: string): Aggregation {

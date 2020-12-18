@@ -63,6 +63,10 @@ export class GroupedSearchBar extends Widget {
      * The amount of results to show
      */
     size: number = 3;
+    /**
+     * The minimum amount of characters before executing.
+     */
+    minimumCharacters: number = 3;
 
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
@@ -77,6 +81,16 @@ export class GroupedSearchBar extends Widget {
         this.placeholder = options.placeholder || this.placeholder;
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
+        this.minimumCharacters = options.minimum_characters || this.minimumCharacters;
+    }
+
+    setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
+        this.minimumCharacters = minimumCharacters;
+        return this;
+    }
+
+    getMinimumCharacters(): number {
+        return this.minimumCharacters;
     }
 
     setSize(size: number): GroupedSearchBar {
@@ -400,15 +414,27 @@ export class GroupedSearchBar extends Widget {
     }
 
     handle(element: any) {
-        // Start the search
-        let data = {
-            value: element.value,
-            search_result: {},
-        };
-        this.value = {
-            field: this.attribute,
-            value: element.value
-        };
+        let data;
+        if (element.value.length < this.getMinimumCharacters()) {
+            data = {
+                value: '',
+                search_result: {},
+            };
+            this.value = {
+                field: this.attribute,
+                value: ''
+            };
+        }
+        else {
+            data = {
+                value: element.value,
+                search_result: {},
+            };
+            this.value = {
+                field: this.attribute,
+                value: element.value
+            };
+        }
 
         Events.emit(Events.onBeforeGroupedSearch, data);
     }

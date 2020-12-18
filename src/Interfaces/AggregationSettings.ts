@@ -6,7 +6,7 @@ export interface AggregationSettings {
     template?: string;
     attribute?: string;
     collapsible?: boolean;
-    defaultCollapsed?: boolean;
+    default_collapsed?: boolean;
 }
 
 /**
@@ -29,14 +29,14 @@ export interface RadioSettings extends AggregationSettings {
 export interface SliderSettings extends AggregationSettings {
     min?: number;
     max?: number;
-    defaultValue?: number;
+    default_value?: number;
 }
 
 /**
  * Contains the specific settings for the switch aggregation
  */
 export interface SwitchSettings extends AggregationSettings {
-    onValue?: string;
-    offValue?: string;
-    attributeValue?: string;
+    on_value?: string;
+    off_value?: string;
+    attribute_value?: string;
 }

@@ -35,6 +35,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
         attribute?: string;
         size?: number;
     }
+    minimum_characters?: number;
 }
 
 /**
@@ -55,6 +56,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
         attribute?: string;
         size?: number;
     }
+    minimum_characters?: number;
 }
 
 /**
