@@ -31,7 +31,7 @@ export class URIHelper {
         }
 
         let query = currentUrl.searchParams.toString();
-        query = (query) ? `?${query}` : '/';
+        query = (query) ? `?${query}` : currentUrl.pathname;
 
         history.pushState({}, document.title, query);
     }
