@@ -162,7 +162,7 @@ export class GroupedSearchBar extends Widget {
     }
 
     setResultTemplate(template: string): GroupedSearchBar {
-        this.template = template;
+        this.resultTemplate = template;
         return this;
     }
 

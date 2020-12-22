@@ -162,7 +162,7 @@ export class AutocompleteBar extends Widget {
     }
 
     setResultTemplate(template: string): AutocompleteBar {
-        this.template = template;
+        this.resultTemplate = template;
         return this;
     }
 

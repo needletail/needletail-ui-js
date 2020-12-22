@@ -1,6 +1,6 @@
 {
   "name": "@needletail/ui",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Needletail.js is a library to build high performance instant search experiences using Needletail",
   "browser": "needletail-ui.min.js",
   "author": "support@needletail.io",
@@ -12,7 +12,7 @@
     "eslint-fix": "eslint \"src/**/*\" --fix"
   },
   "devDependencies": {
-    "@needletail/js": "^3.0.4",
+    "@needletail/js": "^3.0.5",
     "@types/lodash": "^4.14.165",
     "@types/mustache": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^3.0.0",
