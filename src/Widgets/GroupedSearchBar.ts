@@ -442,7 +442,7 @@ export class GroupedSearchBar extends Widget {
 
     handle(element: any) {
         let data;
-        if (element.value.length < this.getMinimumCharacters()) {
+        if (element.value && element.value.length < this.getMinimumCharacters()) {
             data = {
                 value: '',
                 search_result: {},
