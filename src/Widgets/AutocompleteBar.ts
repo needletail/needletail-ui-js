@@ -305,7 +305,7 @@ export class AutocompleteBar extends Widget {
                     // Handle on enter key and fire an event.
                     this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
-                        value: element.value
+                        value: element.dataset
                     });
                 }
                 else if (e.key === 'Escape') {
@@ -389,7 +389,7 @@ export class AutocompleteBar extends Widget {
             let newChild = element.querySelector('.needletail-autocomplete-bar-results');
             let newResults = newChild.querySelectorAll('.needletail-autocomplete-bar-result');
 
-            newResults.forEach((element) => {
+            newResults.forEach((element: HTMLElement) => {
                 element.addEventListener('mouseover', (e) => {
                     this.selectedResult = Array.prototype.indexOf.call(newResults, element);
                     newResults.forEach((rElement) => {
@@ -410,7 +410,7 @@ export class AutocompleteBar extends Widget {
 
                     this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
-                        value: element.getAttribute('data-attribute')
+                        value: element.dataset
                     });
                 });
             });

@@ -305,7 +305,7 @@ export class GroupedSearchBar extends Widget {
                     // Handle on enter key and fire an event.
                     this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
-                        value: element.value
+                        value: element.dataset
                     });
                 }
                 else if (e.key === 'Escape') {
@@ -407,7 +407,7 @@ export class GroupedSearchBar extends Widget {
             let newChild = element.querySelector('.needletail-grouped-search-bar-results');
             let newResults = newChild.querySelectorAll('.needletail-grouped-search-bar-result');
 
-            newResults.forEach((element) => {
+            newResults.forEach((element: HTMLElement) => {
                 element.addEventListener('mouseover', (e) => {
                     this.selectedResult = Array.prototype.indexOf.call(newResults, element);
                     newResults.forEach((rElement) => {
@@ -428,7 +428,7 @@ export class GroupedSearchBar extends Widget {
 
                     this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
-                        value: element.getAttribute('data-attribute')
+                        value: element.dataset
                     });
                 });
             });
