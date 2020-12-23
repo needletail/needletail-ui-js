@@ -71,17 +71,17 @@ export class GroupedSearchBar extends Widget {
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
 
-        this.debounce = optional(options.debounce).use || this.debounce;
+        this.debounce = (typeof optional(options.debounce).use !== 'undefined') ? options.debounce.use : this.debounce;
         this.debounceWait = optional(options.debounce).wait || this.debounceWait;
         this.debounceUrlWait = optional(options.debounce).url_wait || this.debounceUrlWait;
-        this.inUrl = options.in_url || this.inUrl;
+        this.inUrl = (typeof options.in_url !== 'undefined') ? options.in_url : this.inUrl;
         this.query = options.query || this.query;
         this.buckets = optional(options.search).buckets || this.buckets;
         this.attribute = optional(options.search).attribute || '';
         this.placeholder = options.placeholder || this.placeholder;
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
-        this.minimumCharacters = options.minimum_characters || this.minimumCharacters;
+        this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
     }
 
     setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
