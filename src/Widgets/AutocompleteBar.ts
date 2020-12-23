@@ -67,6 +67,10 @@ export class AutocompleteBar extends Widget {
      * The minimum amount of characters before executing.
      */
     minimumCharacters: number = 3;
+    /**
+     * Show the results below the search bar
+     */
+    showResults: boolean = true;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -82,6 +86,7 @@ export class AutocompleteBar extends Widget {
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
+        this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -351,6 +356,10 @@ export class AutocompleteBar extends Widget {
      * @param options
      */
     buildResults(options = {}) {
+        if (!this.showResults) {
+            return;
+        }
+
         let results = this.renderResults(options);
         let nodeResults = document.createRange().createContextualFragment(results);
 
