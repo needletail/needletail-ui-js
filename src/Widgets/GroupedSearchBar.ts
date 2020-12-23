@@ -179,6 +179,24 @@ export class GroupedSearchBar extends Widget {
         return result_template;
     }
 
+    setInUrl(inUrl: boolean): GroupedSearchBar {
+        this.inUrl = inUrl;
+        return this;
+    }
+
+    getInUrl(): boolean {
+        return this.inUrl;
+    }
+
+    setShowResults(showResults: boolean): GroupedSearchBar {
+        this.showResults = showResults;
+        return this;
+    }
+
+    getShowResults(): boolean {
+        return this.showResults;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
