@@ -38,7 +38,7 @@ export class AutocompleteBar extends Widget {
     /**
      * Which bucket to search on
      */
-    bucket: string;
+    buckets: string[];
     /**
      * Which attribute to search on
      */
@@ -81,7 +81,7 @@ export class AutocompleteBar extends Widget {
         this.inUrl = (typeof options.in_url !== 'undefined') ? options.in_url : this.inUrl;
         this.query = options.query || this.query;
         this.attribute = optional(options.search).attribute || '';
-        this.bucket = optional(options.search).bucket || '';
+        this.buckets = optional(options.search).buckets || '';
         this.placeholder = options.placeholder || this.placeholder;
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
@@ -134,13 +134,13 @@ export class AutocompleteBar extends Widget {
         return this.attribute;
     }
 
-    setBucket(bucket: string): AutocompleteBar {
-        this.bucket = bucket;
+    setBuckets(buckets: []): AutocompleteBar {
+        this.buckets = buckets;
         return this;
     }
 
-    getBucket(): string {
-        return this.bucket;
+    getBuckets(): string[] {
+        return this.buckets;
     }
 
     useDebounce(use: boolean = true): AutocompleteBar {
@@ -323,7 +323,7 @@ export class AutocompleteBar extends Widget {
         document.addEventListener(Events.onSearch, async (e: CustomEvent) => {
             // Make the search
             let result = await this.client.search({
-                buckets: [this.bucket],
+                buckets: this.buckets,
                 search: {
                     fuzzy: {
                         field: this.attribute,
