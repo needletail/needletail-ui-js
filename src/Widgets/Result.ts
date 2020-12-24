@@ -214,6 +214,10 @@ export class Result extends Widget {
                 return bar.buckets;
             });
             let autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
+                if (!bar.useInResults) {
+                    return res;
+                }
+
                 if (Object.keys(bar.value).length > 0) {
                     res.push(bar.value);
                 }

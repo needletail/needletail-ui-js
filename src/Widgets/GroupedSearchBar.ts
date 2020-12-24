@@ -277,17 +277,15 @@ export class GroupedSearchBar extends Widget {
             }
             else {
                 element.addEventListener('input', () => {
-                    if (this.inUrl) {
-                        // If the data should be saved in the URL
-                        this.handleUrlChange(element);
-                    }
+                    // If the data should be saved in the URL
+                    this.handleUrlChange(element);
                     this.handle(element);
                 });
             }
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    let results: any = element.querySelectorAll('.needletail-grouped-search-bar-result');
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
                         if (this.selectedResult > 0) {
@@ -464,6 +462,10 @@ export class GroupedSearchBar extends Widget {
     }
 
     handleUrlChange(element: any) {
+        if (!this.getInUrl()) {
+            return;
+        }
+
         // Put the value in the url
         URIHelper.addToHistory(this.getQuery(), element.value);
     }

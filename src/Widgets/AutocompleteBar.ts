@@ -71,6 +71,7 @@ export class AutocompleteBar extends Widget {
      * Show the results below the search bar
      */
     showResults: boolean = true;
+    useInResults: boolean = true;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -87,6 +88,7 @@ export class AutocompleteBar extends Widget {
         this.size = optional(options.search).size || this.size;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
+        this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -277,17 +279,15 @@ export class AutocompleteBar extends Widget {
             }
             else {
                 element.addEventListener('input', () => {
-                    if (this.inUrl) {
-                        // If the data should be saved in the URL
-                        this.handleUrlChange(element);
-                    }
+                    // If the data should be saved in the URL
+                    this.handleUrlChange(element);
                     this.handle(element);
                 });
             }
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    let results: any = element.querySelectorAll('.needletail-autocomplete-bar-result');
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
                         if (this.selectedResult > 0) {
@@ -446,6 +446,10 @@ export class AutocompleteBar extends Widget {
     }
 
     handleUrlChange(element: any) {
+        if (!this.getInUrl()) {
+            return;
+        }
+
         // Put the value in the url
         URIHelper.addToHistory(this.getQuery(), element.value);
     }
