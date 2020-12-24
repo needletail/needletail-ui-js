@@ -264,6 +264,8 @@ export class Result extends Widget {
             });
 
             if (result && result.data) {
+                e.detail.count = result.data.count;
+
                 if (result.data.results) {
                     e.detail.pages = [];
                     // Add all the pages
