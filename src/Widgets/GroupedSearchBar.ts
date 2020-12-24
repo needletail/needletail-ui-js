@@ -327,6 +327,7 @@ export class GroupedSearchBar extends Widget {
         document.addEventListener(Events.onBeforeGroupedSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             // Start the actual search
@@ -336,6 +337,7 @@ export class GroupedSearchBar extends Widget {
         document.addEventListener(Events.onGroupedSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             let buckets: any = {};
@@ -393,6 +395,7 @@ export class GroupedSearchBar extends Widget {
         document.addEventListener(Events.onAfterGroupedSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             // Render the results

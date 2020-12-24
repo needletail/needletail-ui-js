@@ -327,6 +327,7 @@ export class AutocompleteBar extends Widget {
         document.addEventListener(Events.onBeforeSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             // Start the actual search
@@ -336,6 +337,7 @@ export class AutocompleteBar extends Widget {
         document.addEventListener(Events.onSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             // Make the search
@@ -375,6 +377,7 @@ export class AutocompleteBar extends Widget {
         document.addEventListener(Events.onAfterSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
+                return;
             }
 
             // Render the results

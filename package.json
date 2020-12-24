@@ -1,6 +1,6 @@
 {
   "name": "@needletail/ui",
-  "version": "3.0.17",
+  "version": "3.0.18",
   "description": "Needletail.js is a library to build high performance instant search experiences using Needletail",
   "browser": "needletail-ui.min.js",
   "author": "support@needletail.io",
