@@ -210,9 +210,17 @@ export class Result extends Widget {
             let aggregationBars = this.client.widgets.aggregationBar;
 
             // Build the options for the search
-            let buckets = autocompleteBars.map((bar: AutocompleteBar) => {
-                return bar.buckets;
-            });
+            let buckets = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
+                if (!bar.useInResults) {
+                    return res;
+                }
+
+                bar.buckets.forEach((bucket) => {
+                    res.push(bucket);
+                })
+
+                return res;
+            }, []);
             let autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
                 if (!bar.useInResults) {
                     return res;
