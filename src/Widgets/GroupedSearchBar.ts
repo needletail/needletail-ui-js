@@ -287,7 +287,7 @@ export class GroupedSearchBar extends Widget {
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    let results: any = document.querySelectorAll('.needletail-grouped-search-bar-result');
+                    let results: any = element.querySelectorAll('.needletail-grouped-search-bar-result');
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
                         if (this.selectedResult > 0) {
