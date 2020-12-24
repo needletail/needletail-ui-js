@@ -244,6 +244,7 @@ export class Result extends Widget {
                     ...[].concat.apply([], aggregationValues)
                 ]
             };
+            e.detail.extra_search_values = {};
 
             Events.emit(Events.onResultRequest, e.detail);
         }, 100));
@@ -257,7 +258,8 @@ export class Result extends Widget {
                 search: {
                     "equals": {
                         ...e.detail.search_values
-                    }
+                    },
+                    ...e.detail.extra_search_values
                 },
                 size: this.per_page,
                 offset: (current_page - 1) * this.per_page
