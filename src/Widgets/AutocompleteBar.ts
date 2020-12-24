@@ -325,7 +325,7 @@ export class AutocompleteBar extends Widget {
         });
 
         document.addEventListener(Events.onBeforeSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -334,7 +334,7 @@ export class AutocompleteBar extends Widget {
         });
 
         document.addEventListener(Events.onSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -373,7 +373,7 @@ export class AutocompleteBar extends Widget {
         });
 
         document.addEventListener(Events.onAfterSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -447,7 +447,7 @@ export class AutocompleteBar extends Widget {
         let data: {
             search_result: {},
             value: string,
-            discriminator?: string
+            query?: string
         };
 
         if (element.value && element.value.length < this.getMinimumCharacters()) {
@@ -471,7 +471,7 @@ export class AutocompleteBar extends Widget {
             };
         }
 
-        data.discriminator = this.getDiscriminator();
+        data.query = this.getQuery();
 
         Events.emit(Events.onBeforeSearch, data);
         Events.emit(Events.onBeforeResultRequest, {});

@@ -325,7 +325,7 @@ export class GroupedSearchBar extends Widget {
         });
 
         document.addEventListener(Events.onBeforeGroupedSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -334,7 +334,7 @@ export class GroupedSearchBar extends Widget {
         });
 
         document.addEventListener(Events.onGroupedSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -391,7 +391,7 @@ export class GroupedSearchBar extends Widget {
         });
 
         document.addEventListener(Events.onAfterGroupedSearch, async (e: CustomEvent) => {
-            if (e.detail.discriminator !== this.getDiscriminator()) {
+            if (e.detail.query !== this.getQuery()) {
                 e.preventDefault();
             }
 
@@ -465,7 +465,7 @@ export class GroupedSearchBar extends Widget {
         let data: {
             search_result: {},
             value: string,
-            discriminator?: string
+            query?: string
         };
 
         if (element.value && element.value.length < this.getMinimumCharacters()) {
@@ -489,7 +489,7 @@ export class GroupedSearchBar extends Widget {
             };
         }
 
-        data.discriminator = this.getDiscriminator();
+        data.query = this.getQuery();
 
         Events.emit(Events.onBeforeGroupedSearch, data);
     }
