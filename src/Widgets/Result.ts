@@ -211,7 +211,7 @@ export class Result extends Widget {
 
             // Build the options for the search
             let buckets = autocompleteBars.map((bar: AutocompleteBar) => {
-                return bar.bucket;
+                return bar.buckets;
             });
             let autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
                 if (Object.keys(bar.value).length > 0) {

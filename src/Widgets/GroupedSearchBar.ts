@@ -197,6 +197,15 @@ export class GroupedSearchBar extends Widget {
         return this.showResults;
     }
 
+    setDiscriminator(discriminator: string): GroupedSearchBar {
+        this.discriminator = discriminator;
+        return this;
+    }
+
+    getDiscriminator(): string {
+        return this.discriminator;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -316,11 +325,19 @@ export class GroupedSearchBar extends Widget {
         });
 
         document.addEventListener(Events.onBeforeGroupedSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             // Start the actual search
             Events.emit(Events.onGroupedSearch, e.detail);
         });
 
         document.addEventListener(Events.onGroupedSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             let buckets: any = {};
 
             // Prepare the options for the search
@@ -374,6 +391,10 @@ export class GroupedSearchBar extends Widget {
         });
 
         document.addEventListener(Events.onAfterGroupedSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             // Render the results
             let options = {};
 
@@ -441,7 +462,12 @@ export class GroupedSearchBar extends Widget {
     }
 
     handle(element: any) {
-        let data;
+        let data: {
+            search_result: {},
+            value: string,
+            discriminator?: string
+        };
+
         if (element.value && element.value.length < this.getMinimumCharacters()) {
             data = {
                 value: '',
@@ -462,6 +488,8 @@ export class GroupedSearchBar extends Widget {
                 value: element.value
             };
         }
+
+        data.discriminator = this.getDiscriminator();
 
         Events.emit(Events.onBeforeGroupedSearch, data);
     }

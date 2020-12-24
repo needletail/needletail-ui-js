@@ -197,6 +197,15 @@ export class AutocompleteBar extends Widget {
         return this.showResults;
     }
 
+    setDiscriminator(discriminator: string): AutocompleteBar {
+        this.discriminator = discriminator;
+        return this;
+    }
+
+    getDiscriminator(): string {
+        return this.discriminator;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -316,11 +325,19 @@ export class AutocompleteBar extends Widget {
         });
 
         document.addEventListener(Events.onBeforeSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             // Start the actual search
             Events.emit(Events.onSearch, e.detail);
         });
 
         document.addEventListener(Events.onSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             // Make the search
             let result = await this.client.search({
                 buckets: this.buckets,
@@ -356,6 +373,10 @@ export class AutocompleteBar extends Widget {
         });
 
         document.addEventListener(Events.onAfterSearch, async (e: CustomEvent) => {
+            if (e.detail.discriminator !== this.getDiscriminator()) {
+                e.preventDefault();
+            }
+
             // Render the results
             let options = {};
 
@@ -423,7 +444,11 @@ export class AutocompleteBar extends Widget {
     }
 
     handle(element: any) {
-        let data;
+        let data: {
+            search_result: {},
+            value: string,
+            discriminator?: string
+        };
 
         if (element.value && element.value.length < this.getMinimumCharacters()) {
             data = {
@@ -445,6 +470,8 @@ export class AutocompleteBar extends Widget {
                 value: element.value
             };
         }
+
+        data.discriminator = this.getDiscriminator();
 
         Events.emit(Events.onBeforeSearch, data);
         Events.emit(Events.onBeforeResultRequest, {});
