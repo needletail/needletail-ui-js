@@ -287,7 +287,7 @@ export class AutocompleteBar extends Widget {
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    let results = document.querySelectorAll('.needletail-autocomplete-bar-result');
+                    let results: any = document.querySelectorAll('.needletail-autocomplete-bar-result');
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
                         if (this.selectedResult > 0) {
@@ -301,7 +301,7 @@ export class AutocompleteBar extends Widget {
                     }
 
                     // Remove the active class from all results
-                    results.forEach((rElement) => {
+                    results.forEach((rElement: Element) => {
                         rElement.classList.remove('active');
                     });
 
@@ -309,6 +309,10 @@ export class AutocompleteBar extends Widget {
                     results[this.selectedResult].classList.add('active');
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
                     this.handleUrlChange(element);
+
+                    Events.emit(Events.onArrowMovementSearch, {
+                        value: results[this.selectedResult].dataset
+                    });
                 }
                 else if (e.key === 'Enter') {
                     // Handle on enter key and fire an event.

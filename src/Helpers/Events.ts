@@ -16,6 +16,10 @@ export class Events {
      * Called after the grouped search bar finishes searching
      */
     static onAfterGroupedSearch: string = 'onAfterGroupedSearch';
+    /**
+     * When the arrow up or down is pressed
+     */
+    static onArrowMovementGroupedSearch: string = 'onArrowMovementGroupedSearch';
 
     /**
      * Called when the autocomplete bar is submitted
@@ -33,6 +37,10 @@ export class Events {
      * Called after the autocomplete bar finishes searching
      */
     static onAfterSearch: string = 'onAfterSearch';
+    /**
+     * When the arrow up or down is pressed
+     */
+    static onArrowMovementSearch: string = 'onArrowMovementSearch';
 
     /**
      * When the result should be updated
