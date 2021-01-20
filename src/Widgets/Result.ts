@@ -194,7 +194,7 @@ export class Result extends Widget {
         return document.createRange().createContextualFragment(rendered);
     }
 
-    renderResults(options = {}) {
+    renderResults(options = {}) : string {
         let template = this.getResultTemplate();
 
         options = {

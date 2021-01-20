@@ -345,16 +345,56 @@ export class GroupedSearchBar extends Widget {
             let buckets: any = {};
 
             // Prepare the options for the search
-            this.buckets.forEach((val: string) => {
-                buckets[val] = {
-                    search: {
-                        fuzzy: {
-                            field: this.attribute,
-                            value: e.detail.value
+            this.buckets.forEach((val: any) => {
+                if (typeof val === "object") {
+                    if (val.name) {
+                        let attributes: any = val.attribute || this.attribute;
+
+                        if (typeof attributes === "string") {
+                            attributes = [attributes];
                         }
-                    },
-                    size: this.size,
-                    highlight: true
+
+                        let search: any = [];
+
+                        attributes.forEach((attribute: string) => {
+                            search.push({
+                                field: attribute,
+                                value: e.detail.value
+                            });
+                        });
+
+                        buckets[val.name] = {
+                            search: {
+                                fuzzy: search
+                            },
+                            size: val.size || this.size,
+                            highlight: true
+                        }
+                    }
+                }
+                else {
+                    let attributes: any = this.attribute;
+
+                    if (typeof attributes === "string") {
+                        attributes = [attributes];
+                    }
+
+                    let search: any = [];
+
+                    attributes.forEach((attribute: string) => {
+                        search.push({
+                            field: attribute,
+                            value: e.detail.value
+                        });
+                    });
+
+                    buckets[val] = {
+                        search: {
+                            fuzzy: search
+                        },
+                        size: this.size,
+                        highlight: true
+                    }
                 }
             });
 
@@ -486,6 +526,8 @@ export class GroupedSearchBar extends Widget {
                 field: this.attribute,
                 value: ''
             };
+
+            // buildresults + return
         }
         else {
             data = {

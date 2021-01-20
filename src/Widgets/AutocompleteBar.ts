@@ -470,6 +470,8 @@ export class AutocompleteBar extends Widget {
                 field: this.attribute,
                 value: ''
             };
+
+            // buildresults + return
         }
         else {
             data = {
