@@ -344,14 +344,26 @@ export class AutocompleteBar extends Widget {
                 return;
             }
 
+            let attributes: any = this.attribute;
+
+            if (typeof attributes === "string") {
+                attributes = [attributes];
+            }
+
+            let search: any = [];
+
+            attributes.forEach((attribute: string) => {
+                search.push({
+                    field: attribute,
+                    value: e.detail.value
+                });
+            });
+
             // Make the search
             let result = await this.client.search({
                 buckets: this.buckets,
                 search: {
-                    fuzzy: {
-                        field: this.attribute,
-                        value: e.detail.value
-                    }
+                    fuzzy: search
                 },
                 size: this.size,
                 highlight: true
