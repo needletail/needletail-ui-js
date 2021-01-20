@@ -365,7 +365,9 @@ export class GroupedSearchBar extends Widget {
 
                         buckets[val.name] = {
                             search: {
-                                fuzzy: search
+                                should: {
+                                    fuzzy: search
+                                }
                             },
                             size: val.size || this.size,
                             highlight: true
@@ -390,7 +392,9 @@ export class GroupedSearchBar extends Widget {
 
                     buckets[val] = {
                         search: {
-                            fuzzy: search
+                            should: {
+                                fuzzy: search
+                            }
                         },
                         size: this.size,
                         highlight: true
