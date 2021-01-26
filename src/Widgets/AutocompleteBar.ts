@@ -73,6 +73,7 @@ export class AutocompleteBar extends Widget {
     showResults: boolean = true;
     useInResults: boolean = true;
     searchOnContentLoaded: boolean = true;
+    liveResults: boolean = false;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -90,7 +91,8 @@ export class AutocompleteBar extends Widget {
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
-        this.searchOnContentLoaded = options.search_on_content_loaded || this.searchOnContentLoaded;
+        this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
+        this.liveResults = (typeof options.live_results !== 'undefined') ? options.live_results : this.liveResults;
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -217,6 +219,15 @@ export class AutocompleteBar extends Widget {
 
     getSearchOnContentLoaded(): boolean {
         return this.searchOnContentLoaded;
+    }
+
+    setLiveResults(live: boolean): AutocompleteBar {
+        this.liveResults = live;
+        return this;
+    }
+
+    getLiveResults(): boolean {
+        return this.liveResults;
     }
 
     /**
@@ -457,7 +468,7 @@ export class AutocompleteBar extends Widget {
 
                 // Add the click event
                 element.addEventListener('click', (e) => {
-                    let inputs = document.querySelectorAll('.needletail-autocomplete-bar-input');
+                    let inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
 
                     inputs.forEach((i: HTMLInputElement) => {
                         i.value = element.getAttribute('data-attribute');
@@ -514,6 +525,9 @@ export class AutocompleteBar extends Widget {
         data.query = this.getQuery();
 
         Events.emit(Events.onBeforeSearch, data);
-        Events.emit(Events.onBeforeResultRequest, {});
+
+        if (this.getLiveResults()) {
+            Events.emit(Events.onBeforeResultRequest, {});
+        }
     }
 }

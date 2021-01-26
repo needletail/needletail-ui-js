@@ -88,7 +88,7 @@ export class GroupedSearchBar extends Widget {
         this.size = optional(options.search).size || this.size;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
-        this.searchOnContentLoaded = options.search_on_content_loaded || this.searchOnContentLoaded;
+        this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
     }
 
     setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
@@ -502,7 +502,7 @@ export class GroupedSearchBar extends Widget {
 
                 // Add the click event
                 element.addEventListener('click', (e) => {
-                    let inputs = document.querySelectorAll('.needletail-grouped-search-bar-input');
+                    let inputs = document.querySelectorAll(`.needletail-grouped-search-bar-${this.getQuery()} .needletail-grouped-search-bar-input`);
 
                     inputs.forEach((i: HTMLInputElement) => {
                         i.value = element.getAttribute('data-attribute');
