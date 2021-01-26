@@ -1,6 +1,6 @@
-import {Client as NeedletailClient} from 'needletail-js';
+import {Client as NeedletailClient} from '@needletail/js';
 
-declare module 'needletail-ui';
+declare module '@needletail/ui';
 declare namespace NeedletailUi {
 
     export class Aggregation {

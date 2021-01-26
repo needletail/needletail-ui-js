@@ -71,6 +71,7 @@ export class GroupedSearchBar extends Widget {
      * Show the results below the search bar
      */
     showResults: boolean = true;
+    searchOnContentLoaded: boolean = true;
 
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
@@ -87,6 +88,7 @@ export class GroupedSearchBar extends Widget {
         this.size = optional(options.search).size || this.size;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
+        this.searchOnContentLoaded = options.search_on_content_loaded || this.searchOnContentLoaded;
     }
 
     setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
@@ -206,6 +208,15 @@ export class GroupedSearchBar extends Widget {
         return this.discriminator;
     }
 
+    setSearchOnContentLoaded(search: boolean): GroupedSearchBar {
+        this.searchOnContentLoaded = search;
+        return this;
+    }
+
+    getSearchOnContentLoaded(): boolean {
+        return this.searchOnContentLoaded;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -259,7 +270,9 @@ export class GroupedSearchBar extends Widget {
             element.value = (prevVal) ? prevVal : '';
             // On load call the handle function to trigger a search
             document.addEventListener("DOMContentLoaded", () => {
-                this.handle(element);
+                if (this.getSearchOnContentLoaded()) {
+                    this.handle(element);
+                }
             });
 
             if (this.debounce) {

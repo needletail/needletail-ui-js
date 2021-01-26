@@ -72,6 +72,7 @@ export class AutocompleteBar extends Widget {
      */
     showResults: boolean = true;
     useInResults: boolean = true;
+    searchOnContentLoaded: boolean = true;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -89,6 +90,7 @@ export class AutocompleteBar extends Widget {
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
+        this.searchOnContentLoaded = options.search_on_content_loaded || this.searchOnContentLoaded;
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -208,6 +210,15 @@ export class AutocompleteBar extends Widget {
         return this.discriminator;
     }
 
+    setSearchOnContentLoaded(search: boolean): AutocompleteBar {
+        this.searchOnContentLoaded = search;
+        return this;
+    }
+
+    getSearchOnContentLoaded(): boolean {
+        return this.searchOnContentLoaded;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -261,7 +272,9 @@ export class AutocompleteBar extends Widget {
             element.value = (prevVal) ? prevVal : '';
             // On load call the handle function to trigger a search
             document.addEventListener("DOMContentLoaded", () => {
-                this.handle(element);
+                if (this.getSearchOnContentLoaded()) {
+                    this.handle(element);
+                }
             });
 
             if (this.debounce) {
@@ -307,7 +320,6 @@ export class AutocompleteBar extends Widget {
 
                     // Add it to the new selected result
                     results[this.selectedResult].classList.add('active');
-                    element.value = results[this.selectedResult].getAttribute('data-attribute');
                     this.handleUrlChange(element);
 
                     Events.emit(Events.onArrowMovementSearch, {
@@ -363,7 +375,9 @@ export class AutocompleteBar extends Widget {
             let result = await this.client.search({
                 buckets: this.buckets,
                 search: {
-                    fuzzy: search
+                    should: {
+                        fuzzy: search
+                    }
                 },
                 size: this.size,
                 highlight: true
@@ -397,9 +411,11 @@ export class AutocompleteBar extends Widget {
             }
 
             // Render the results
-            let options = {};
+            let options: {results: any[]} = {
+                results: []
+            };
 
-            if (e.detail.search_result && e.detail.search_result.length > 0) {
+            if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value !== null && e.detail.value.length !== 0)) {
                 options = {
                     results: e.detail.search_result
                 }
@@ -473,7 +489,8 @@ export class AutocompleteBar extends Widget {
             query?: string
         };
 
-        if (element.value && element.value.length < this.getMinimumCharacters()) {
+        let value = element.value;
+        if (value && value.length < this.getMinimumCharacters()) {
             data = {
                 value: '',
                 search_result: {},
@@ -482,17 +499,15 @@ export class AutocompleteBar extends Widget {
                 field: this.attribute,
                 value: ''
             };
-
-            // buildresults + return
         }
         else {
             data = {
-                value: element.value,
+                value: value,
                 search_result: {},
             };
             this.value = {
                 field: this.attribute,
-                value: element.value
+                value: value
             };
         }
 

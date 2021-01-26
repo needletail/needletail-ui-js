@@ -256,7 +256,7 @@ export class Result extends Widget {
             let result = await this.client.search({
                 buckets: e.detail.buckets,
                 search: {
-                    "equals": {
+                    "should": {
                         ...e.detail.search_values
                     },
                     ...e.detail.extra_search_values
