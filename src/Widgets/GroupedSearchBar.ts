@@ -1,6 +1,7 @@
 import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/grouped_search_bar.html';
 import result_template from './../Html/grouped_search_bar_results.html';
+import default_result_template from './../Html/grouped_search_bar_results_default.html';
 import Mustache from "mustache";
 import _debounce from "lodash/debounce";
 import {Events, optional, URIHelper} from "../Imports/Helpers";
@@ -72,6 +73,7 @@ export class GroupedSearchBar extends Widget {
      */
     showResults: boolean = true;
     searchOnContentLoaded: boolean = true;
+    initialInput: boolean = true;
 
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
@@ -89,6 +91,7 @@ export class GroupedSearchBar extends Widget {
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
+        this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
     }
 
     setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
@@ -217,6 +220,15 @@ export class GroupedSearchBar extends Widget {
         return this.searchOnContentLoaded;
     }
 
+    setInitialInput(initial_input: boolean): GroupedSearchBar {
+        this.initialInput = initial_input;
+        return this;
+    }
+
+    getInitialInput(): boolean {
+        return this.initialInput;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -251,6 +263,12 @@ export class GroupedSearchBar extends Widget {
         return Mustache.render(template, options);
     }
 
+    renderResultTemplates(options: any = {}, template: any = null) {
+        let use = (template) ? template : default_result_template;
+
+        return Mustache.render(use, options);
+    }
+
     getQuery(): string {
         return this.query;
     }
@@ -274,6 +292,18 @@ export class GroupedSearchBar extends Widget {
                     this.handle(element);
                 }
             });
+
+            if (this.getInitialInput()) {
+                element.addEventListener('input', (e) => {
+                    let initial_input = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result.needletail-initial-input`);
+                    initial_input.forEach((r: Element) => {
+                        r.innerHTML = element.value;
+                        r.setAttribute('data-attribute', element.value);
+                    });
+
+                    element.setAttribute('data-initial-value', element.value);
+                });
+            }
 
             if (this.debounce) {
                 // If debounce is turned on
@@ -433,12 +463,12 @@ export class GroupedSearchBar extends Widget {
                             results: r.results.map((r: any) => {
                                 let mapped = {
                                     ...r.record,
-                                    value: r.record[this.attribute],
-                                    raw: r.record[this.attribute]
+                                    value: r.record[this.attribute.replace('.autocomplete', '')],
+                                    raw: r.record[this.attribute.replace('.autocomplete', '')]
                                 }
 
                                 if (r.highlight) {
-                                    mapped.highlight = r.highlight[this.attribute];
+                                    mapped.highlight = r.highlight[this.attribute.replace('.autocomplete', '')];
                                 }
 
                                 return mapped;
@@ -462,7 +492,8 @@ export class GroupedSearchBar extends Widget {
 
             if (e.detail.search_result && Object.keys(e.detail.search_result).length > 0) {
                 options = {
-                    results: e.detail.search_result
+                    results: e.detail.search_result,
+                    initial_input: e.detail.value
                 }
             }
 
@@ -474,9 +505,28 @@ export class GroupedSearchBar extends Widget {
      * Build the result dropdown
      * @param options
      */
-    buildResults(options = {}) {
+    buildResults(options: any = {}) {
         if (!this.showResults) {
             return;
+        }
+
+        let inner_results: any = [];
+
+        console.log(options);
+
+        if (options && options.results) {
+            options.results.forEach((r: any) => {
+                let bucket: any = this.buckets.find((b: any) => b.name === r.key);
+
+                if (bucket && bucket.template) {
+                    inner_results.push(this.renderResultTemplates(r, bucket.template));
+                }
+                else {
+                    inner_results.push(this.renderResultTemplates(r));
+                }
+            });
+
+            options.results = inner_results;
         }
 
         let results = this.renderResults(options);
@@ -524,7 +574,7 @@ export class GroupedSearchBar extends Widget {
         }
 
         // Put the value in the url
-        URIHelper.addToHistory(this.getQuery(), element.value);
+        URIHelper.addToHistory(this.getQuery(), element.getAttribute('data-initial-value'));
     }
 
     handle(element: any) {

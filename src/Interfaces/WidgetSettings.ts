@@ -40,6 +40,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
     use_in_results?: boolean;
     search_on_content_loaded?: boolean;
     live_results?: boolean;
+    initial_input?: boolean;
 }
 
 /**
@@ -63,6 +64,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
     minimum_characters?: number;
     show_results?: boolean;
     search_on_content_loaded?: boolean;
+    initial_input?: boolean;
 }
 
 /**

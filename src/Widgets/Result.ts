@@ -388,5 +388,7 @@ export class Result extends Widget {
                 });
             });
         });
+
+        Events.emit(Events.onBeforeResultRequest, {});
     }
 }

@@ -1,17 +1,14 @@
 <div class="needletail-grouped-search-bar-results">
+    <div class="needletail-grouped-search-bar-result-results">
+        {{#initial_input}}
+            <div class="needletail-grouped-search-bar-result needletail-initial-input" data-attribute="{{initial_input}}">
+                {{{initial_input}}}
+            </div>
+        {{/initial_input}}
+    </div>
+
     {{#results}}
-        <div class="needletail-grouped-search-bar-result-title">
-            {{key}}
-        </div>
-        <div class="needletail-grouped-search-bar-result-results">
-            {{#results}}
-                <div class="needletail-grouped-search-bar-result" data-attribute="{{raw}}">
-                    {{{title}}}
-                    <hr>
-                    {{{highlight}}}
-                </div>
-            {{/results}}
-        </div>
+        {{{.}}}
     {{/results}}
     {{^results}}
         <div class="needletail-grouped-search-bar-no-result">

@@ -74,6 +74,7 @@ export class AutocompleteBar extends Widget {
     useInResults: boolean = true;
     searchOnContentLoaded: boolean = true;
     liveResults: boolean = false;
+    initialInput: boolean = true;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -93,6 +94,7 @@ export class AutocompleteBar extends Widget {
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
         this.liveResults = (typeof options.live_results !== 'undefined') ? options.live_results : this.liveResults;
+        this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -230,6 +232,15 @@ export class AutocompleteBar extends Widget {
         return this.liveResults;
     }
 
+    setInitialInput(initial_input: boolean): AutocompleteBar {
+        this.initialInput = initial_input;
+        return this;
+    }
+
+    getInitialInput(): boolean {
+        return this.initialInput;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -282,11 +293,23 @@ export class AutocompleteBar extends Widget {
         document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-input`).forEach((element: HTMLInputElement) => {
             element.value = (prevVal) ? prevVal : '';
             // On load call the handle function to trigger a search
-            document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener("DOMContContententLoaded", () => {
                 if (this.getSearchOnContentLoaded()) {
                     this.handle(element);
                 }
             });
+
+            if (this.getInitialInput()) {
+                element.addEventListener('input', (e) => {
+                    let initial_input = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result.needletail-initial-input`);
+                    initial_input.forEach((r: Element) => {
+                        r.innerHTML = element.value;
+                        r.setAttribute('data-attribute', element.value);
+                    });
+
+                    element.setAttribute('data-initial-value', element.value);
+                });
+            }
 
             if (this.debounce) {
                 // If debounce is turned on
@@ -331,7 +354,8 @@ export class AutocompleteBar extends Widget {
 
                     // Add it to the new selected result
                     results[this.selectedResult].classList.add('active');
-                    this.handleUrlChange(element);
+                    element.value = results[this.selectedResult].getAttribute('data-attribute');
+                    // this.handleUrlChange(element);
 
                     Events.emit(Events.onArrowMovementSearch, {
                         value: results[this.selectedResult].dataset
@@ -399,12 +423,12 @@ export class AutocompleteBar extends Widget {
                 e.detail.search_result = result.data.results.map((r: any) => {
                     let mapped = {
                         ...r.record,
-                        value: r.record[this.attribute],
-                        raw: r.record[this.attribute]
+                        value: r.record[this.attribute.replace('.autocomplete', '')],
+                        raw: r.record[this.attribute.replace('.autocomplete', '')]
                     }
 
                     if (r.highlight) {
-                        mapped.highlight = r.highlight[this.attribute];
+                        mapped.highlight = r.highlight[this.attribute.replace('.autocomplete', '')];
                     }
 
                     return mapped;
@@ -422,13 +446,15 @@ export class AutocompleteBar extends Widget {
             }
 
             // Render the results
-            let options: {results: any[]} = {
-                results: []
+            let options: {results: any[], initial_input: string} = {
+                results: [],
+                initial_input: '',
             };
 
             if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value !== null && e.detail.value.length !== 0)) {
                 options = {
-                    results: e.detail.search_result
+                    results: e.detail.search_result,
+                    initial_input: e.detail.value
                 }
             }
 
@@ -490,7 +516,7 @@ export class AutocompleteBar extends Widget {
         }
 
         // Put the value in the url
-        URIHelper.addToHistory(this.getQuery(), element.value);
+        URIHelper.addToHistory(this.getQuery(), element.getAttribute('data-initial-value'));
     }
 
     handle(element: any) {
