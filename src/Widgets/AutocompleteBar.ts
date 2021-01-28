@@ -390,16 +390,18 @@ export class AutocompleteBar extends Widget {
                     });
                 }
                 else if (e.key === 'Enter') {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+
                     if (this.getForceUseOfResult()) {
                         if (element.getAttribute('data-force') === 'on') {
-                            let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
                             element.value = results[this.skipForceResults].getAttribute('data-attribute');
+                            this.selectedResult = this.skipForceResults;
                         }
                     }
                     // Handle on enter key and fire an event.
                     this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
-                        value: element.dataset
+                        value: results[this.selectedResult].dataset
                     });
                 }
                 else if (e.key === 'Escape') {
