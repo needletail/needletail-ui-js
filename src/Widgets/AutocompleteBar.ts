@@ -485,7 +485,7 @@ export class AutocompleteBar extends Widget {
                 initial_input: '',
             };
 
-            if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value !== null && e.detail.value.length !== 0)) {
+            if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value && e.detail.value.length !== 0)) {
                 options = {
                     results: e.detail.search_result,
                     initial_input: e.detail.value
