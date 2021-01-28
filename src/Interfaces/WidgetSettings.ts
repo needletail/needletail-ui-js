@@ -41,6 +41,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
     search_on_content_loaded?: boolean;
     live_results?: boolean;
     initial_input?: boolean;
+    force_use_of_result?: boolean;
 }
 
 /**

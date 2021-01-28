@@ -75,6 +75,8 @@ export class AutocompleteBar extends Widget {
     searchOnContentLoaded: boolean = true;
     liveResults: boolean = false;
     initialInput: boolean = true;
+    forceUseOfResult: boolean = false;
+    skipForceResults: number = 0;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -95,6 +97,11 @@ export class AutocompleteBar extends Widget {
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
         this.liveResults = (typeof options.live_results !== 'undefined') ? options.live_results : this.liveResults;
         this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
+        this.forceUseOfResult = (typeof options.force_use_of_result !== 'undefined') ? options.force_use_of_result : this.forceUseOfResult;
+
+        if (this.getInitialInput()) {
+            this.skipForceResults = 1;
+        }
     }
 
     setMinimumCharacters(minimumCharacters: number): AutocompleteBar {
@@ -241,6 +248,15 @@ export class AutocompleteBar extends Widget {
         return this.initialInput;
     }
 
+    setForceUseOfResult(force_use_of_result: boolean): AutocompleteBar {
+        this.forceUseOfResult = force_use_of_result;
+        return this;
+    }
+
+    getForceUseOfResult(): boolean {
+        return this.forceUseOfResult;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -291,6 +307,10 @@ export class AutocompleteBar extends Widget {
         let prevVal = URIHelper.getSearchParam(this.getQuery());
 
         document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-input`).forEach((element: HTMLInputElement) => {
+            if (this.getForceUseOfResult()) {
+                element.setAttribute('data-force', 'on');
+            }
+
             element.value = (prevVal) ? prevVal : '';
             // On load call the handle function to trigger a search
             document.addEventListener("DOMContContententLoaded", () => {
@@ -355,13 +375,27 @@ export class AutocompleteBar extends Widget {
                     // Add it to the new selected result
                     results[this.selectedResult].classList.add('active');
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
-                    // this.handleUrlChange(element);
+
+                    if (this.getForceUseOfResult()) {
+                        if (this.selectedResult < this.skipForceResults) {
+                            element.setAttribute('data-force', 'on')
+                        }
+                        else {
+                            element.setAttribute('data-force', 'off')
+                        }
+                    }
 
                     Events.emit(Events.onArrowMovementSearch, {
                         value: results[this.selectedResult].dataset
                     });
                 }
                 else if (e.key === 'Enter') {
+                    if (this.getForceUseOfResult()) {
+                        if (element.getAttribute('data-force') === 'on') {
+                            let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                            element.value = results[this.skipForceResults].getAttribute('data-attribute');
+                        }
+                    }
                     // Handle on enter key and fire an event.
                     this.handle(element);
                     Events.emit(Events.onSubmitSearch, {

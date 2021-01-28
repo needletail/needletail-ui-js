@@ -349,7 +349,6 @@ export class GroupedSearchBar extends Widget {
                     // Add it to the new selected result
                     results[this.selectedResult].classList.add('active');
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
-                    this.handleUrlChange(element);
 
                     Events.emit(Events.onArrowMovementGroupedSearch, {
                         value: results[this.selectedResult].dataset
@@ -511,8 +510,6 @@ export class GroupedSearchBar extends Widget {
         }
 
         let inner_results: any = [];
-
-        console.log(options);
 
         if (options && options.results) {
             options.results.forEach((r: any) => {
