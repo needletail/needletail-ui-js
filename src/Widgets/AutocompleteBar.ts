@@ -418,6 +418,8 @@ export class AutocompleteBar extends Widget {
                 return;
             }
 
+            e.detail.extra_search_values = {};
+
             // Start the actual search
             Events.emit(Events.onSearch, e.detail);
         });
@@ -449,7 +451,8 @@ export class AutocompleteBar extends Widget {
                 search: {
                     should: {
                         fuzzy: search
-                    }
+                    },
+                    ...e.detail.extra_search_values
                 },
                 size: this.size,
                 highlight: true

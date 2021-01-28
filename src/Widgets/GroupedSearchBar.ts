@@ -374,6 +374,8 @@ export class GroupedSearchBar extends Widget {
                 return;
             }
 
+            e.detail.extra_search_values = {};
+
             // Start the actual search
             Events.emit(Events.onGroupedSearch, e.detail);
         });
@@ -409,7 +411,8 @@ export class GroupedSearchBar extends Widget {
                             search: {
                                 should: {
                                     fuzzy: search
-                                }
+                                },
+                                ...e.detail.extra_search_values
                             },
                             size: val.size || this.size,
                             highlight: true
