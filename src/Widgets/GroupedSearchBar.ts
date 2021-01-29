@@ -373,7 +373,7 @@ export class GroupedSearchBar extends Widget {
                     let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
 
                     // Handle on enter key and fire an event.
-                    this.handle(element);
+                    // this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
                         id: this.getQuery(),
                         value: results[this.selectedResult].dataset
@@ -579,7 +579,7 @@ export class GroupedSearchBar extends Widget {
                         this.handleUrlChange(i);
                     });
 
-                    this.handle(element);
+                    // this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
                         id: this.getQuery(),
                         value: element.dataset

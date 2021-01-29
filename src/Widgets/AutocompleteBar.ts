@@ -399,7 +399,7 @@ export class AutocompleteBar extends Widget {
                         }
                     }
                     // Handle on enter key and fire an event.
-                    this.handle(element);
+                    // this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
                         id: this.getQuery(),
                         value: results[this.selectedResult].dataset
@@ -541,7 +541,7 @@ export class AutocompleteBar extends Widget {
                         this.handleUrlChange(i);
                     });
 
-                    this.handle(element);
+                    // this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
                         id: this.getQuery(),
                         value: element.dataset
