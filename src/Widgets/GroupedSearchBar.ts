@@ -439,7 +439,8 @@ export class GroupedSearchBar extends Widget {
                         search: {
                             should: {
                                 fuzzy: search
-                            }
+                            },
+                            ...e.detail.extra_search_values
                         },
                         size: this.size,
                         highlight: true
