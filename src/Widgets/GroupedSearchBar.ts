@@ -370,10 +370,13 @@ export class GroupedSearchBar extends Widget {
                     });
                 }
                 else if (e.key === 'Enter') {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
+
                     // Handle on enter key and fire an event.
                     this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
-                        value: element.dataset
+                        id: this.getQuery(),
+                        value: results[this.selectedResult].dataset
                     });
                 }
                 else if (e.key === 'Escape') {
@@ -578,6 +581,7 @@ export class GroupedSearchBar extends Widget {
 
                     this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {
+                        id: this.getQuery(),
                         value: element.dataset
                     });
                 });
