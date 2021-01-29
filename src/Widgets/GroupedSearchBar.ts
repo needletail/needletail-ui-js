@@ -473,11 +473,12 @@ export class GroupedSearchBar extends Widget {
 
                 Object.keys(result.data).forEach((bucketKey: any) => {
                     let r = result.data[bucketKey];
+                    let bucket: any = this.buckets.find((b: any) => b.name === bucketKey);
 
                     // If there is data map it to include some easy access values
                     if (r.count > 0) {
                         e.detail.search_result.push({
-                            key: bucketKey,
+                            key: bucket.key ?? bucketKey,
                             results: r.results.map((r: any) => {
                                 let mapped = {
                                     ...r.record,
