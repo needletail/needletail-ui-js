@@ -12,6 +12,7 @@ export class GroupedSearchBar extends Widget {
      * The template used for the result dropdown
      */
     resultTemplate: string;
+    innerResultTemplate: string;
     /**
      * The discriminator used for sorting the widget
      */
@@ -184,6 +185,20 @@ export class GroupedSearchBar extends Widget {
         return result_template;
     }
 
+    setInnerResultTemplate(template: string): GroupedSearchBar {
+        this.innerResultTemplate = template;
+        return this;
+    }
+
+    getInnerResultTemplate(): string {
+        if (this.innerResultTemplate) {
+            return this.innerResultTemplate;
+        }
+
+        return default_result_template;
+    }
+
+
     setInUrl(inUrl: boolean): GroupedSearchBar {
         this.inUrl = inUrl;
         return this;
@@ -264,7 +279,7 @@ export class GroupedSearchBar extends Widget {
     }
 
     renderResultTemplates(options: any = {}, template: any = null) {
-        let use = (template) ? template : default_result_template;
+        let use = (template) ? template : this.getInnerResultTemplate();
 
         return Mustache.render(use, options);
     }
