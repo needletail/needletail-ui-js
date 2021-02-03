@@ -490,7 +490,7 @@ export class GroupedSearchBar extends Widget {
                                 }
 
                                 if (r.highlight) {
-                                    mapped.highlight = r.highlight[this.attribute.replace('.autocomplete', '')];
+                                    mapped.highlight = r.highlight[this.attribute];
                                 }
 
                                 return mapped;
