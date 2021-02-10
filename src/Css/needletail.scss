@@ -262,7 +262,7 @@
         border: 1px solid #ccc;
         box-sizing: border-box;
 
-        &:focus:not(:placeholder-shown) {
+        &:focus:not(:placeholder-shown):not(.empty) {
             ~ .needletail-grouped-search-bar-results {
                 visibility: visible;
             }
@@ -313,7 +313,7 @@
         border: 1px solid #ccc;
         box-sizing: border-box;
 
-        &:focus:not(:placeholder-shown) {
+        &:focus:not(:placeholder-shown):not(.empty) {
             ~ .needletail-autocomplete-bar-results {
                 visibility: visible;
             }

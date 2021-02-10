@@ -586,6 +586,11 @@ export class GroupedSearchBar extends Widget {
                     });
                 });
             });
+
+            let input:any = element.querySelector('.needletail-autocomplete-bar-input');
+            if (input.value.length > 0) {
+                input.classList.remove('needletail-empty')
+            }
         });
     }
 
@@ -605,7 +610,8 @@ export class GroupedSearchBar extends Widget {
             query?: string
         };
 
-        if (element.value && element.value.length < this.getMinimumCharacters()) {
+        let value = element.value;
+        if (value && value.length < this.getMinimumCharacters()) {
             data = {
                 value: '',
                 search_result: {},
@@ -619,13 +625,17 @@ export class GroupedSearchBar extends Widget {
         }
         else {
             data = {
-                value: element.value,
+                value: value,
                 search_result: {},
             };
             this.value = {
                 field: this.attribute,
-                value: element.value
+                value: value
             };
+        }
+
+        if (value.length == 0) {
+            element.classList.add('needletail-empty');
         }
 
         data.query = this.getQuery();
