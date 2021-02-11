@@ -36,7 +36,7 @@ export class Aggregation {
 
     constructor(options: AggregationSettings = {}) {
         this.title = options.title || '';
-        this.classTitle = this.title.replace(' ', '-') || '';
+        this.classTitle = this.title.replace(/ /g, '-') || '';
         this.template = options.template || '';
         this.attribute = options.attribute || this.title;
         this.collapsible = options.collapsible || this.collapsible;

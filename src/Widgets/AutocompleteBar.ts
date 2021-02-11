@@ -87,7 +87,7 @@ export class AutocompleteBar extends Widget {
         this.inUrl = (typeof options.in_url !== 'undefined') ? options.in_url : this.inUrl;
         this.query = options.query || this.query;
         this.attribute = optional(options.search).attribute || '';
-        this.buckets = optional(options.search).buckets || '';
+        this.buckets = optional(options.search).buckets || [];
         this.placeholder = options.placeholder || this.placeholder;
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
