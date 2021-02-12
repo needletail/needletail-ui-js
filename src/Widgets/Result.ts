@@ -45,6 +45,7 @@ export class Result extends Widget {
      * The template to use for the results
      */
     result_template: string;
+    group_by: string = '';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -57,6 +58,7 @@ export class Result extends Widget {
         this.first = optional(options.pagination).first || this.first;
         this.show_quick_pagination = optional(options.pagination).show_quick_pagination || this.show_quick_pagination;
         this.result_template = options.result_template;
+        this.group_by = options.group_by || '';
 
         this.executeJS();
     }
@@ -133,6 +135,15 @@ export class Result extends Widget {
         this.show_quick_pagination = true;
 
         return this;
+    }
+
+    setGroupBy(group_by: string): Result {
+        this.group_by = group_by;
+        return this;
+    }
+
+    getGroupBy(): string {
+        return this.group_by;
     }
 
     /**
@@ -262,6 +273,7 @@ export class Result extends Widget {
                     ...e.detail.extra_search_values
                 },
                 size: this.per_page,
+                group_by: this.group_by,
                 offset: (current_page - 1) * this.per_page
             });
 

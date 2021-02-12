@@ -34,6 +34,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
         buckets?: string;
         attribute?: string;
         size?: number;
+        group_by?: string;
     }
     minimum_characters?: number;
     show_results?: boolean;
@@ -61,6 +62,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
         buckets?: string;
         attribute?: string;
         size?: number;
+        group_by?: string;
     }
     minimum_characters?: number;
     show_results?: boolean;
@@ -82,4 +84,5 @@ export interface ResultSettings extends WidgetSettings {
         show_quick_pagination?: boolean;
     },
     result_template?: string;
+    group_by?: string;
 }
