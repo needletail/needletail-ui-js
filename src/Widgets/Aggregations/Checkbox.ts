@@ -6,9 +6,12 @@ import {CheckboxSettings} from "../../Imports/Interfaces";
 
 export class Checkbox extends Aggregation {
     discriminator: string = 'Checkbox';
+    hide_on_empty: boolean = true;
 
     constructor(options: CheckboxSettings = {}) {
         super(options);
+
+        this.hide_on_empty = options.hide_on_empty || this.hide_on_empty;
 
         this.value = {
             field: this.attribute,
@@ -24,6 +27,15 @@ export class Checkbox extends Aggregation {
         }
 
         return template;
+    }
+
+    setHideOnEmpty(hideOnEmpty: boolean): Checkbox {
+        this.hide_on_empty = hideOnEmpty;
+        return this;
+    }
+
+    getHideOnEmpty(): boolean {
+        return this.hide_on_empty;
     }
 
     /**
@@ -79,6 +91,16 @@ export class Checkbox extends Aggregation {
 
                         if (wasCollapsed) {
                             element.classList.add('needletail-collapsed');
+                        }
+                    }
+
+                    element.setAttribute('data-option-count', options.length.toString());
+
+                    if (this.getHideOnEmpty()) {
+                        if (options.length === 0) {
+                            element.classList.add('needletail-empty')
+                        } else {
+                            element.classList.remove('needletail-empty');
                         }
                     }
                 });

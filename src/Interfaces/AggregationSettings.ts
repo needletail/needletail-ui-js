@@ -13,14 +13,14 @@ export interface AggregationSettings {
  * Contains the specific settings for the checkbox aggregation
  */
 export interface CheckboxSettings extends AggregationSettings {
-
+    hide_on_empty?: boolean;
 }
 
 /**
  * Contains the specific settings for the radio aggregation
  */
 export interface RadioSettings extends AggregationSettings {
-
+    hide_on_empty?: boolean;
 }
 
 /**

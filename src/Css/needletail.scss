@@ -45,6 +45,10 @@
         }
     }
 
+    &.needletail-empty {
+        display: none;
+    }
+
     [class^="needletail-aggregation-"][class$="-title"] {
         font-size: 17px;
         text-transform: uppercase;
