@@ -550,7 +550,7 @@ export class AutocompleteBar extends Widget {
             });
 
             let input:any = element.querySelector('.needletail-autocomplete-bar-input');
-            if (input.value.length > 0) {
+            if (input && input.value.length > 0) {
                 input.classList.remove('needletail-empty')
             }
         });

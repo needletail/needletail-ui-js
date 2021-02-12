@@ -587,8 +587,8 @@ export class GroupedSearchBar extends Widget {
                 });
             });
 
-            let input:any = element.querySelector('.needletail-autocomplete-bar-input');
-            if (input.value.length > 0) {
+            let input:any = element.querySelector('.needletail-grouped-search-bar-input');
+            if (input && input.value.length > 0) {
                 input.classList.remove('needletail-empty')
             }
         });
