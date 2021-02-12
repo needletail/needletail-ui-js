@@ -54,6 +54,10 @@ export class Events {
      * After the results are updated
      */
     static onAfterResultRequest: string = 'onAfterResultRequest';
+    /**
+     * When a page gets changed
+     */
+    static onPageChange: string = 'onPageChange';
 
     /**
      * When any of the aggregations are updated

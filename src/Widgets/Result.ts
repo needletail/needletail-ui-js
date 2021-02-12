@@ -392,9 +392,14 @@ export class Result extends Widget {
                 element.querySelectorAll('.needletail-result-pagination-page:not(.disabled):not(.active)').forEach((paginationElement) => {
                     // Add the click event
                     paginationElement.addEventListener('click', (e) => {
+                        let currentPage = URIHelper.getSearchParam('page');
                         let pageNumber = paginationElement.getAttribute('data-page');
                         URIHelper.addToHistory('page', pageNumber);
 
+                        Events.emit(Events.onPageChange, {
+                            current_page: currentPage,
+                            new_page: pageNumber
+                        });
                         Events.emit(Events.onBeforeResultRequest, {});
                     });
                 });
