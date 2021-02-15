@@ -131,7 +131,9 @@ export class Checkbox extends Aggregation {
         // On load set the values for the aggregation search
         if (params) {
             params.forEach((value: string) => {
-                this.values[value] = value;
+                if (value) {
+                    this.values[value] = value;
+                }
             });
 
             this.value = {
