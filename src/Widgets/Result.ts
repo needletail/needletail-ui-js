@@ -285,7 +285,7 @@ export class Result extends Widget {
                 },
                 size: this.per_page,
                 group_by: this.group_by,
-                sort_by: this.sort_by,
+                sort: this.sort_by,
                 offset: (current_page - 1) * this.per_page
             });
 
