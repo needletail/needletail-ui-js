@@ -261,7 +261,9 @@ export class Result extends Widget {
             e.detail.search_values = {
                 'fuzzy': [
                     ...[].concat.apply([], autocompleteValues),
-                ],
+                ]
+            };
+            e.detail.equals_search_values = {
                 'match': [
                     ...[].concat.apply([], aggregationValues)
                 ]
@@ -280,6 +282,9 @@ export class Result extends Widget {
                 search: {
                     "should": {
                         ...e.detail.search_values
+                    },
+                    "equals": {
+                        ...e.detail.equals_search_values
                     },
                     ...e.detail.extra_search_values
                 },
