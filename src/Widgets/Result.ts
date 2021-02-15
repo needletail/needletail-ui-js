@@ -52,6 +52,7 @@ export class Result extends Widget {
     sort_select_template: string;
     sort_select_default: string;
     sort_direction: string = 'asc';
+    no_result_message: string = 'No results where found';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -69,6 +70,7 @@ export class Result extends Widget {
         this.sort_direction = options.sort_direction || this.sort_direction;
         this.sort_select = options.sort_select || {};
         this.sort_select_default = options.sort_select_default || '';
+        this.no_result_message = options.no_result_message || this.no_result_message;
     }
 
     setMinifyPages(minifyPages: number): Result {
@@ -235,7 +237,8 @@ export class Result extends Widget {
                 last_page.page === current_page) ? 'disabled' : '',
             pages: pages,
             results: this.renderResults({
-                results: mappedResults
+                results: mappedResults,
+                no_result_message: this.no_result_message
             }),
             lastButton: '',
             firstButton: '',
