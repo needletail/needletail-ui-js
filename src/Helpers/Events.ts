@@ -64,6 +64,8 @@ export class Events {
      */
     static onAggsUpdate: string = 'onAggsUpdate';
 
+    static onAggregationValueChange: string = 'onAggregationValueChange';
+
     /**
      * Emit a custom event to listen to
      * @param name

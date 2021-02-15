@@ -9,6 +9,10 @@
 .needletail-clear-filters {
     cursor: pointer;
     text-decoration: underline;
+
+    &.needletail-hidden {
+        display: none;
+    }
 }
 
 .needletail-aggregation {

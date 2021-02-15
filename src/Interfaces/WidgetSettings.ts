@@ -14,6 +14,7 @@ export interface AggregationBarSettings extends WidgetSettings {
         top?: boolean;
         bottom?: boolean;
         text?: string;
+        hide_on_none_active?: boolean;
     }
 }
 

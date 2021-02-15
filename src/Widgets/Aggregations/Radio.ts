@@ -145,6 +145,7 @@ export class Radio extends Aggregation {
             is_aggregation: true
         };
 
+        this.hasActiveAggregation = true;
         if (!element.value) {
             this.value = {
                 field: this.attribute,
@@ -152,9 +153,15 @@ export class Radio extends Aggregation {
                 is_aggregation: true,
                 exclude_from_search: true,
             }
+
+            this.hasActiveAggregation = false;
         }
 
         Events.emit(Events.onBeforeResultRequest, {});
+        Events.emit(Events.onAggregationValueChange, {
+            'name': this.attribute,
+            'hasActive': this.hasActiveAggregation
+        });
     }
 
     reset() {

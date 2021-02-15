@@ -142,7 +142,10 @@ export class Checkbox extends Aggregation {
                 is_aggregation: true
             }
 
+            this.hasActiveAggregation = true;
             if (Object.keys(this.values).length === 0) {
+                this.hasActiveAggregation = false;
+
                 this.value = {
                     field: this.attribute,
                     value: '',
@@ -150,6 +153,11 @@ export class Checkbox extends Aggregation {
                     exclude_from_search: true,
                 }
             }
+
+            Events.emit(Events.onAggregationValueChange, {
+                'name': this.attribute,
+                'hasActive': this.hasActiveAggregation
+            });
         }
     }
 
@@ -176,6 +184,7 @@ export class Checkbox extends Aggregation {
             is_aggregation: true
         }
 
+        this.hasActiveAggregation = true;
         if (Object.keys(this.values).length === 0) {
             this.value = {
                 field: this.attribute,
@@ -183,9 +192,15 @@ export class Checkbox extends Aggregation {
                 is_aggregation: true,
                 exclude_from_search: true,
             }
+
+            this.hasActiveAggregation = false;
         }
 
         Events.emit(Events.onBeforeResultRequest, {});
+        Events.emit(Events.onAggregationValueChange, {
+            'name': this.attribute,
+            'hasActive': this.hasActiveAggregation
+        });
     }
 
     reset() {

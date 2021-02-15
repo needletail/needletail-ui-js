@@ -91,6 +91,14 @@ export class Switch extends Aggregation {
             element.addEventListener('change', () => {
                 this.handle(element);
             });
+
+            if (element.checked) {
+                this.hasActiveAggregation = true;
+                Events.emit(Events.onAggregationValueChange, {
+                    'name': this.attribute,
+                    'hasActive': this.hasActiveAggregation
+                });
+            }
         });
 
         document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.classTitle}`).forEach((element) => {
@@ -137,6 +145,7 @@ export class Switch extends Aggregation {
             is_aggregation: true
         };
 
+        this.hasActiveAggregation = true;
         if (!this.values[attributeValue]) {
             this.value = {
                 field: this.attribute,
@@ -144,9 +153,15 @@ export class Switch extends Aggregation {
                 is_aggregation: true,
                 exclude_from_search: true,
             }
+
+            this.hasActiveAggregation = false;
         }
 
         Events.emit(Events.onBeforeResultRequest, {});
+        Events.emit(Events.onAggregationValueChange, {
+            'name': this.attribute,
+            'hasActive': this.hasActiveAggregation
+        });
     }
 
     reset() {

@@ -32,7 +32,8 @@ export class Aggregation {
     /**
      * Is the item default collapsed
      */
-    defaultCollapsed: boolean = false
+    defaultCollapsed: boolean = false;
+    hasActiveAggregation: boolean = true;
 
     constructor(options: AggregationSettings = {}) {
         this.title = options.title || '';

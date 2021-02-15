@@ -4,7 +4,7 @@ import {AggregationBarSettings} from './../Imports/Interfaces';
 import template from './../Html/aggregation_bar.html';
 import clearFiltersTemplate from './../Html/clear_filters.html';
 import Mustache from 'mustache';
-import {optional} from "../Imports/Helpers";
+import {Events, optional} from "../Imports/Helpers";
 
 export class AggregationBar extends Widget {
     discriminator: string = 'AggregationBar';
@@ -14,6 +14,8 @@ export class AggregationBar extends Widget {
     clearFiltersBottom: boolean = false;
     clearFiltersText: string = 'Clear filters';
     clearFiltersTemplate: string;
+    clearFiltersHideOnNoneActive: boolean = true;
+    private aggregationActives: { [key: string]: boolean } = {};
 
     constructor(options: AggregationBarSettings = {}) {
         super(options);
@@ -23,6 +25,7 @@ export class AggregationBar extends Widget {
         this.clearFiltersTop = optional(options.clear_filters).top || this.clearFiltersTop;
         this.clearFiltersBottom = optional(options.clear_filters).bottom || this.clearFiltersBottom;
         this.clearFiltersText = optional(options.clear_filters).text || this.clearFiltersText;
+        this.clearFiltersHideOnNoneActive = optional(options.clear_filters).hide_on_none_active || this.clearFiltersHideOnNoneActive;
     }
 
     setUseClearFilters(useClearFilters: boolean): AggregationBar {
@@ -42,6 +45,11 @@ export class AggregationBar extends Widget {
 
     setClearFiltersText(clearFiltersText: string): AggregationBar {
         this.clearFiltersText = clearFiltersText;
+        return this;
+    }
+
+    setClearFiltersHideOnNoneActive(hideOnNoneActive: boolean): AggregationBar {
+        this.clearFiltersHideOnNoneActive = hideOnNoneActive;
         return this;
     }
 
@@ -72,7 +80,7 @@ export class AggregationBar extends Widget {
     render(): Node {
         let template = this.getTemplate();
         let fields: string[] = [];
-    
+
         this.fields.forEach((field: FieldOptions) => {
             let renderedField = field.render();
             fields.push(renderedField);
@@ -105,7 +113,8 @@ export class AggregationBar extends Widget {
         let template = this.getClearFiltersTemplate();
 
         return Mustache.render(template, {
-            text: this.clearFiltersText
+            text: this.clearFiltersText,
+            hidden: (this.clearFiltersHideOnNoneActive) ? 'needletail-hidden' : ''
         });
     }
 
@@ -113,10 +122,6 @@ export class AggregationBar extends Widget {
      * Execute the JS for all the added fields
      */
     executeJS() {
-        this.fields.forEach((field: FieldOptions) => {
-            field.executeJS();
-        });
-
         let elements = document.getElementsByClassName('needletail-clear-filters');
         for (let i = 0; i < elements.length; i++) {
             elements[i].addEventListener('click', () => {
@@ -133,6 +138,32 @@ export class AggregationBar extends Widget {
                     field.setDefaultCollapsed(false);
                 }, 1000);
             });
+        });
+
+        document.addEventListener(Events.onAggregationValueChange, (e: CustomEvent) => {
+            this.aggregationActives[e.detail.name] = e.detail.hasActive;
+
+            let clearFilters: HTMLCollection = document.getElementsByClassName('needletail-clear-filters');
+            let hasShown = false;
+
+            for (let val in this.aggregationActives) {
+                if (this.aggregationActives[val] && !hasShown) {
+                    for (let i = 0; i < clearFilters.length; i++) {
+                        clearFilters[i].classList.remove('needletail-hidden');
+                    }
+                    hasShown = true;
+                }
+            }
+
+            if (!hasShown) {
+                for (let i = 0; i < clearFilters.length; i++) {
+                    clearFilters[i].classList.add('needletail-hidden');
+                }
+            }
+        });
+
+        this.fields.forEach((field: FieldOptions) => {
+            field.executeJS();
         });
     }
 
