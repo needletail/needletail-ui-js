@@ -205,6 +205,15 @@ export class Result extends Widget {
         return this.sort_select_default;
     }
 
+    setNoResultMessage(noResultMessage: string): Result {
+        this.no_result_message = noResultMessage;
+        return this;
+    }
+
+    getNoResultMessage(): string {
+        return this.no_result_message;
+    }
+
     /**
      * Render the results
      *
