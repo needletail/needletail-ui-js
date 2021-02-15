@@ -68,6 +68,7 @@ export class AutocompleteBar extends Widget {
      */
     minimumCharacters: number = 3;
     group_by: string = '';
+    sort_by: string = '';
     /**
      * Show the results below the search bar
      */
@@ -93,6 +94,7 @@ export class AutocompleteBar extends Widget {
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
         this.group_by = optional(options.search).group_by || '';
+        this.sort_by = optional(options.search).sort_by || '';
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
@@ -266,6 +268,15 @@ export class AutocompleteBar extends Widget {
 
     getGroupBy(): string {
         return this.group_by;
+    }
+
+    setSortBy(sort_by: string): AutocompleteBar {
+        this.sort_by = sort_by;
+        return this;
+    }
+
+    getSortBy(): string {
+        return this.sort_by;
     }
 
     /**
@@ -465,6 +476,7 @@ export class AutocompleteBar extends Widget {
                     },
                     ...e.detail.extra_search_values
                 },
+                sort: this.sort_by,
                 size: this.size,
                 group_by: this.group_by,
                 highlight: true

@@ -46,6 +46,7 @@ export class Result extends Widget {
      */
     result_template: string;
     group_by: string = '';
+    sort_by: string = '';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -59,6 +60,7 @@ export class Result extends Widget {
         this.show_quick_pagination = optional(options.pagination).show_quick_pagination || this.show_quick_pagination;
         this.result_template = options.result_template;
         this.group_by = options.group_by || '';
+        this.sort_by = options.sort_by || '';
 
         this.executeJS();
     }
@@ -144,6 +146,15 @@ export class Result extends Widget {
 
     getGroupBy(): string {
         return this.group_by;
+    }
+
+    setSortBy(sort_by: string): Result {
+        this.sort_by = sort_by;
+        return this;
+    }
+
+    getSortBy(): string {
+        return this.sort_by;
     }
 
     /**
@@ -274,6 +285,7 @@ export class Result extends Widget {
                 },
                 size: this.per_page,
                 group_by: this.group_by,
+                sort_by: this.sort_by,
                 offset: (current_page - 1) * this.per_page
             });
 

@@ -70,6 +70,7 @@ export class GroupedSearchBar extends Widget {
      */
     minimumCharacters: number = 3;
     group_by: string = '';
+    sort_by: string = '';
     /**
      * Show the results below the search bar
      */
@@ -91,6 +92,7 @@ export class GroupedSearchBar extends Widget {
         this.noResultMessage = options.no_result_message || this.noResultMessage;
         this.size = optional(options.search).size || this.size;
         this.group_by = optional(options.search).group_by || '';
+        this.sort_by = optional(options.search).sort_by || '';
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
@@ -253,6 +255,15 @@ export class GroupedSearchBar extends Widget {
 
     getGroupBy(): string {
         return this.group_by;
+    }
+
+    setSortBy(sort_by: string): GroupedSearchBar {
+        this.sort_by = sort_by;
+        return this;
+    }
+
+    getSortBy(): string {
+        return this.sort_by;
     }
 
     /**
@@ -443,6 +454,7 @@ export class GroupedSearchBar extends Widget {
                                 },
                                 ...e.detail.extra_search_values
                             },
+                            sort: val.sort || this.sort_by,
                             size: val.size || this.size,
                             group_by: val.group_by || this.group_by,
                             highlight: true
@@ -472,6 +484,7 @@ export class GroupedSearchBar extends Widget {
                             },
                             ...e.detail.extra_search_values
                         },
+                        sort: this.sort_by,
                         size: this.size,
                         group_by: this.group_by,
                         highlight: true
