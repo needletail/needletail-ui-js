@@ -1,6 +1,7 @@
 import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/result.html';
 import result_template from './../Html/result_results.html';
+import result_sort_select from './../Html/result_sort_select.html';
 import Mustache from "mustache";
 import {ResultSettings} from "../Imports/Interfaces";
 import {Events, optional, URIHelper} from "../Imports/Helpers";
@@ -47,6 +48,10 @@ export class Result extends Widget {
     result_template: string;
     group_by: string = '';
     sort_by: string = '';
+    sort_select: { [key: string]: string } = {};
+    sort_select_template: string;
+    sort_select_default: string;
+    sort_direction: string = 'asc';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -61,8 +66,9 @@ export class Result extends Widget {
         this.result_template = options.result_template;
         this.group_by = options.group_by || '';
         this.sort_by = options.sort_by || '';
-
-        this.executeJS();
+        this.sort_direction = options.sort_direction || this.sort_direction;
+        this.sort_select = options.sort_select || {};
+        this.sort_select_default = options.sort_select_default || '';
     }
 
     setMinifyPages(minifyPages: number): Result {
@@ -113,6 +119,19 @@ export class Result extends Widget {
         return this;
     }
 
+    setResultSortSelectTemplate(template: string): Result {
+        this.sort_select_template = template;
+        return this;
+    }
+
+    getResultSortSelectTemplate(): string {
+        if (this.sort_select_template) {
+            return this.sort_select_template;
+        }
+
+        return result_sort_select;
+    }
+
     setFirst(first: string): Result {
         this.first = first;
         this.showQuickPagination();
@@ -155,6 +174,33 @@ export class Result extends Widget {
 
     getSortBy(): string {
         return this.sort_by;
+    }
+
+    setSortDirection(sort_direction: string): Result {
+        this.sort_direction = sort_direction;
+        return this;
+    }
+
+    getSortDirection(): string {
+        return this.sort_direction;
+    }
+
+    setSortSelect(sort_select: { [key: string]: string }): Result {
+        this.sort_select = sort_select;
+        return this;
+    }
+
+    getSortSelect(): { [key: string]: string } {
+        return this.sort_select;
+    }
+
+    setSortSelectDefault(sort_select_default: string): Result {
+        this.sort_select_default = sort_select_default;
+        return this;
+    }
+
+    getSortSelectDefault(): string {
+        return this.sort_select_default;
     }
 
     /**
@@ -201,6 +247,10 @@ export class Result extends Widget {
             // Disable it if there are no pages or the current page is 1
             disableFirstButton: (pages.length === 0 ||
                 current_page === 1) ? 'disabled' : '',
+            use_sort_select: (Object.keys(this.sort_select).length > 0),
+            sort_select: this.renderSortSelect({
+                options: this.sort_select
+            })
         };
 
         // Enable the quick navigation
@@ -218,6 +268,16 @@ export class Result extends Widget {
 
     renderResults(options = {}) : string {
         let template = this.getResultTemplate();
+
+        options = {
+            ...options
+        };
+
+        return Mustache.render(template, options);
+    }
+
+    renderSortSelect(options: {} = {}): string {
+        let template = this.getResultSortSelectTemplate();
 
         options = {
             ...options
@@ -291,6 +351,7 @@ export class Result extends Widget {
                 size: this.per_page,
                 group_by: this.group_by,
                 sort: this.sort_by,
+                direction: this.sort_direction,
                 offset: (current_page - 1) * this.per_page
             });
 
@@ -421,6 +482,19 @@ export class Result extends Widget {
                     });
                 });
             });
+
+            let sortSelect: any = document.getElementsByClassName('needletail-sort-select');
+            for (let i = 0; i < sortSelect.length; i++) {
+                sortSelect[i].value = this.sort_select_default;
+
+                sortSelect[i].addEventListener('change', (e: any) => {
+                    this.sort_select_default = e.target.value;
+                    this.sort_by = e.target.options[e.target.selectedIndex].getAttribute('data-attribute');
+                    this.sort_direction = e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc';
+
+                    Events.emit(Events.onBeforeResultRequest, {});
+                });
+            }
         });
 
         Events.emit(Events.onBeforeResultRequest, {});

@@ -69,6 +69,7 @@ export class AutocompleteBar extends Widget {
     minimumCharacters: number = 3;
     group_by: string = '';
     sort_by: string = '';
+    sort_direction: string = 'asc';
     /**
      * Show the results below the search bar
      */
@@ -95,6 +96,7 @@ export class AutocompleteBar extends Widget {
         this.size = optional(options.search).size || this.size;
         this.group_by = optional(options.search).group_by || '';
         this.sort_by = optional(options.search).sort_by || '';
+        this.sort_direction = optional(options.search).direction || this.sort_direction;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
@@ -279,6 +281,15 @@ export class AutocompleteBar extends Widget {
         return this.sort_by;
     }
 
+    setSortDirection(sort_direction: string): AutocompleteBar {
+        this.sort_direction = sort_direction;
+        return this;
+    }
+
+    getSortDirection(): string {
+        return this.sort_direction;
+    }
+
     /**
      * Render the widget and make it a node
      * @param options
@@ -335,7 +346,7 @@ export class AutocompleteBar extends Widget {
 
             element.value = (prevVal) ? prevVal : '';
             // On load call the handle function to trigger a search
-            document.addEventListener("DOMContContententLoaded", () => {
+            document.addEventListener("DOMContentLoaded", () => {
                 if (this.getSearchOnContentLoaded()) {
                     this.handle(element);
                 }
@@ -477,6 +488,7 @@ export class AutocompleteBar extends Widget {
                     ...e.detail.extra_search_values
                 },
                 sort: this.sort_by,
+                direction: this.sort_direction,
                 size: this.size,
                 group_by: this.group_by,
                 highlight: true
