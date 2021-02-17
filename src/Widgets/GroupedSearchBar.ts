@@ -524,8 +524,8 @@ export class GroupedSearchBar extends Widget {
                             results: r.results.map((r: any) => {
                                 let mapped = {
                                     ...r.record,
-                                    value: r.record[this.attribute.replace('.autocomplete', '')],
-                                    raw: r.record[this.attribute.replace('.autocomplete', '')]
+                                    value: r.record[this.attribute],
+                                    raw: r.record[this.attribute]
                                 }
 
                                 if (r.highlight) {

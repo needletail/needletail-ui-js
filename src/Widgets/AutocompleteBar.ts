@@ -499,8 +499,8 @@ export class AutocompleteBar extends Widget {
                 e.detail.search_result = result.data.results.map((r: any) => {
                     let mapped = {
                         ...r.record,
-                        value: r.record[this.attribute.replace('.autocomplete', '')],
-                        raw: r.record[this.attribute.replace('.autocomplete', '')]
+                        value: r.record[this.attribute],
+                        raw: r.record[this.attribute]
                     }
 
                     if (r.highlight) {
