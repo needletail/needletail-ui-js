@@ -6,10 +6,10 @@
     {{/initial_input}}
 
     {{#results}}
-        <div class="needletail-autocomplete-bar-result" data-attribute="{{raw}}">
+        <div class="needletail-autocomplete-bar-result" data-attribute="{{raw.title}}">
             {{{title}}}
             <hr>
-            {{{highlight}}}
+            {{{highlight.title}}}
         </div>
     {{/results}}
     {{^results}}

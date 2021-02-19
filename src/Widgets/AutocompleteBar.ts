@@ -499,13 +499,28 @@ export class AutocompleteBar extends Widget {
                 e.detail.search_result = result.data.results.map((r: any) => {
                     let mapped = {
                         ...r.record,
-                        value: r.record[this.attribute],
-                        raw: r.record[this.attribute]
+                        value: {},
+                        raw: {}
                     }
 
                     if (r.highlight) {
-                        mapped.highlight = r.highlight[this.attribute];
+                        mapped.highlight = {};
                     }
+
+                    let attributes: any = this.attribute;
+
+                    if (typeof attributes === "string") {
+                        attributes = [attributes];
+                    }
+
+                    attributes.forEach((attribute: string) => {
+                        mapped.value[attribute] = r.record[attribute];
+                        mapped.raw[attribute] = r.record[attribute];
+
+                        if (r.highlight) {
+                            mapped.highlight[attribute] = r.highlight[attribute];
+                        }
+                    });
 
                     return mapped;
                 });
