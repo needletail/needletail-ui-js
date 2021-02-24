@@ -78,6 +78,7 @@ export class GroupedSearchBar extends Widget {
     showResults: boolean = true;
     searchOnContentLoaded: boolean = true;
     initialInput: boolean = true;
+    fillInputOnClick: boolean = false;
 
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
@@ -99,6 +100,7 @@ export class GroupedSearchBar extends Widget {
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
         this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
+        this.fillInputOnClick = (typeof options.fill_input_on_click !== 'undefined') ? options.fill_input_on_click : this.fillInputOnClick;
     }
 
     setMinimumCharacters(minimumCharacters: number): GroupedSearchBar {
@@ -275,6 +277,15 @@ export class GroupedSearchBar extends Widget {
 
     getSortDirection(): string {
         return this.sort_direction;
+    }
+
+    setFillInputOnClick(fill_input_on_click: boolean): GroupedSearchBar {
+        this.fillInputOnClick = fill_input_on_click;
+        return this;
+    }
+
+    getFillInputOnClick(): boolean {
+        return this.fillInputOnClick;
     }
 
     /**
@@ -628,10 +639,12 @@ export class GroupedSearchBar extends Widget {
                 element.addEventListener('click', (e) => {
                     let inputs = document.querySelectorAll(`.needletail-grouped-search-bar-${this.getQuery()} .needletail-grouped-search-bar-input`);
 
-                    inputs.forEach((i: HTMLInputElement) => {
-                        i.value = element.getAttribute('data-attribute');
-                        this.handleUrlChange(i);
-                    });
+                    if (this.fillInputOnClick) {
+                        inputs.forEach((i: HTMLInputElement) => {
+                            i.value = element.getAttribute('data-attribute');
+                            this.handleUrlChange(i);
+                        });
+                    }
 
                     // this.handle(element);
                     Events.emit(Events.onSubmitGroupedSearch, {

@@ -80,6 +80,7 @@ export class AutocompleteBar extends Widget {
     initialInput: boolean = true;
     forceUseOfResult: boolean = false;
     skipForceResults: number = 0;
+    fillInputOnClick: boolean = false;
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -104,6 +105,7 @@ export class AutocompleteBar extends Widget {
         this.liveResults = (typeof options.live_results !== 'undefined') ? options.live_results : this.liveResults;
         this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
         this.forceUseOfResult = (typeof options.force_use_of_result !== 'undefined') ? options.force_use_of_result : this.forceUseOfResult;
+        this.fillInputOnClick = (typeof options.fill_input_on_click !== 'undefined') ? options.fill_input_on_click : this.fillInputOnClick;
 
         if (this.getInitialInput()) {
             this.skipForceResults = 1;
@@ -252,6 +254,15 @@ export class AutocompleteBar extends Widget {
 
     getInitialInput(): boolean {
         return this.initialInput;
+    }
+
+    setFillInputOnClick(fill_input_on_click: boolean): AutocompleteBar {
+        this.fillInputOnClick = fill_input_on_click;
+        return this;
+    }
+
+    getFillInputOnClick(): boolean {
+        return this.fillInputOnClick;
     }
 
     setForceUseOfResult(force_use_of_result: boolean): AutocompleteBar {
@@ -587,10 +598,12 @@ export class AutocompleteBar extends Widget {
                 element.addEventListener('click', (e) => {
                     let inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
 
-                    inputs.forEach((i: HTMLInputElement) => {
-                        i.value = element.getAttribute('data-attribute');
-                        this.handleUrlChange(i);
-                    });
+                    if (this.fillInputOnClick) {
+                        inputs.forEach((i: HTMLInputElement) => {
+                            i.value = element.getAttribute('data-attribute');
+                            this.handleUrlChange(i);
+                        });
+                    }
 
                     // this.handle(element);
                     Events.emit(Events.onSubmitSearch, {
