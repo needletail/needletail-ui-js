@@ -53,6 +53,9 @@ export class Result extends Widget {
     sort_select_default: string;
     sort_direction: string = 'asc';
     no_result_message: string = 'No results where found';
+    initial_request: boolean = true;
+    scroll_offset: number = 100;
+    scroll_back_to_top: boolean = true;
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -63,7 +66,9 @@ export class Result extends Widget {
         this.minify_pages = options.minify_pages || this.minify_pages;
         this.last = optional(options.pagination).last || this.last;
         this.first = optional(options.pagination).first || this.first;
-        this.show_quick_pagination = optional(options.pagination).show_quick_pagination || this.show_quick_pagination;
+        this.show_quick_pagination = (typeof optional(options.pagination).show_quick_pagination !== 'undefined') ? options.pagination.show_quick_pagination : this.show_quick_pagination;
+        this.scroll_offset = optional(options.pagination).scroll_offset || this.scroll_offset;
+        this.scroll_back_to_top = (typeof optional(options.pagination).scroll_back_to_top !== 'undefined') ? options.pagination.scroll_back_to_top : this.scroll_back_to_top;
         this.result_template = options.result_template;
         this.group_by = options.group_by || '';
         this.sort_by = options.sort_by || '';
@@ -300,6 +305,20 @@ export class Result extends Widget {
 
     executeJS() {
         document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
+            if (!this.initial_request && this.scroll_back_to_top) {
+                let elements = document.querySelectorAll(this.getEl());
+                if (elements.length === 1) {
+                    let element: any = elements.item(0);
+                    let position = element.offsetTop;
+                    let offsetPosition = position - this.scroll_offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }
+
             let autocompleteBars = this.client.widgets.autocompleteBar;
             let aggregationBars = this.client.widgets.aggregationBar;
 
@@ -507,6 +526,8 @@ export class Result extends Widget {
                     Events.emit(Events.onBeforeResultRequest, {});
                 });
             }
+
+            this.initial_request = false;
         });
 
         Events.emit(Events.onBeforeResultRequest, {});

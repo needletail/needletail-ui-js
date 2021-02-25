@@ -89,6 +89,8 @@ export interface ResultSettings extends WidgetSettings {
         first?: string;
         last?: string;
         show_quick_pagination?: boolean;
+        scroll_back_to_top?: boolean;
+        scroll_offset?: number;
     },
     result_template?: string;
     group_by?: string;
