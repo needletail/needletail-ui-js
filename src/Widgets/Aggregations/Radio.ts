@@ -66,7 +66,7 @@ export class Radio extends Aggregation {
                 e.detail[this.attribute].forEach((val: any) => {
                     options.push({
                         name: title,
-                        value: val.value
+                        ...val
                     });
                 });
 
