@@ -165,6 +165,10 @@ export class AggregationBar extends Widget {
         this.fields.forEach((field: FieldOptions) => {
             field.executeJS();
         });
+
+        Events.emit(Events.aggregationFinished, {
+            name: this.discriminator,
+        });
     }
 
     /**

@@ -585,6 +585,9 @@ export class GroupedSearchBar extends Widget {
             }
 
             this.buildResults(options);
+            Events.emit(Events.groupedSearchBarFinished, {
+                name: this.discriminator,
+            });
         });
     }
 

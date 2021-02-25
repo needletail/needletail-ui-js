@@ -528,6 +528,9 @@ export class Result extends Widget {
             }
 
             this.initial_request = false;
+            Events.emit(Events.resultFinished, {
+                name: this.discriminator,
+            });
         });
 
         Events.emit(Events.onBeforeResultRequest, {});

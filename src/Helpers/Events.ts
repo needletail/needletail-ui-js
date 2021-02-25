@@ -66,6 +66,11 @@ export class Events {
 
     static onAggregationValueChange: string = 'onAggregationValueChange';
 
+    static autocompleteBarFinished: string = 'autocompleteBarFinished';
+    static groupedSearchBarFinished: string = 'groupedSearchBarFinished';
+    static resultFinished: string = 'resultFinished';
+    static aggregationFinished: string = 'aggregationFinished';
+
     /**
      * Emit a custom event to listen to
      * @param name

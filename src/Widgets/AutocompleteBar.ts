@@ -556,11 +556,14 @@ export class AutocompleteBar extends Widget {
             if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value && e.detail.value.length !== 0)) {
                 options = {
                     results: e.detail.search_result,
-                    initial_input: e.detail.value
+                    initial_input: (this.getInitialInput()) ? e.detail.value : ''
                 }
             }
 
             this.buildResults(options);
+            Events.emit(Events.autocompleteBarFinished, {
+                name: this.discriminator,
+            });
         });
     }
 
