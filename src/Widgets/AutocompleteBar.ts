@@ -81,6 +81,8 @@ export class AutocompleteBar extends Widget {
     forceUseOfResult: boolean = false;
     skipForceResults: number = 0;
     fillInputOnClick: boolean = false;
+    showBucket: boolean = false;
+    bucketMapping: {[key: string]: string};
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -106,6 +108,8 @@ export class AutocompleteBar extends Widget {
         this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
         this.forceUseOfResult = (typeof options.force_use_of_result !== 'undefined') ? options.force_use_of_result : this.forceUseOfResult;
         this.fillInputOnClick = (typeof options.fill_input_on_click !== 'undefined') ? options.fill_input_on_click : this.fillInputOnClick;
+        this.showBucket = (typeof optional(options.search).show_bucket !== 'undefined') ? options.search.show_bucket : this.showBucket;
+        this.bucketMapping = optional(options.search).bucket_mapping || this.bucketMapping;
 
         if (this.getInitialInput()) {
             this.skipForceResults = 1;
@@ -510,14 +514,17 @@ export class AutocompleteBar extends Widget {
                 direction: this.sort_direction,
                 size: this.size,
                 group_by: this.group_by,
-                highlight: true
+                highlight: true,
+                show_bucket: this.showBucket
             });
 
             // If there is data map it to include some easy access values
             if (result && result.data.count > 0) {
                 e.detail.search_result = result.data.results.map((r: any) => {
+                    let bucket_name: string = r.bucket.toString();
                     let mapped = {
                         ...r.record,
+                        bucket: this.bucketMapping[bucket_name] ?? '',
                         value: {},
                         raw: {}
                     }

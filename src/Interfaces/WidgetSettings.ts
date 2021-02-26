@@ -38,6 +38,8 @@ export interface AutocompleteBarSettings extends WidgetSettings {
         group_by?: string;
         sort_by?: string;
         direction?: string;
+        show_bucket?: boolean;
+        bucket_mapping?: {[key: string]: string};
     }
     minimum_characters?: number;
     show_results?: boolean;
