@@ -363,6 +363,14 @@ export class AutocompleteBar extends Widget {
                 }
             });
 
+            element.addEventListener('focus', () => {
+                element.classList.add('active');
+            });
+
+            element.addEventListener('blur', () => {
+                setTimeout(() => {element.classList.remove('active');}, 100);
+            });
+
             if (this.getInitialInput()) {
                 element.addEventListener('input', (e) => {
                     let initial_input = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result.needletail-initial-input`);
@@ -579,10 +587,10 @@ export class AutocompleteBar extends Widget {
         let results = this.renderResults(options);
         let nodeResults = document.createRange().createContextualFragment(results);
 
-        document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()}`).forEach((element) => {
+        document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()}`).forEach(async (element) => {
             let currentChild = element.querySelector('.needletail-autocomplete-bar-results');
 
-            element.replaceChild(nodeResults.cloneNode(true), currentChild);
+            await element.replaceChild(nodeResults.cloneNode(true), currentChild);
 
             let newChild = element.querySelector('.needletail-autocomplete-bar-results');
             let newResults = newChild.querySelectorAll('.needletail-autocomplete-bar-result');
@@ -599,9 +607,9 @@ export class AutocompleteBar extends Widget {
 
                 // Add the click event
                 element.addEventListener('click', (e) => {
-                    let inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
-
                     if (this.fillInputOnClick) {
+                        let inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
+
                         inputs.forEach((i: HTMLInputElement) => {
                             i.value = element.getAttribute('data-attribute');
                             this.handleUrlChange(i);

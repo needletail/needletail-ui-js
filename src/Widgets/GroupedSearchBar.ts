@@ -352,6 +352,14 @@ export class GroupedSearchBar extends Widget {
                 }
             });
 
+            element.addEventListener('focus', () => {
+                element.classList.add('active');
+            });
+
+            element.addEventListener('blur', () => {
+                setTimeout(() => {element.classList.remove('active');}, 100);
+            });
+
             if (this.getInitialInput()) {
                 element.addEventListener('input', (e) => {
                     let initial_input = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result.needletail-initial-input`);
@@ -640,9 +648,9 @@ export class GroupedSearchBar extends Widget {
 
                 // Add the click event
                 element.addEventListener('click', (e) => {
-                    let inputs = document.querySelectorAll(`.needletail-grouped-search-bar-${this.getQuery()} .needletail-grouped-search-bar-input`);
-
                     if (this.fillInputOnClick) {
+                        let inputs = document.querySelectorAll(`.needletail-grouped-search-bar-${this.getQuery()} .needletail-grouped-search-bar-input`);
+
                         inputs.forEach((i: HTMLInputElement) => {
                             i.value = element.getAttribute('data-attribute');
                             this.handleUrlChange(i);

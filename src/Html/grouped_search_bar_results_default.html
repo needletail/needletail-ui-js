@@ -4,9 +4,7 @@
 <div class="needletail-grouped-search-bar-result-results">
     {{#results}}
         <div class="needletail-grouped-search-bar-result" data-attribute="{{raw.title}}">
-            {{{title}}}
-            <hr>
-            {{{highlight.title}}}
+            {{#highlight.title}}{{{highlight.title}}}{{/highlight.title}}{{^highlight.title}}{{title}}{{/highlight.title}}
         </div>
     {{/results}}
 </div>

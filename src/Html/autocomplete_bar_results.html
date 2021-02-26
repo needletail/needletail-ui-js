@@ -7,9 +7,7 @@
 
     {{#results}}
         <div class="needletail-autocomplete-bar-result" data-attribute="{{raw.title}}">
-            {{{title}}}
-            <hr>
-            {{{highlight.title}}}
+            {{#highlight.title}}{{{highlight.title}}}{{/highlight.title}}{{^highlight.title}}{{title}}{{/highlight.title}}
         </div>
     {{/results}}
     {{^results}}
