@@ -521,10 +521,10 @@ export class AutocompleteBar extends Widget {
             // If there is data map it to include some easy access values
             if (result && result.data.count > 0) {
                 e.detail.search_result = result.data.results.map((r: any) => {
-                    let bucket_name: string = r.bucket.toString();
+                    let bucket_name: string = (r.bucket) ? r.bucket.toString() : '';
                     let mapped = {
                         ...r.record,
-                        bucket: this.bucketMapping[bucket_name] ?? '',
+                        bucket: (this.bucketMapping[bucket_name]) ? this.bucketMapping[bucket_name] : '',
                         value: {},
                         raw: {}
                     }
