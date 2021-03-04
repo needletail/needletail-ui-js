@@ -56,6 +56,7 @@ export class Result extends Widget {
     initial_request: boolean = true;
     scroll_offset: number = 100;
     scroll_back_to_top: boolean = true;
+    buckets: [] = [];
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -76,6 +77,7 @@ export class Result extends Widget {
         this.sort_select = options.sort_select || {};
         this.sort_select_default = options.sort_select_default || '';
         this.no_result_message = options.no_result_message || this.no_result_message;
+        this.buckets = options.buckets || [];
     }
 
     setMinifyPages(minifyPages: number): Result {
@@ -334,6 +336,9 @@ export class Result extends Widget {
 
                 return res;
             }, []);
+
+            buckets = buckets.concat(this.buckets);
+
             let autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
                 if (!bar.useInResults) {
                     return res;

@@ -101,4 +101,5 @@ export interface ResultSettings extends WidgetSettings {
     sort_select?: {};
     sort_select_default?: string;
     no_result_message?: string;
+    buckets?: [];
 }

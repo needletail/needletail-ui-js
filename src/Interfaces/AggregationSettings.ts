@@ -30,6 +30,10 @@ export interface SliderSettings extends AggregationSettings {
     min?: number;
     max?: number;
     default_value?: number;
+    range?: boolean;
+    default_range_min?: number;
+    default_range_max?: number;
+    type?: string;
 }
 
 /**

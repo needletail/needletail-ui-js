@@ -4,7 +4,8 @@ import {AggregationBarSettings} from './../Imports/Interfaces';
 import template from './../Html/aggregation_bar.html';
 import clearFiltersTemplate from './../Html/clear_filters.html';
 import Mustache from 'mustache';
-import {Events, optional} from "../Imports/Helpers";
+import {Events, optional, URIHelper} from "../Imports/Helpers";
+import {Slider} from "./Aggregations/Slider";
 
 export class AggregationBar extends Widget {
     discriminator: string = 'AggregationBar';
@@ -138,22 +139,31 @@ export class AggregationBar extends Widget {
                     field.setDefaultCollapsed(false);
                 }, 1000);
             });
+
+            Events.emit(Events.onAggregationValueChange, {});
         });
 
         document.addEventListener(Events.onAggregationValueChange, (e: CustomEvent) => {
             this.aggregationActives[e.detail.name] = e.detail.hasActive;
 
+            console.log(123);
             let clearFilters: HTMLCollection = document.getElementsByClassName('needletail-clear-filters');
             let hasShown = false;
 
-            for (let val in this.aggregationActives) {
-                if (this.aggregationActives[val] && !hasShown) {
+            this.fields.forEach((field: FieldOptions) => {
+                let title = field.getTitle();
+
+                if (field.discriminator === 'Range') {
+                    title = field.getTitle() + '[min]';
+                }
+
+                if (!hasShown && URIHelper.getSearchParam(title)) {
                     for (let i = 0; i < clearFilters.length; i++) {
                         clearFilters[i].classList.remove('needletail-hidden');
                     }
                     hasShown = true;
                 }
-            }
+            });
 
             if (!hasShown) {
                 for (let i = 0; i < clearFilters.length; i++) {
