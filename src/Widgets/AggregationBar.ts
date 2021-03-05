@@ -146,7 +146,6 @@ export class AggregationBar extends Widget {
         document.addEventListener(Events.onAggregationValueChange, (e: CustomEvent) => {
             this.aggregationActives[e.detail.name] = e.detail.hasActive;
 
-            console.log(123);
             let clearFilters: HTMLCollection = document.getElementsByClassName('needletail-clear-filters');
             let hasShown = false;
 

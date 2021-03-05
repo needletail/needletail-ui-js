@@ -4,7 +4,7 @@ import {Aggregation} from './../../Imports/BaseClasses';
 import Mustache from "mustache";
 import _debounce from "lodash/debounce";
 import {Events, URIHelper} from "../../Imports/Helpers";
-import {SliderSettings, SliderRange} from "../../Imports/Interfaces";
+import {SliderSettings, SliderRange, SliderElements} from "../../Imports/Interfaces";
 
 export class Slider extends Aggregation {
     discriminator: string = 'Range';
@@ -15,6 +15,7 @@ export class Slider extends Aggregation {
     defaultRangeMin: number;
     defaultRangeMax: number;
     ranges: {[key: string]: SliderRange};
+    elements: {[key: string]: SliderElements};
     type: string;
     allowedTypes: string[] = ['to', 'from'];
 
@@ -48,6 +49,7 @@ export class Slider extends Aggregation {
         }
 
         this.ranges = {};
+        this.elements = {};
     }
 
     setMin(min: number): Slider {
@@ -151,11 +153,21 @@ export class Slider extends Aggregation {
 
         document.querySelectorAll('.needletail-aggregation-slider-container__range').forEach((element: HTMLInputElement) => {
             document.addEventListener("DOMContentLoaded", () => {
-                let slider: HTMLElement = element.querySelector('.needletail-aggregation-slider-range');
-                let inputMin: HTMLInputElement = element.querySelector('.needletail-aggregation-slider-input-min');
-                let inputMax: HTMLInputElement = element.querySelector('.needletail-aggregation-slider-input-max');
-                let leftSlider: HTMLElement = element.querySelector('.needletail-aggregation-slider-range-left');
-                let rightSlider: HTMLElement = element.querySelector('.needletail-aggregation-slider-range-right');
+                this.elements[this.classTitle] = {
+                    slider: element.querySelector('.needletail-aggregation-slider-range'),
+                    inputMin: element.querySelector('.needletail-aggregation-slider-input-min'),
+                    inputMax: element.querySelector('.needletail-aggregation-slider-input-max'),
+                    leftSlider: element.querySelector('.needletail-aggregation-slider-range-left'),
+                    rightSlider: element.querySelector('.needletail-aggregation-slider-range-right'),
+                    divider: element.querySelector('.needletail-aggregation-slider-range-divider')
+                };
+
+                let slider = this.elements[this.classTitle].slider;
+                let inputMin = this.elements[this.classTitle].inputMin;
+                let inputMax = this.elements[this.classTitle].inputMax;
+                let leftSlider = this.elements[this.classTitle].leftSlider;
+                let rightSlider = this.elements[this.classTitle].rightSlider;
+                let divider = this.elements[this.classTitle].divider;
 
                 inputMin.value = URIHelper.getSearchParam(title + '[min]') || this.defaultRangeMin.toString();
                 inputMax.value = URIHelper.getSearchParam(title + '[max]') || this.defaultRangeMax.toString();
@@ -165,9 +177,10 @@ export class Slider extends Aggregation {
                     input.max = this.max.toString();
                 });
 
-                this.ranges[this.discriminator] = this.calculatePositions(slider, leftSlider, rightSlider);
+                this.ranges[this.classTitle] = this.calculatePositions(slider, leftSlider, rightSlider);
                 window.onresize = (e: UIEvent) => {
-                    this.ranges[this.discriminator] = this.calculatePositions(slider, leftSlider, rightSlider);
+                    this.ranges[this.classTitle] = this.calculatePositions(slider, leftSlider, rightSlider);
+                    this.calculateDivider(divider, leftSlider, rightSlider);
                 }
 
                 inputMin.addEventListener('change', _debounce(() => {
@@ -177,10 +190,11 @@ export class Slider extends Aggregation {
                         inputMin.value = inputMax.value;
                     }
 
-                    let percentage = ((100 / this.min) * parseInt(inputMin.value));
+                    let percentage = ((100 / this.max) * parseInt(inputMin.value));
                     leftSlider.style.left = percentage + '%';
                     inputMax.min = inputMin.value;
 
+                    this.calculateDivider(divider, leftSlider, rightSlider);
                     this.handleRange(inputMin, inputMax);
                 }, 200));
 
@@ -192,31 +206,17 @@ export class Slider extends Aggregation {
                     }
 
                     let percentage = ((100 / this.max) * parseInt(inputMax.value));
-                    rightSlider.style.left = percentage + '%';
+                    rightSlider.style.left = `${percentage}%`;
                     inputMin.max = inputMax.value;
 
+                    this.calculateDivider(divider, leftSlider, rightSlider);
                     this.handleRange(inputMin, inputMax);
                 }, 200));
 
                 leftSlider.addEventListener('mousedown', (e) => {
                     document.onmousemove = (e) => {
-                        if (!this.ranges[this.discriminator]) {
-                            return;
-                        }
-
-                        let newLeft: number = (e.clientX - (leftSlider.offsetWidth / 2));
-
-                        if (newLeft > this.ranges[this.discriminator].rightPosition) {
-                            newLeft = this.ranges[this.discriminator].rightPosition;
-                        } else if (newLeft < this.ranges[this.discriminator].startLeft) {
-                            newLeft = this.ranges[this.discriminator].startLeft;
-                        }
-
-                        this.ranges[this.discriminator].leftPosition = newLeft;
-                        let percentage: number = (100 / this.ranges[this.discriminator].total) * (newLeft - this.ranges[this.discriminator].startLeft);
-                        leftSlider.style.left = percentage + "%";
-                        inputMin.value = Math.round(((this.max / 100) * percentage) + this.min).toString();
-                        inputMin.dispatchEvent(new Event('change'));
+                        e.preventDefault();
+                        this.moveLeft(e);
                     };
 
                     document.onmouseup = (e) => {
@@ -225,30 +225,39 @@ export class Slider extends Aggregation {
                     }
                 });
 
+                leftSlider.addEventListener('touchstart', (e) => {
+                    document.ontouchmove = (e) => {
+                        e.preventDefault();
+                        this.moveLeft(e);
+                    };
+
+                    document.ontouchend = (e) => {
+                        document.ontouchend = null;
+                        document.ontouchmove = null;
+                    }
+                })
+
                 rightSlider.addEventListener('mousedown', (e) => {
                     document.onmousemove = (e) => {
-                        if (!this.ranges[this.discriminator]) {
-                            return;
-                        }
-
-                        let newLeft: number = (e.clientX + (rightSlider.offsetWidth / 2));
-
-                        if (newLeft < this.ranges[this.discriminator].leftPosition) {
-                            newLeft = this.ranges[this.discriminator].leftPosition;
-                        } else if (newLeft > this.ranges[this.discriminator].startRight) {
-                            newLeft = this.ranges[this.discriminator].startRight;
-                        }
-
-                        this.ranges[this.discriminator].rightPosition = newLeft;
-                        let percentage: number = (100 / this.ranges[this.discriminator].total) * (newLeft - this.ranges[this.discriminator].startLeft);
-                        rightSlider.style.left = percentage + "%";
-                        inputMax.value = Math.round(((this.max / 100) * percentage) + this.min).toString();
-                        inputMax.dispatchEvent(new Event('change'));
-                    };
+                        e.preventDefault();
+                        this.moveRight(e);
+                    }
 
                     document.onmouseup = (e) => {
                         document.onmouseup = null;
                         document.onmousemove = null;
+                    }
+                });
+
+                rightSlider.addEventListener('touchstart', (e) => {
+                    document.ontouchmove = (e) => {
+                        e.preventDefault();
+                        this.moveRight(e);
+                    }
+
+                    document.ontouchend = (e) => {
+                        document.ontouchend = null;
+                        document.ontouchmove = null;
                     }
                 });
 
@@ -257,8 +266,9 @@ export class Slider extends Aggregation {
                 }
 
                 if (URIHelper.getSearchParam(title + '[max]')) {
-                    rightSlider.style.left = (100 / this.max) * parseInt(inputMax.value) + '%';
+                    rightSlider.style.left = `${(100 / this.max) * parseInt(inputMax.value)}%`;
                 }
+                this.calculateDivider(divider, leftSlider, rightSlider);
             });
         });
 
@@ -394,5 +404,66 @@ export class Slider extends Aggregation {
             rightPosition: rightPosition,
             total: total
         };
+    }
+
+    calculateDivider(divider: HTMLElement, leftSlider: HTMLElement, rightSlider: HTMLElement) {
+        let width = rightSlider.offsetLeft - leftSlider.offsetLeft;
+
+        divider.style.width = width + 'px';
+        divider.style.left = `${leftSlider.style.left}`;
+    }
+
+    moveRight(e: any) {
+        let clientX = e.clientX ?? e.touches[0].clientX;
+        let inputMax = this.elements[this.classTitle].inputMax;
+        let leftSlider = this.elements[this.classTitle].leftSlider;
+        let rightSlider = this.elements[this.classTitle].rightSlider;
+        let divider = this.elements[this.classTitle].divider;
+
+        if (!this.ranges[this.classTitle]) {
+            return;
+        }
+
+        let newLeft: number = (clientX - rightSlider.offsetWidth);
+
+        if (newLeft < this.ranges[this.classTitle].leftPosition) {
+            newLeft = this.ranges[this.classTitle].leftPosition;
+        } else if (newLeft > this.ranges[this.classTitle].startRight) {
+            newLeft = this.ranges[this.classTitle].startRight;
+        }
+
+        this.ranges[this.classTitle].rightPosition = newLeft;
+        let percentage: number = (100 / this.ranges[this.classTitle].total) * (newLeft - this.ranges[this.classTitle].startLeft);
+        rightSlider.style.left = `${percentage}%`;
+        inputMax.value = Math.round(((this.max / 100) * percentage) + this.min).toString();
+        inputMax.dispatchEvent(new Event('change'));
+        this.calculateDivider(divider, leftSlider, rightSlider);
+    }
+
+    moveLeft(e: any) {
+        let clientX = e.clientX ?? e.touches[0].clientX;
+        let inputMin = this.elements[this.classTitle].inputMin;
+        let leftSlider = this.elements[this.classTitle].leftSlider;
+        let rightSlider = this.elements[this.classTitle].rightSlider;
+        let divider = this.elements[this.classTitle].divider;
+
+        if (!this.ranges[this.classTitle]) {
+            return;
+        }
+
+        let newLeft: number = (clientX - (leftSlider.offsetWidth / 2));
+
+        if (newLeft > this.ranges[this.classTitle].rightPosition) {
+            newLeft = this.ranges[this.classTitle].rightPosition;
+        } else if (newLeft < this.ranges[this.classTitle].startLeft) {
+            newLeft = this.ranges[this.classTitle].startLeft;
+        }
+
+        this.ranges[this.classTitle].leftPosition = newLeft;
+        let percentage: number = (100 / this.ranges[this.classTitle].total) * (newLeft - this.ranges[this.classTitle].startLeft);
+        leftSlider.style.left = percentage + "%";
+        inputMin.value = Math.round(((this.max / 100) * percentage) + this.min).toString();
+        inputMin.dispatchEvent(new Event('change'));
+        this.calculateDivider(divider, leftSlider, rightSlider);
     }
 }
