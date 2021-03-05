@@ -26,8 +26,8 @@ export class Slider extends Aggregation {
         this.max = options.max || 10;
         this.defaultValue = options.default_value || 5;
         this.range = (typeof options.range !== 'undefined') ? options.range : this.range;
-        this.defaultRangeMin = options.default_range_min || 0;
-        this.defaultRangeMax = options.default_range_max || 10;
+        this.defaultRangeMin = options.default_range_min || this.min;
+        this.defaultRangeMax = options.default_range_max || this.max;
         this.type = options.type || 'to';
 
         if (this.allowedTypes.indexOf(this.type) === -1) {
