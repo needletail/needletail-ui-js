@@ -389,6 +389,9 @@ export class Slider extends Aggregation {
                 'name': this.attribute,
                 'hasActive': false
             });
+
+            this.ranges[this.classTitle].leftPosition = this.ranges[this.classTitle].startLeft;
+            this.ranges[this.classTitle].rightPosition = this.ranges[this.classTitle].startRight;
         });
     }
 
