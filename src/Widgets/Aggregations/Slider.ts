@@ -368,10 +368,11 @@ export class Slider extends Aggregation {
         });
 
         document.querySelectorAll('.needletail-aggregation-slider-container__range').forEach((element: HTMLInputElement) => {
-            let inputMin: HTMLInputElement = element.querySelector('.needletail-aggregation-slider-input-min');
-            let inputMax: HTMLInputElement = element.querySelector('.needletail-aggregation-slider-input-max');
-            let leftSlider: HTMLElement = element.querySelector('.needletail-aggregation-slider-range-left');
-            let rightSlider: HTMLElement = element.querySelector('.needletail-aggregation-slider-range-right');
+            let inputMin = this.elements[this.classTitle].inputMin;
+            let inputMax = this.elements[this.classTitle].inputMax;
+            let leftSlider = this.elements[this.classTitle].leftSlider;
+            let rightSlider = this.elements[this.classTitle].rightSlider;
+            let divider = this.elements[this.classTitle].divider;
 
             inputMin.value = this.defaultRangeMin.toString();
             inputMax.value = this.defaultRangeMax.toString();
@@ -380,6 +381,7 @@ export class Slider extends Aggregation {
             rightSlider.style.left = (100 / this.max) * parseInt(inputMax.value) + '%';
 
             this.handleRange(inputMin, inputMax);
+            this.calculateDivider(divider, leftSlider, rightSlider);
 
             URIHelper.addToHistory(this.getTitle() + '[min]', inputMin.value, true);
             URIHelper.addToHistory(this.getTitle() + '[max]', inputMax.value, true);
