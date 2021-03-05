@@ -401,6 +401,7 @@ export class GroupedSearchBar extends Widget {
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
                     let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
@@ -418,8 +419,6 @@ export class GroupedSearchBar extends Widget {
 
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
 
-                    element.setSelectionRange(element.value.length, element.value.length);
-
                     Events.emit(Events.onArrowMovementGroupedSearch, {
                         value: results[this.selectedResult].dataset
                     });
@@ -435,6 +434,9 @@ export class GroupedSearchBar extends Widget {
                     });
                 }
                 else if (e.key === 'Escape') {
+                    if (this.getInitialInput()) {
+                        element.value = element.getAttribute('data-initial-value');
+                    }
                     // Remove the focus on escape to close the dropdown
                     document.querySelectorAll(':focus').forEach((el: HTMLInputElement) => el.blur());
                 }
@@ -725,6 +727,10 @@ export class GroupedSearchBar extends Widget {
     }
 
     switchActiveClass(results: any) {
+        if (!this.showResults) {
+            return;
+        }
+
         // Remove the active class from all results
         results.forEach((rElement: Element) => {
             rElement.classList.remove('active');

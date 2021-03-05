@@ -418,6 +418,7 @@ export class AutocompleteBar extends Widget {
 
             element.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
                     let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
                     if (e.key === 'ArrowUp') {
                         // Move the active class up one
@@ -444,8 +445,6 @@ export class AutocompleteBar extends Widget {
                         }
                     }
 
-                    element.setSelectionRange(element.value.length, element.value.length);
-
                     Events.emit(Events.onArrowMovementSearch, {
                         value: results[this.selectedResult].dataset
                     });
@@ -467,6 +466,9 @@ export class AutocompleteBar extends Widget {
                     });
                 }
                 else if (e.key === 'Escape') {
+                    if (this.getInitialInput()) {
+                        element.value = element.getAttribute('data-initial-value');
+                    }
                     // Remove the focus on escape to close the dropdown
                     document.querySelectorAll(':focus').forEach((el: HTMLInputElement) => el.blur());
                 }
@@ -695,6 +697,10 @@ export class AutocompleteBar extends Widget {
     }
 
     switchActiveClass(results: any) {
+        if (!this.showResults) {
+            return;
+        }
+
         // Remove the active class from all results
         results.forEach((rElement: Element) => {
             rElement.classList.remove('active');
