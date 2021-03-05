@@ -730,7 +730,9 @@ export class GroupedSearchBar extends Widget {
             rElement.classList.remove('active');
         });
 
-        // Add it to the new selected result
-        results[this.selectedResult].classList.add('active');
+        if (this.selectedResult > -1) {
+            // Add it to the new selected result
+            results[this.selectedResult].classList.add('active');
+        }
     }
 }
