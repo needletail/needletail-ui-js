@@ -390,6 +390,10 @@ export class AutocompleteBar extends Widget {
             if (this.debounce) {
                 // If debounce is turned on
                 element.addEventListener('input', _debounce(() => {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                    this.selectedResult = -1;
+                    this.switchActiveClass(results);
+
                     this.handle(element);
                 }, this.debounceWait));
 
@@ -402,6 +406,10 @@ export class AutocompleteBar extends Widget {
             }
             else {
                 element.addEventListener('input', () => {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                    this.selectedResult = -1;
+                    this.switchActiveClass(results);
+
                     // If the data should be saved in the URL
                     this.handleUrlChange(element);
                     this.handle(element);
@@ -423,13 +431,8 @@ export class AutocompleteBar extends Widget {
                         }
                     }
 
-                    // Remove the active class from all results
-                    results.forEach((rElement: Element) => {
-                        rElement.classList.remove('active');
-                    });
+                    this.switchActiveClass(results);
 
-                    // Add it to the new selected result
-                    results[this.selectedResult].classList.add('active');
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
 
                     if (this.getForceUseOfResult()) {
@@ -440,6 +443,8 @@ export class AutocompleteBar extends Widget {
                             element.setAttribute('data-force', 'off')
                         }
                     }
+
+                    element.setSelectionRange(element.value.length, element.value.length);
 
                     Events.emit(Events.onArrowMovementSearch, {
                         value: results[this.selectedResult].dataset
@@ -687,5 +692,15 @@ export class AutocompleteBar extends Widget {
         if (this.getLiveResults()) {
             Events.emit(Events.onBeforeResultRequest, {});
         }
+    }
+
+    switchActiveClass(results: any) {
+        // Remove the active class from all results
+        results.forEach((rElement: Element) => {
+            rElement.classList.remove('active');
+        });
+
+        // Add it to the new selected result
+        results[this.selectedResult].classList.add('active');
     }
 }

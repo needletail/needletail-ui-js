@@ -375,6 +375,9 @@ export class GroupedSearchBar extends Widget {
             if (this.debounce) {
                 // If debounce is turned on
                 element.addEventListener('input', _debounce(() => {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
+                    this.selectedResult = -1;
+                    this.switchActiveClass(results);
                     this.handle(element);
                 }, this.debounceWait));
 
@@ -387,6 +390,9 @@ export class GroupedSearchBar extends Widget {
             }
             else {
                 element.addEventListener('input', () => {
+                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result`);
+                    this.selectedResult = -1;
+                    this.switchActiveClass(results);
                     // If the data should be saved in the URL
                     this.handleUrlChange(element);
                     this.handle(element);
@@ -408,14 +414,11 @@ export class GroupedSearchBar extends Widget {
                         }
                     }
 
-                    // Remove the active class from all results
-                    results.forEach((rElement: Element) => {
-                        rElement.classList.remove('active');
-                    });
+                    this.switchActiveClass(results);
 
-                    // Add it to the new selected result
-                    results[this.selectedResult].classList.add('active');
                     element.value = results[this.selectedResult].getAttribute('data-attribute');
+
+                    element.setSelectionRange(element.value.length, element.value.length);
 
                     Events.emit(Events.onArrowMovementGroupedSearch, {
                         value: results[this.selectedResult].dataset
@@ -719,5 +722,15 @@ export class GroupedSearchBar extends Widget {
         data.query = this.getQuery();
 
         Events.emit(Events.onBeforeGroupedSearch, data);
+    }
+
+    switchActiveClass(results: any) {
+        // Remove the active class from all results
+        results.forEach((rElement: Element) => {
+            rElement.classList.remove('active');
+        });
+
+        // Add it to the new selected result
+        results[this.selectedResult].classList.add('active');
     }
 }

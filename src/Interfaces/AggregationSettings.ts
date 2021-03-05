@@ -34,6 +34,8 @@ export interface SliderSettings extends AggregationSettings {
     default_range_min?: number;
     default_range_max?: number;
     type?: string;
+    inputs?: string;
+    display_only?: boolean;
 }
 
 /**

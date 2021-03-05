@@ -207,14 +207,31 @@
                     flex-direction: row;
                     justify-content: space-between;
 
+                    &.top {
+                        margin-bottom: 8px;
+                    }
+
+                    &.bottom {
+                        margin-top: 8px;
+                    }
+
                     .needletail-aggregation-slider-input-min,
                     .needletail-aggregation-slider-input-max {
                         width: 25%;
                         padding: 12px 20px;
-                        margin: 8px 0 0 0;
                         display: inline-block;
                         border: 1px solid #ccc;
                         box-sizing: border-box;
+
+                        &.display-only {
+                            pointer-events: none;
+                            border: none;
+                            background: none;
+                        }
+                    }
+
+                    .needletail-aggregation-slider-input-max.display-only {
+                        text-align: right;
                     }
                 }
             }

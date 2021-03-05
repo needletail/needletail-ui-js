@@ -18,6 +18,9 @@ export class Slider extends Aggregation {
     elements: {[key: string]: SliderElements};
     type: string;
     allowedTypes: string[] = ['to', 'from'];
+    inputs: string = 'top';
+    allowedInputs: string[] = ['top', 'bottom'];
+    displayOnly: boolean = false;
 
     constructor(options: SliderSettings = {}) {
         super(options);
@@ -29,9 +32,15 @@ export class Slider extends Aggregation {
         this.defaultRangeMin = options.default_range_min || this.min;
         this.defaultRangeMax = options.default_range_max || this.max;
         this.type = options.type || 'to';
+        this.inputs = options.inputs || this.inputs;
+        this.displayOnly = (typeof options.display_only !== 'undefined') ? options.display_only : this.displayOnly;
 
         if (this.allowedTypes.indexOf(this.type) === -1) {
             this.type = 'to';
+        }
+
+        if (this.allowedInputs.indexOf(this.inputs) === -1) {
+            this.inputs = 'top';
         }
 
         let value = this.defaultValue.toString();
@@ -129,7 +138,10 @@ export class Slider extends Aggregation {
             max: this.getMax(),
             value: this.getDefaultValue(),
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
-            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : ''
+            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
+            inputs_bottom: (this.inputs === 'bottom'),
+            inputs_top: (this.inputs === 'top'),
+            display_only: (this.displayOnly) ? 'display-only' : ''
         });
     }
 
