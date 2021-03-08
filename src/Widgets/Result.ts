@@ -57,6 +57,7 @@ export class Result extends Widget {
     scroll_offset: number = 100;
     scroll_back_to_top: boolean = true;
     buckets: [] = [];
+    sort_mode: string = 'min';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -76,6 +77,7 @@ export class Result extends Widget {
         this.sort_direction = options.sort_direction || this.sort_direction;
         this.sort_select = options.sort_select || {};
         this.sort_select_default = options.sort_select_default || '';
+        this.sort_mode = options.sort_mode || this.sort_mode;
         this.no_result_message = options.no_result_message || this.no_result_message;
         this.buckets = options.buckets || [];
     }
@@ -385,6 +387,7 @@ export class Result extends Widget {
                     ...e.detail.extra_search_values
                 },
                 size: this.per_page,
+                mode: this.sort_mode,
                 group_by: this.group_by,
                 sort: this.sort_by,
                 direction: this.sort_direction,

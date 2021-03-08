@@ -79,6 +79,7 @@ export class GroupedSearchBar extends Widget {
     searchOnContentLoaded: boolean = true;
     initialInput: boolean = true;
     fillInputOnClick: boolean = false;
+    sort_mode: string = 'min';
 
     constructor(options: GroupedSearchBarSettings = {}) {
         super(options);
@@ -96,6 +97,7 @@ export class GroupedSearchBar extends Widget {
         this.group_by = optional(options.search).group_by || '';
         this.sort_by = optional(options.search).sort_by || '';
         this.sort_direction = optional(options.search).direction || this.sort_direction;
+        this.sort_mode = optional(options.search).mode || this.sort_mode;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
@@ -493,7 +495,8 @@ export class GroupedSearchBar extends Widget {
                             direction: val.direction || this.sort_direction,
                             size: val.size || this.size,
                             group_by: val.group_by || this.group_by,
-                            highlight: true
+                            highlight: true,
+                            mode: val.sort_mode || this.sort_mode,
                         }
                     }
                 }
@@ -524,7 +527,8 @@ export class GroupedSearchBar extends Widget {
                         direction: this.sort_direction,
                         size: this.size,
                         group_by: this.group_by,
-                        highlight: true
+                        highlight: true,
+                        mode: this.sort_mode
                     }
                 }
             });

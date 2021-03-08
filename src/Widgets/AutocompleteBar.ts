@@ -83,6 +83,7 @@ export class AutocompleteBar extends Widget {
     fillInputOnClick: boolean = false;
     showBucket: boolean = false;
     bucketMapping: {[key: string]: string};
+    sort_mode: string = 'min';
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
@@ -100,6 +101,7 @@ export class AutocompleteBar extends Widget {
         this.group_by = optional(options.search).group_by || '';
         this.sort_by = optional(options.search).sort_by || '';
         this.sort_direction = optional(options.search).direction || this.sort_direction;
+        this.sort_mode = optional(options.search).mode || this.sort_mode;
         this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
         this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
         this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
@@ -522,7 +524,8 @@ export class AutocompleteBar extends Widget {
                 size: this.size,
                 group_by: this.group_by,
                 highlight: true,
-                show_bucket: this.showBucket
+                show_bucket: this.showBucket,
+                mode: this.sort_mode,
             });
 
             // If there is data map it to include some easy access values
