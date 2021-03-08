@@ -309,20 +309,6 @@ export class Result extends Widget {
 
     executeJS() {
         document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
-            if (!this.initial_request && this.scroll_back_to_top) {
-                let elements = document.querySelectorAll(this.getEl());
-                if (elements.length === 1) {
-                    let element: any = elements.item(0);
-                    let position = element.offsetTop;
-                    let offsetPosition = position - this.scroll_offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                }
-            }
-
             let autocompleteBars = this.client.widgets.autocompleteBar;
             let aggregationBars = this.client.widgets.aggregationBar;
 
@@ -497,6 +483,22 @@ export class Result extends Widget {
 
             Events.emit(Events.onAfterResultRequest, e.detail);
         }, 100));
+
+        document.addEventListener(Events.onPageChange, (e: CustomEvent) => {
+            if (!this.initial_request && this.scroll_back_to_top) {
+                let elements = document.querySelectorAll(this.getEl());
+                if (elements.length === 1) {
+                    let element: any = elements.item(0);
+                    let position = element.offsetTop;
+                    let offsetPosition = position - this.scroll_offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        });
 
         document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
             // Render the node
