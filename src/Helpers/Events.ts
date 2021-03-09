@@ -1,5 +1,4 @@
 export class Events {
-
     /**
      * Called when the grouped search bar is submitted
      */
@@ -71,14 +70,9 @@ export class Events {
     static resultFinished: string = 'resultFinished';
     static aggregationFinished: string = 'aggregationFinished';
 
-    /**
-     * Emit a custom event to listen to
-     * @param name
-     * @param data
-     */
     static emit(name: string, data: {} = {}) {
-        let event = new CustomEvent(name, {
-            "detail": data
+        const event = new CustomEvent(name, {
+            'detail': data,
         });
 
         document.dispatchEvent(event);

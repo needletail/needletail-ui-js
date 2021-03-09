@@ -1,6 +1,7 @@
 import {Client as NeedletailClient} from '@needletail/js';
 import {WidgetCollection} from './Imports/Collections';
-import { WidgetOptions } from './Imports/Types';
+// eslint-disable-next-line no-unused-vars
+import {WidgetOptions} from './Imports/Types';
 
 export class Client extends NeedletailClient {
     widgets: WidgetCollection;
@@ -13,7 +14,8 @@ export class Client extends NeedletailClient {
 
     /**
      * Add a widget to the client
-     * @param widget
+     * @param {WidgetOptions} widget
+     * @return {Client}
      */
     addWidget(widget: WidgetOptions): Client {
         this.widgets.add(widget);
@@ -22,7 +24,8 @@ export class Client extends NeedletailClient {
 
     /**
      * Add multiple widgets at the same time
-     * @param widgets
+     * @param {WidgetOptions[]} widgets
+     * @return {Client}
      */
     addMultipleWidgets(widgets: WidgetOptions[]): Client {
         this.widgets.addMultiple(widgets);

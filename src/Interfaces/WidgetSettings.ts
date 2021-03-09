@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 /**
  * Contains the base settings for widgets
  */
@@ -34,6 +36,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
     search?: {
         buckets?: string;
         attribute?: string;
+        attributes?: string[];
         size?: number;
         group_by?: string;
         sort_by?: string;
@@ -68,6 +71,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
     search?: {
         buckets?: string;
         attribute?: string;
+        attributes?: string[];
         size?: number;
         group_by?: string;
         sort_by?: string;

@@ -1,11 +1,12 @@
-import { Widget } from './../Imports/BaseClasses';
-import { FieldOptions } from './../Imports/Types';
+import {Widget} from './../Imports/BaseClasses';
+// eslint-disable-next-line no-unused-vars
+import {FieldOptions} from './../Imports/Types';
+// eslint-disable-next-line no-unused-vars
 import {AggregationBarSettings} from './../Imports/Interfaces';
 import template from './../Html/aggregation_bar.html';
 import clearFiltersTemplate from './../Html/clear_filters.html';
 import Mustache from 'mustache';
-import {Events, optional, URIHelper} from "../Imports/Helpers";
-import {Slider} from "./Aggregations/Slider";
+import {Events, optional, URIHelper} from '../Imports/Helpers';
 
 export class AggregationBar extends Widget {
     discriminator: string = 'AggregationBar';
@@ -22,11 +23,12 @@ export class AggregationBar extends Widget {
         super(options);
 
         this.fields = [];
-        this.useClearFilters = optional(options.clear_filters).use || this.useClearFilters;
-        this.clearFiltersTop = optional(options.clear_filters).top || this.clearFiltersTop;
-        this.clearFiltersBottom = optional(options.clear_filters).bottom || this.clearFiltersBottom;
-        this.clearFiltersText = optional(options.clear_filters).text || this.clearFiltersText;
-        this.clearFiltersHideOnNoneActive = optional(options.clear_filters).hide_on_none_active || this.clearFiltersHideOnNoneActive;
+        this.setUseClearFilters(optional(options.clear_filters).use || this.getUseClearFilters());
+        this.setClearFiltersTop(optional(options.clear_filters).top || this.getClearFiltersTop());
+        this.setClearFiltersBottom(optional(options.clear_filters).bottom || this.getClearFiltersBottom());
+        this.setClearFiltersText(optional(options.clear_filters).text || this.getClearFiltersText());
+        this.setClearFiltersHideOnNoneActive(optional(options.clear_filters).hide_on_none_active ||
+            this.getClearFiltersHideOnNoneActive());
     }
 
     setUseClearFilters(useClearFilters: boolean): AggregationBar {
@@ -34,9 +36,17 @@ export class AggregationBar extends Widget {
         return this;
     }
 
+    getUseClearFilters(): boolean {
+        return this.useClearFilters;
+    }
+
     setClearFiltersTop(clearFiltersTop: boolean): AggregationBar {
         this.clearFiltersTop = clearFiltersTop;
         return this;
+    }
+
+    getClearFiltersTop(): boolean {
+        return this.clearFiltersTop;
     }
 
     setClearFiltersBottom(clearFiltersBottom: boolean): AggregationBar {
@@ -44,14 +54,26 @@ export class AggregationBar extends Widget {
         return this;
     }
 
+    getClearFiltersBottom(): boolean {
+        return this.clearFiltersBottom;
+    }
+
     setClearFiltersText(clearFiltersText: string): AggregationBar {
         this.clearFiltersText = clearFiltersText;
         return this;
     }
 
+    getClearFiltersText(): string {
+        return this.clearFiltersText;
+    }
+
     setClearFiltersHideOnNoneActive(hideOnNoneActive: boolean): AggregationBar {
         this.clearFiltersHideOnNoneActive = hideOnNoneActive;
         return this;
+    }
+
+    getClearFiltersHideOnNoneActive(): boolean {
+        return this.clearFiltersHideOnNoneActive;
     }
 
     addField(field: FieldOptions): AggregationBar {
@@ -62,7 +84,7 @@ export class AggregationBar extends Widget {
     addMultipleFields(fields: FieldOptions[]): AggregationBar {
         fields.forEach((field: FieldOptions) => {
             this.fields.push(field);
-        })
+        });
         return this;
     }
 
@@ -74,24 +96,29 @@ export class AggregationBar extends Widget {
         return template;
     }
 
-    /**
-     * Render the template for the aggregation bar
-     * This includes rendering all the fields that are added to the bar
-     */
+    setDiscriminator(discriminator: string): AggregationBar {
+        this.discriminator = discriminator;
+        return this;
+    }
+
+    getDiscriminator(): string {
+        return this.discriminator;
+    }
+
     render(): Node {
-        let template = this.getTemplate();
-        let fields: string[] = [];
+        const template = this.getTemplate();
+        const fields: string[] = [];
 
         this.fields.forEach((field: FieldOptions) => {
-            let renderedField = field.render();
+            const renderedField = field.render();
             fields.push(renderedField);
         });
 
-        let rendered = Mustache.render(template, {
+        const rendered = Mustache.render(template, {
             fields: fields,
             clearFilters: this.renderClearFilters(),
-            showClearFiltersTop: this.clearFiltersTop,
-            showClearFiltersBottom: this.clearFiltersBottom,
+            showClearFiltersTop: this.getClearFiltersTop(),
+            showClearFiltersBottom: this.getClearFiltersBottom(),
         });
 
         return document.createRange().createContextualFragment(rendered);
@@ -111,11 +138,11 @@ export class AggregationBar extends Widget {
     }
 
     renderClearFilters() {
-        let template = this.getClearFiltersTemplate();
+        const template = this.getClearFiltersTemplate();
 
         return Mustache.render(template, {
-            text: this.clearFiltersText,
-            hidden: (this.clearFiltersHideOnNoneActive) ? 'needletail-hidden' : ''
+            text: this.getClearFiltersText(),
+            hidden: (this.getClearFiltersHideOnNoneActive()) ? 'needletail-hidden' : '',
         });
     }
 
@@ -123,7 +150,7 @@ export class AggregationBar extends Widget {
      * Execute the JS for all the added fields
      */
     executeJS() {
-        let elements = document.getElementsByClassName('needletail-clear-filters');
+        const elements = document.getElementsByClassName('needletail-clear-filters');
         for (let i = 0; i < elements.length; i++) {
             elements[i].addEventListener('click', () => {
                 this.fields.forEach((field: FieldOptions) => {
@@ -132,7 +159,7 @@ export class AggregationBar extends Widget {
             });
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener('DOMContentLoaded', () => {
             this.fields.forEach((field: FieldOptions) => {
                 // Dirty second fix, but works
                 setTimeout(() => {
@@ -146,7 +173,7 @@ export class AggregationBar extends Widget {
         document.addEventListener(Events.onAggregationValueChange, (e: CustomEvent) => {
             this.aggregationActives[e.detail.name] = e.detail.hasActive;
 
-            let clearFilters: HTMLCollection = document.getElementsByClassName('needletail-clear-filters');
+            const clearFilters: HTMLCollection = document.getElementsByClassName('needletail-clear-filters');
             let hasShown = false;
 
             this.fields.forEach((field: FieldOptions) => {
@@ -176,13 +203,10 @@ export class AggregationBar extends Widget {
         });
 
         Events.emit(Events.aggregationFinished, {
-            name: this.discriminator,
+            name: this.getDiscriminator(),
         });
     }
 
-    /**
-     * Fetch all the values of the fields
-     */
     getValues() {
         return this.fields.reduce((res, field) => {
             if (Object.keys(field.value).length > 0) {

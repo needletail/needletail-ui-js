@@ -1,10 +1,11 @@
 import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/autocomplete_bar.html';
-import result_template from './../Html/autocomplete_bar_results.html';
-import Mustache from "mustache";
-import _debounce from "lodash/debounce";
-import {Events, optional, URIHelper} from "../Imports/Helpers";
-import {AutocompleteBarSettings} from "../Imports/Interfaces";
+import resultTemplate from './../Html/autocomplete_bar_results.html';
+import Mustache from 'mustache';
+import _debounce from 'lodash/debounce';
+import {Events, optional, URIHelper} from '../Imports/Helpers';
+// eslint-disable-next-line no-unused-vars
+import {AutocompleteBarSettings} from '../Imports/Interfaces';
 
 export class AutocompleteBar extends Widget {
     /**
@@ -42,7 +43,7 @@ export class AutocompleteBar extends Widget {
     /**
      * Which attribute to search on
      */
-    attribute: string;
+    attribute: string|string[];
     /**
      * The placeholder of the input field
      */
@@ -67,9 +68,9 @@ export class AutocompleteBar extends Widget {
      * The minimum amount of characters before executing.
      */
     minimumCharacters: number = 3;
-    group_by: string = '';
-    sort_by: string = '';
-    sort_direction: string = 'asc';
+    groupBy: string = '';
+    sortBy: string = '';
+    sortDirection: string = 'asc';
     /**
      * Show the results below the search bar
      */
@@ -83,35 +84,48 @@ export class AutocompleteBar extends Widget {
     fillInputOnClick: boolean = false;
     showBucket: boolean = false;
     bucketMapping: {[key: string]: string};
-    sort_mode: string = 'min';
+    sortMode: string = 'min';
+    allowedDirections: string[] = ['asc', 'desc'];
 
     constructor(options: AutocompleteBarSettings = {}) {
         super(options);
 
-        this.debounce = (typeof optional(options.debounce).use !== 'undefined') ? options.debounce.use : this.debounce;
-        this.debounceWait = optional(options.debounce).wait || this.debounceWait;
-        this.debounceUrlWait = optional(options.debounce).url_wait || this.debounceUrlWait;
-        this.inUrl = (typeof options.in_url !== 'undefined') ? options.in_url : this.inUrl;
-        this.query = options.query || this.query;
-        this.attribute = optional(options.search).attribute || '';
-        this.buckets = optional(options.search).buckets || [];
-        this.placeholder = options.placeholder || this.placeholder;
-        this.noResultMessage = options.no_result_message || this.noResultMessage;
-        this.size = optional(options.search).size || this.size;
-        this.group_by = optional(options.search).group_by || '';
-        this.sort_by = optional(options.search).sort_by || '';
-        this.sort_direction = optional(options.search).direction || this.sort_direction;
-        this.sort_mode = optional(options.search).mode || this.sort_mode;
-        this.minimumCharacters = (typeof options.minimum_characters !== 'undefined') ? options.minimum_characters : this.minimumCharacters;
-        this.showResults = (typeof options.show_results !== 'undefined') ? options.show_results : this.showResults;
-        this.useInResults = (typeof options.use_in_results !== 'undefined') ? options.use_in_results : this.useInResults;
-        this.searchOnContentLoaded = (typeof options.search_on_content_loaded !== 'undefined') ? options.search_on_content_loaded : this.searchOnContentLoaded;
-        this.liveResults = (typeof options.live_results !== 'undefined') ? options.live_results : this.liveResults;
-        this.initialInput = (typeof options.initial_input !== 'undefined') ? options.initial_input : this.initialInput;
-        this.forceUseOfResult = (typeof options.force_use_of_result !== 'undefined') ? options.force_use_of_result : this.forceUseOfResult;
-        this.fillInputOnClick = (typeof options.fill_input_on_click !== 'undefined') ? options.fill_input_on_click : this.fillInputOnClick;
-        this.showBucket = (typeof optional(options.search).show_bucket !== 'undefined') ? options.search.show_bucket : this.showBucket;
-        this.bucketMapping = optional(options.search).bucket_mapping || this.bucketMapping;
+        this.setUseDebounce((typeof optional(options.debounce).use !== 'undefined') ?
+            options.debounce.use : this.getUseDebounce());
+        this.setDebounceWait(optional(options.debounce).wait || this.getDebounceWait());
+        this.setDebounceUrlWait(optional(options.debounce).url_wait || this.getDebounceUrlWait());
+        this.setInUrl((typeof options.in_url !== 'undefined') ?
+            options.in_url : this.getInUrl());
+        this.setQuery(options.query || this.getQuery());
+        this.setAttribute(optional(options.search).attribute || '');
+        this.setAttributes(optional(options.search).attributes || '');
+        this.setBuckets(optional(options.search).buckets || []);
+        this.setPlaceholder(options.placeholder || this.getPlaceholder());
+        this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
+        this.setSize(optional(options.search).size || this.getSize());
+        this.setGroupBy(optional(options.search).group_by || '');
+        this.setSortBy(optional(options.search).sort_by || '');
+        this.setSortDirection(optional(options.search).direction || this.getSortDirection());
+        this.setSortMode(optional(options.search).mode || this.getSortMode());
+        this.setMinimumCharacters((typeof options.minimum_characters !== 'undefined') ?
+            options.minimum_characters : this.getMinimumCharacters());
+        this.setShowResults((typeof options.show_results !== 'undefined') ?
+            options.show_results : this.getShowResults());
+        this.setForceUseOfResult((typeof options.force_use_of_result !== 'undefined') ?
+            options.force_use_of_result : this.getForceUseOfResult());
+        this.setUseInResults((typeof options.use_in_results !== 'undefined') ?
+            options.use_in_results : this.getUseInResults());
+        this.setSearchOnContentLoaded((typeof options.search_on_content_loaded !== 'undefined') ?
+            options.search_on_content_loaded : this.getSearchOnContentLoaded());
+        this.setLiveResults((typeof options.live_results !== 'undefined') ?
+            options.live_results : this.getLiveResults());
+        this.setInitialInput((typeof options.initial_input !== 'undefined') ?
+            options.initial_input : this.getInitialInput());
+        this.setFillInputOnClick((typeof options.fill_input_on_click !== 'undefined') ?
+            options.fill_input_on_click : this.getFillInputOnClick());
+        this.setShowBucket((typeof optional(options.search).show_bucket !== 'undefined') ?
+            options.search.show_bucket : this.getShowBucket());
+        this.setBucketMapping(optional(options.search).bucket_mapping || this.getBucketMapping());
 
         if (this.getInitialInput()) {
             this.skipForceResults = 1;
@@ -154,12 +168,21 @@ export class AutocompleteBar extends Widget {
         return this.noResultMessage;
     }
 
-    setAttribute(attribute: string): AutocompleteBar {
+    setAttribute(attribute: string|string[]): AutocompleteBar {
         this.attribute = attribute;
         return this;
     }
 
-    getAttribute(): string {
+    getAttribute(): string|string[] {
+        return this.attribute;
+    }
+
+    setAttributes(attribute: string|string[]): AutocompleteBar {
+        this.attribute = attribute;
+        return this;
+    }
+
+    getAttributes(): string|string[] {
         return this.attribute;
     }
 
@@ -172,9 +195,13 @@ export class AutocompleteBar extends Widget {
         return this.buckets;
     }
 
-    useDebounce(use: boolean = true): AutocompleteBar {
+    setUseDebounce(use: boolean = true): AutocompleteBar {
         this.debounce = use;
         return this;
+    }
+
+    getUseDebounce(): boolean {
+        return this.debounce;
     }
 
     setDebounceWait(wait: number): AutocompleteBar {
@@ -182,9 +209,17 @@ export class AutocompleteBar extends Widget {
         return this;
     }
 
+    getDebounceWait(): number {
+        return this.debounceWait;
+    }
+
     setDebounceUrlWait(wait: number): AutocompleteBar {
         this.debounceUrlWait = wait;
         return this;
+    }
+
+    getDebounceUrlWait(): number {
+        return this.debounceUrlWait;
     }
 
     getTemplate(): string {
@@ -205,7 +240,7 @@ export class AutocompleteBar extends Widget {
             return this.resultTemplate;
         }
 
-        return result_template;
+        return resultTemplate;
     }
 
     setInUrl(inUrl: boolean): AutocompleteBar {
@@ -253,8 +288,8 @@ export class AutocompleteBar extends Widget {
         return this.liveResults;
     }
 
-    setInitialInput(initial_input: boolean): AutocompleteBar {
-        this.initialInput = initial_input;
+    setInitialInput(initialInput: boolean): AutocompleteBar {
+        this.initialInput = initialInput;
         return this;
     }
 
@@ -262,8 +297,8 @@ export class AutocompleteBar extends Widget {
         return this.initialInput;
     }
 
-    setFillInputOnClick(fill_input_on_click: boolean): AutocompleteBar {
-        this.fillInputOnClick = fill_input_on_click;
+    setFillInputOnClick(fillInputOnClick: boolean): AutocompleteBar {
+        this.fillInputOnClick = fillInputOnClick;
         return this;
     }
 
@@ -271,8 +306,8 @@ export class AutocompleteBar extends Widget {
         return this.fillInputOnClick;
     }
 
-    setForceUseOfResult(force_use_of_result: boolean): AutocompleteBar {
-        this.forceUseOfResult = force_use_of_result;
+    setForceUseOfResult(forceUseOfresult: boolean): AutocompleteBar {
+        this.forceUseOfResult = forceUseOfresult;
         return this;
     }
 
@@ -280,62 +315,94 @@ export class AutocompleteBar extends Widget {
         return this.forceUseOfResult;
     }
 
-    setGroupBy(group_by: string): AutocompleteBar {
-        this.group_by = group_by;
+    setUseInResults(useInResults: boolean): AutocompleteBar {
+        this.useInResults = useInResults;
+        return this;
+    }
+
+    getUseInResults(): boolean {
+        return this.useInResults;
+    }
+
+    setGroupBy(groupBy: string): AutocompleteBar {
+        this.groupBy = groupBy;
         return this;
     }
 
     getGroupBy(): string {
-        return this.group_by;
+        return this.groupBy;
     }
 
-    setSortBy(sort_by: string): AutocompleteBar {
-        this.sort_by = sort_by;
+    setSortBy(sortBy: string): AutocompleteBar {
+        this.sortBy = sortBy;
         return this;
     }
 
     getSortBy(): string {
-        return this.sort_by;
+        return this.sortBy;
     }
 
-    setSortDirection(sort_direction: string): AutocompleteBar {
-        this.sort_direction = sort_direction;
+    setSortMode(sortMode: string): AutocompleteBar {
+        this.sortMode = sortMode;
+        return this;
+    }
+
+    getSortMode(): string {
+        return this.sortMode;
+    }
+
+    setSortDirection(sortDirection: string): AutocompleteBar {
+        if (this.allowedDirections.indexOf(sortDirection) > -1) {
+            sortDirection = 'asc';
+        }
+
+        this.sortDirection = sortDirection;
         return this;
     }
 
     getSortDirection(): string {
-        return this.sort_direction;
+        return this.sortDirection;
     }
 
-    /**
-     * Render the widget and make it a node
-     * @param options
-     */
+    setShowBucket(showBucket: boolean): AutocompleteBar {
+        this.showBucket = showBucket;
+        return this;
+    }
+
+    getShowBucket(): boolean {
+        return this.showBucket;
+    }
+
+    setBucketMapping(bucketMapping: {[key: string]: string}): AutocompleteBar {
+        this.bucketMapping = bucketMapping;
+        return this;
+    }
+
+    getBucketMapping(): {[key: string]: string} {
+        return this.bucketMapping;
+    }
+
     render(options = {}): Node {
-        let template = this.getTemplate();
+        const template = this.getTemplate();
 
         options = {
             name: this.getQuery(),
             placeholder: this.getPlaceholder(),
             results: this.renderResults(),
-            ...options
-        }
+            ...options,
+        };
 
-        let rendered = Mustache.render(template, options);
+        const rendered = Mustache.render(template, options);
 
         return document.createRange().createContextualFragment(rendered);
     }
 
-    /**
-     * Render the results separately of the entire input
-     * @param options
-     */
     renderResults(options = {}) {
-        let template = this.getResultTemplate();
+        const template = this.getResultTemplate();
 
         options = {
             no_result_message: this.getNoResultMessage(),
-            ...options
+            ...options,
         };
 
         return Mustache.render(template, options);
@@ -354,128 +421,132 @@ export class AutocompleteBar extends Widget {
      * Set listeners
      */
     executeJS(): void {
-        let prevVal = URIHelper.getSearchParam(this.getQuery());
+        const prevVal = URIHelper.getSearchParam(this.getQuery());
 
-        document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-input`).forEach((element: HTMLInputElement) => {
-            if (this.getForceUseOfResult()) {
-                element.setAttribute('data-force', 'on');
-            }
-
-            element.value = (prevVal) ? prevVal : '';
-            // On load call the handle function to trigger a search
-            document.addEventListener("DOMContentLoaded", () => {
-                if (this.getSearchOnContentLoaded()) {
-                    this.handle(element);
+        document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-input`)
+            .forEach((element: HTMLInputElement) => {
+                if (this.getForceUseOfResult()) {
+                    element.setAttribute('data-force', 'on');
                 }
-            });
 
-            element.addEventListener('focus', () => {
-                element.classList.add('active');
-            });
-
-            element.addEventListener('blur', () => {
-                setTimeout(() => {element.classList.remove('active');}, 100);
-            });
-
-            if (this.getInitialInput()) {
-                element.addEventListener('input', (e) => {
-                    let initial_input = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result.needletail-initial-input`);
-                    initial_input.forEach((r: Element) => {
-                        r.innerHTML = element.value;
-                        r.setAttribute('data-attribute', element.value);
-                    });
-
-                    element.setAttribute('data-initial-value', element.value);
+                element.value = (prevVal) ? prevVal : '';
+                // On load call the handle function to trigger a search
+                document.addEventListener('DOMContentLoaded', () => {
+                    if (this.getSearchOnContentLoaded()) {
+                        this.handle(element);
+                    }
                 });
-            }
 
-            if (this.debounce) {
-                // If debounce is turned on
-                element.addEventListener('input', _debounce(() => {
-                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
-                    this.selectedResult = -1;
-                    this.switchActiveClass(results);
+                element.addEventListener('focus', () => {
+                    element.classList.add('active');
+                });
 
-                    this.handle(element);
-                }, this.debounceWait));
+                element.addEventListener('blur', () => {
+                    setTimeout(() => {
+                        element.classList.remove('active');
+                    }, 100);
+                });
 
-                if (this.inUrl) {
-                    // If the data should be saved in the URL
+                if (this.getInitialInput()) {
+                    element.addEventListener('input', (e) => {
+                        // eslint-disable-next-line max-len
+                        const initialInput = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result.needletail-initial-input`);
+                        initialInput.forEach((r: Element) => {
+                            r.innerHTML = element.value;
+                            r.setAttribute('data-attribute', element.value);
+                        });
+
+                        element.setAttribute('data-initial-value', element.value);
+                    });
+                }
+
+                if (this.getUseDebounce()) {
+                    // If debounce is turned on
                     element.addEventListener('input', _debounce(() => {
+                        // eslint-disable-next-line max-len
+                        const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                        this.selectedResult = -1;
+                        this.switchActiveClass(results);
+
+                        this.handle(element);
+                    }, this.getDebounceWait()));
+
+                    if (this.getInUrl()) {
+                        // If the data should be saved in the URL
+                        element.addEventListener('input', _debounce(() => {
+                            this.handleUrlChange(element);
+                        }, this.getDebounceUrlWait()));
+                    }
+                } else {
+                    element.addEventListener('input', () => {
+                        // eslint-disable-next-line max-len
+                        const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                        this.selectedResult = -1;
+                        this.switchActiveClass(results);
+
+                        // If the data should be saved in the URL
                         this.handleUrlChange(element);
-                    }, this.debounceUrlWait));
+                        this.handle(element);
+                    });
                 }
-            }
-            else {
-                element.addEventListener('input', () => {
-                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
-                    this.selectedResult = -1;
-                    this.switchActiveClass(results);
 
-                    // If the data should be saved in the URL
-                    this.handleUrlChange(element);
-                    this.handle(element);
+                element.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        // eslint-disable-next-line max-len
+                        const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                        if (e.key === 'ArrowUp') {
+                            // Move the active class up one
+                            if (this.selectedResult > 0) {
+                                this.selectedResult--;
+                            }
+                        } else if (e.key === 'ArrowDown') {
+                            // Move the active class down one
+                            if (this.selectedResult < results.length - 1) {
+                                this.selectedResult++;
+                            }
+                        }
+
+                        this.switchActiveClass(results);
+
+                        element.value = results[this.selectedResult].getAttribute('data-attribute');
+
+                        if (this.getForceUseOfResult()) {
+                            if (this.selectedResult < this.skipForceResults) {
+                                element.setAttribute('data-force', 'on');
+                            } else {
+                                element.setAttribute('data-force', 'off');
+                            }
+                        }
+
+                        Events.emit(Events.onArrowMovementSearch, {
+                            value: results[this.selectedResult].dataset,
+                        });
+                    } else if (e.key === 'Enter') {
+                        // eslint-disable-next-line max-len
+                        const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+
+                        if (this.getForceUseOfResult()) {
+                            if (element.getAttribute('data-force') === 'on') {
+                                element.value = results[this.skipForceResults].getAttribute('data-attribute');
+                                this.selectedResult = this.skipForceResults;
+                            }
+                        }
+                        // Handle on enter key and fire an event.
+                        // this.handle(element);
+                        Events.emit(Events.onSubmitSearch, {
+                            id: this.getQuery(),
+                            value: results[this.selectedResult].dataset,
+                        });
+                    } else if (e.key === 'Escape') {
+                        if (this.getInitialInput()) {
+                            element.value = element.getAttribute('data-initial-value');
+                        }
+                        // Remove the focus on escape to close the dropdown
+                        document.querySelectorAll(':focus').forEach((el: HTMLInputElement) => el.blur());
+                    }
                 });
-            }
-
-            element.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
-                    if (e.key === 'ArrowUp') {
-                        // Move the active class up one
-                        if (this.selectedResult > 0) {
-                            this.selectedResult--;
-                        }
-                    } else if (e.key === 'ArrowDown') {
-                        // Move the active class down one
-                        if (this.selectedResult < results.length - 1) {
-                            this.selectedResult++;
-                        }
-                    }
-
-                    this.switchActiveClass(results);
-
-                    element.value = results[this.selectedResult].getAttribute('data-attribute');
-
-                    if (this.getForceUseOfResult()) {
-                        if (this.selectedResult < this.skipForceResults) {
-                            element.setAttribute('data-force', 'on')
-                        }
-                        else {
-                            element.setAttribute('data-force', 'off')
-                        }
-                    }
-
-                    Events.emit(Events.onArrowMovementSearch, {
-                        value: results[this.selectedResult].dataset
-                    });
-                }
-                else if (e.key === 'Enter') {
-                    let results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
-
-                    if (this.getForceUseOfResult()) {
-                        if (element.getAttribute('data-force') === 'on') {
-                            element.value = results[this.skipForceResults].getAttribute('data-attribute');
-                            this.selectedResult = this.skipForceResults;
-                        }
-                    }
-                    // Handle on enter key and fire an event.
-                    // this.handle(element);
-                    Events.emit(Events.onSubmitSearch, {
-                        id: this.getQuery(),
-                        value: results[this.selectedResult].dataset
-                    });
-                }
-                else if (e.key === 'Escape') {
-                    if (this.getInitialInput()) {
-                        element.value = element.getAttribute('data-initial-value');
-                    }
-                    // Remove the focus on escape to close the dropdown
-                    document.querySelectorAll(':focus').forEach((el: HTMLInputElement) => el.blur());
-                }
             });
-        });
 
         document.addEventListener(Events.onBeforeSearch, async (e: CustomEvent) => {
             if (e.detail.query !== this.getQuery()) {
@@ -495,58 +566,59 @@ export class AutocompleteBar extends Widget {
                 return;
             }
 
-            let attributes: any = this.attribute;
+            let attributes: any = this.getAttributes();
 
-            if (typeof attributes === "string") {
+            if (typeof attributes === 'string') {
                 attributes = [attributes];
             }
 
-            let search: any = [];
+            const search: any = [];
 
             attributes.forEach((attribute: string) => {
                 search.push({
                     field: attribute,
-                    value: e.detail.value
+                    value: e.detail.value,
                 });
             });
 
             // Make the search
-            let result = await this.client.search({
-                buckets: this.buckets,
+            const result = await this.client.search({
+                buckets: this.getBuckets(),
                 search: {
                     should: {
-                        fuzzy: search
+                        fuzzy: search,
                     },
-                    ...e.detail.extra_search_values
+                    ...e.detail.extra_search_values,
                 },
-                sort: this.sort_by,
-                direction: this.sort_direction,
-                size: this.size,
-                group_by: this.group_by,
+                sort: this.getSortBy(),
+                direction: this.getSortDirection(),
+                size: this.getSize(),
+                group_by: this.getGroupBy(),
                 highlight: true,
-                show_bucket: this.showBucket,
-                mode: this.sort_mode,
+                show_bucket: this.getShowBucket(),
+                mode: this.getSortMode(),
             });
 
             // If there is data map it to include some easy access values
             if (result && result.data.count > 0) {
                 e.detail.search_result = result.data.results.map((r: any) => {
-                    let bucket_name: string = (r.bucket) ? r.bucket.toString() : '';
-                    let mapped = {
+                    const bucketName: string = (r.bucket) ? r.bucket.toString() : '';
+                    const mapped = {
                         id: r.id,
                         ...r.record,
-                        bucket: (bucket_name !== '' && this.bucketMapping[bucket_name]) ? this.bucketMapping[bucket_name] : '',
+                        bucket: (bucketName !== '' && this.getBucketMapping()[bucketName]) ?
+                            this.getBucketMapping()[bucketName] : '',
                         value: {},
-                        raw: {}
-                    }
+                        raw: {},
+                    };
 
                     if (r.highlight) {
                         mapped.highlight = {};
                     }
 
-                    let attributes: any = this.attribute;
+                    let attributes: any = this.getAttributes();
 
-                    if (typeof attributes === "string") {
+                    if (typeof attributes === 'string') {
                         attributes = [attributes];
                     }
 
@@ -561,7 +633,6 @@ export class AutocompleteBar extends Widget {
 
                     return mapped;
                 });
-
             }
 
             Events.emit(Events.onAfterSearch, e.detail);
@@ -574,79 +645,80 @@ export class AutocompleteBar extends Widget {
             }
 
             // Render the results
+            // eslint-disable-next-line camelcase
             let options: {results: any[], initial_input: string} = {
                 results: [],
+                // eslint-disable-next-line camelcase
                 initial_input: '',
             };
 
-            if (e.detail.search_result && e.detail.search_result.length > 0 && (e.detail.value && e.detail.value.length !== 0)) {
+            if (e.detail.search_result && e.detail.search_result.length > 0 &&
+                (e.detail.value && e.detail.value.length !== 0)) {
                 options = {
                     results: e.detail.search_result,
-                    initial_input: (this.getInitialInput()) ? e.detail.value : ''
-                }
+                    initial_input: (this.getInitialInput()) ? e.detail.value : '',
+                };
             }
 
             this.buildResults(options);
             Events.emit(Events.autocompleteBarFinished, {
-                name: this.discriminator,
+                name: this.getDiscriminator(),
             });
         });
     }
 
-    /**
-     * Build the result dropdown
-     * @param options
-     */
     buildResults(options = {}) {
-        if (!this.showResults) {
+        if (!this.getShowResults()) {
             return;
         }
 
-        let results = this.renderResults(options);
-        let nodeResults = document.createRange().createContextualFragment(results);
+        const results = this.renderResults(options);
+        const nodeResults = document.createRange().createContextualFragment(results);
 
-        document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()}`).forEach(async (element) => {
-            let currentChild = element.querySelector('.needletail-autocomplete-bar-results');
+        document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()}`)
+            .forEach(async (element) => {
+                const currentChild = element.querySelector('.needletail-autocomplete-bar-results');
 
-            await element.replaceChild(nodeResults.cloneNode(true), currentChild);
+                await element.replaceChild(nodeResults.cloneNode(true), currentChild);
 
-            let newChild = element.querySelector('.needletail-autocomplete-bar-results');
-            let newResults = newChild.querySelectorAll('.needletail-autocomplete-bar-result');
+                const newChild = element.querySelector('.needletail-autocomplete-bar-results');
+                const newResults = newChild.querySelectorAll('.needletail-autocomplete-bar-result');
 
-            newResults.forEach((element: HTMLElement) => {
-                element.addEventListener('mouseover', (e) => {
-                    this.selectedResult = Array.prototype.indexOf.call(newResults, element);
-                    newResults.forEach((rElement) => {
-                        rElement.classList.remove('active');
-                    });
-
-                    newResults[this.selectedResult].classList.add('active');
-                });
-
-                // Add the click event
-                element.addEventListener('click', (e) => {
-                    if (this.fillInputOnClick) {
-                        let inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
-
-                        inputs.forEach((i: HTMLInputElement) => {
-                            i.value = element.getAttribute('data-attribute');
-                            this.handleUrlChange(i);
+                newResults.forEach((element: HTMLElement) => {
+                    element.addEventListener('mouseover', (e) => {
+                        this.selectedResult = Array.prototype.indexOf.call(newResults, element);
+                        newResults.forEach((rElement) => {
+                            rElement.classList.remove('active');
                         });
-                    }
 
-                    // this.handle(element);
-                    Events.emit(Events.onSubmitSearch, {
-                        id: this.getQuery(),
-                        value: element.dataset
+                        newResults[this.selectedResult].classList.add('active');
+                    });
+
+                    // Add the click event
+                    element.addEventListener('click', (e) => {
+                        if (this.getFillInputOnClick()) {
+                            // eslint-disable-next-line max-len
+                            const inputs = document.querySelectorAll(`.needletail-autocomplete-bar-${this.getQuery()} .needletail-autocomplete-bar-input`);
+
+                            inputs.forEach((i: HTMLInputElement) => {
+                                i.value = element.getAttribute('data-attribute');
+                                this.handleUrlChange(i);
+                            });
+                        }
+
+                        // this.handle(element);
+                        Events.emit(Events.onSubmitSearch, {
+                            id: this.getQuery(),
+                            value: element.dataset,
+                        });
                     });
                 });
-            });
 
-            let input:any = element.querySelector('.needletail-autocomplete-bar-input');
-            if (input && input.value.length > 0) {
-                input.classList.remove('needletail-empty')
-            }
-        });
+                const input:any = element.querySelector('.needletail-autocomplete-bar-input');
+                if (input && input.value.length > 0) {
+                    input.classList.remove('needletail-empty');
+                }
+            });
     }
 
     handleUrlChange(element: any) {
@@ -660,30 +732,30 @@ export class AutocompleteBar extends Widget {
 
     handle(element: any) {
         let data: {
+            // eslint-disable-next-line camelcase
             search_result: {},
             value: string,
             query?: string
         };
 
-        let value = element.value;
+        const value = element.value;
         if (value && value.length < this.getMinimumCharacters()) {
             data = {
                 value: '',
                 search_result: {},
             };
             this.value = {
-                field: this.attribute,
-                value: ''
+                field: this.getAttribute(),
+                value: '',
             };
-        }
-        else {
+        } else {
             data = {
                 value: value,
                 search_result: {},
             };
             this.value = {
-                field: this.attribute,
-                value: value
+                field: this.getAttribute(),
+                value: value,
             };
         }
 
@@ -701,7 +773,7 @@ export class AutocompleteBar extends Widget {
     }
 
     switchActiveClass(results: any) {
-        if (!this.showResults) {
+        if (!this.getShowResults()) {
             return;
         }
 

@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 /**
  * Contains the base settings for all aggregations
  */

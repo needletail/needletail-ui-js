@@ -1,13 +1,16 @@
 import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/result.html';
-import result_template from './../Html/result_results.html';
-import result_sort_select from './../Html/result_sort_select.html';
-import Mustache from "mustache";
-import {ResultSettings} from "../Imports/Interfaces";
-import {Events, optional, URIHelper} from "../Imports/Helpers";
-import {AutocompleteBar} from "./AutocompleteBar";
-import {AggregationBar} from "./AggregationBar";
-import _debounce from "lodash/debounce";
+import resultTemplate from './../Html/result_results.html';
+import resultSortSelect from './../Html/result_sort_select.html';
+import Mustache from 'mustache';
+// eslint-disable-next-line no-unused-vars
+import {ResultSettings} from '../Imports/Interfaces';
+import {Events, optional, URIHelper} from '../Imports/Helpers';
+// eslint-disable-next-line no-unused-vars
+import {AutocompleteBar} from './AutocompleteBar';
+// eslint-disable-next-line no-unused-vars
+import {AggregationBar} from './AggregationBar';
+import _debounce from 'lodash/debounce';
 
 export class Result extends Widget {
     /**
@@ -17,7 +20,7 @@ export class Result extends Widget {
     /**
      * The amount of records to show per page
      */
-    per_page: number = 10;
+    perPage: number = 10;
     /**
      * The text for the previous button
      */
@@ -37,58 +40,106 @@ export class Result extends Widget {
     /**
      * Enable or disable the first and last button
      */
-    show_quick_pagination: boolean = false;
+    showQuickPagination: boolean = false;
     /**
      * The amount of pages to show at the same time, this excludes the first and last page
      */
-    minify_pages: number = 5;
+    minifyPages: number = 5;
     /**
      * The template to use for the results
      */
-    result_template: string;
-    group_by: string = '';
-    sort_by: string = '';
-    sort_select: { [key: string]: string } = {};
-    sort_select_template: string;
-    sort_select_default: string;
-    sort_direction: string = 'asc';
-    no_result_message: string = 'No results where found';
-    initial_request: boolean = true;
-    scroll_offset: number = 100;
-    scroll_back_to_top: boolean = true;
+    resultTemplate: string;
+    groupBy: string = '';
+    sortBy: string = '';
+    sortSelect: { [key: string]: string } = {};
+    sortSelectTemplate: string;
+    sortSelectDefault: string;
+    sortDirection: string = 'asc';
+    noResultMessage: string = 'No results where found';
+    initialRequest: boolean = true;
+    scrollOffset: number = 100;
+    scrollBackToTop: boolean = true;
     buckets: [] = [];
-    sort_mode: string = 'min';
+    sortMode: string = 'min';
+    allowedDirections: string[] = ['asc', 'desc'];
 
     constructor(options: ResultSettings = {}) {
         super(options);
 
-        this.per_page = options.per_page || this.per_page;
-        this.previous = optional(options.pagination).previous || this.previous;
-        this.next = optional(options.pagination).next || this.next;
-        this.minify_pages = options.minify_pages || this.minify_pages;
-        this.last = optional(options.pagination).last || this.last;
-        this.first = optional(options.pagination).first || this.first;
-        this.show_quick_pagination = (typeof optional(options.pagination).show_quick_pagination !== 'undefined') ? options.pagination.show_quick_pagination : this.show_quick_pagination;
-        this.scroll_offset = optional(options.pagination).scroll_offset || this.scroll_offset;
-        this.scroll_back_to_top = (typeof optional(options.pagination).scroll_back_to_top !== 'undefined') ? options.pagination.scroll_back_to_top : this.scroll_back_to_top;
-        this.result_template = options.result_template;
-        this.group_by = options.group_by || '';
-        this.sort_by = options.sort_by || '';
-        this.sort_direction = options.sort_direction || this.sort_direction;
-        this.sort_select = options.sort_select || {};
-        this.sort_select_default = options.sort_select_default || '';
-        this.sort_mode = options.sort_mode || this.sort_mode;
-        this.no_result_message = options.no_result_message || this.no_result_message;
-        this.buckets = options.buckets || [];
+        this.setPerPage(options.per_page || this.getPerPage());
+        this.setPrevious(optional(options.pagination).previous || this.getPrevious());
+        this.setNext(optional(options.pagination).next || this.getNext());
+        this.setMinifyPages(options.minify_pages || this.getMinifyPages());
+        this.setLast(optional(options.pagination).last || this.getLast());
+        this.setFirst(optional(options.pagination).first || this.getFirst());
+        this.setShowQuickPagination((typeof optional(options.pagination).show_quick_pagination !== 'undefined') ?
+            options.pagination.show_quick_pagination : this.getShowQuickPagination());
+        this.setScrollOffset(optional(options.pagination).scroll_offset || this.getScrollOffset());
+        this.setScrollBackToTop((typeof optional(options.pagination).scroll_back_to_top !== 'undefined') ?
+            options.pagination.scroll_back_to_top : this.getScrollBackToTop());
+        this.setResultTemplate(options.result_template);
+        this.setGroupBy(options.group_by || '');
+        this.setSortBy(options.sort_by || '');
+        this.setSortDirection(options.sort_direction || this.getSortDirection());
+        this.setSortSelect(options.sort_select || {});
+        this.setSortSelectDefault(options.sort_select_default || '');
+        this.setSortMode(options.sort_mode || this.getSortMode());
+        this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
+        this.setBuckets(options.buckets || []);
+    }
+
+    setBuckets(buckets: []): Result {
+        this.buckets = buckets;
+        return this;
+    }
+
+    getBuckets(): [] {
+        return this.buckets;
+    }
+
+    setScrollBackToTop(scrollBackToTop: boolean): Result {
+        this.scrollBackToTop = scrollBackToTop;
+        return this;
+    }
+
+    getScrollBackToTop(): boolean {
+        return this.scrollBackToTop;
+    }
+
+    setScrollOffset(scrollOffset: number): Result {
+        this.scrollOffset = scrollOffset;
+        return this;
+    }
+
+    getScrollOffset(): number {
+        return this.scrollOffset;
+    }
+
+    setPerPage(perPage: number): Result {
+        this.perPage = perPage;
+        return this;
+    }
+
+    getPerPage(): number {
+        return this.perPage;
+    }
+
+    setShowQuickPagination(showQuickPagination: boolean): Result {
+        this.showQuickPagination = showQuickPagination;
+        return this;
+    }
+
+    getShowQuickPagination(): boolean {
+        return this.showQuickPagination;
     }
 
     setMinifyPages(minifyPages: number): Result {
-        this.minify_pages = minifyPages;
+        this.minifyPages = minifyPages;
         return this;
     }
 
     getMinifyPages(): number {
-        return this.minify_pages;
+        return this.minifyPages;
     }
 
     setPrevious(previous: string): Result {
@@ -118,34 +169,34 @@ export class Result extends Widget {
     }
 
     getResultTemplate(): string {
-        if (this.result_template) {
-            return this.result_template;
+        if (this.resultTemplate) {
+            return this.resultTemplate;
         }
 
-        return result_template;
+        return resultTemplate;
     }
 
     setResultTemplate(template: string): Result {
-        this.result_template = template;
+        this.resultTemplate = template;
         return this;
     }
 
     setResultSortSelectTemplate(template: string): Result {
-        this.sort_select_template = template;
+        this.sortSelectTemplate = template;
         return this;
     }
 
     getResultSortSelectTemplate(): string {
-        if (this.sort_select_template) {
-            return this.sort_select_template;
+        if (this.sortSelectTemplate) {
+            return this.sortSelectTemplate;
         }
 
-        return result_sort_select;
+        return resultSortSelect;
     }
 
     setFirst(first: string): Result {
         this.first = first;
-        this.showQuickPagination();
+        this.setShowQuickPagination(true);
         return this;
     }
 
@@ -155,7 +206,7 @@ export class Result extends Widget {
 
     setLast(last: string): Result {
         this.last = last;
-        this.showQuickPagination();
+        this.setShowQuickPagination(true);
         return this;
     }
 
@@ -163,103 +214,104 @@ export class Result extends Widget {
         return this.last;
     }
 
-    showQuickPagination(): Result {
-        this.show_quick_pagination = true;
-
-        return this;
-    }
-
-    setGroupBy(group_by: string): Result {
-        this.group_by = group_by;
+    setGroupBy(groupBy: string): Result {
+        this.groupBy = groupBy;
         return this;
     }
 
     getGroupBy(): string {
-        return this.group_by;
+        return this.groupBy;
     }
 
-    setSortBy(sort_by: string): Result {
-        this.sort_by = sort_by;
+    setSortBy(sortBy: string): Result {
+        this.sortBy = sortBy;
         return this;
     }
 
     getSortBy(): string {
-        return this.sort_by;
+        return this.sortBy;
     }
 
-    setSortDirection(sort_direction: string): Result {
-        this.sort_direction = sort_direction;
+    setSortMode(sortMode: string): Result {
+        this.sortMode = sortMode;
+        return this;
+    }
+
+    getSortMode(): string {
+        return this.sortMode;
+    }
+
+    setSortDirection(sortDirection: string): Result {
+        if (this.allowedDirections.indexOf(sortDirection) > -1) {
+            sortDirection = 'asc';
+        }
+
+        this.sortDirection = sortDirection;
         return this;
     }
 
     getSortDirection(): string {
-        return this.sort_direction;
+        return this.sortDirection;
     }
 
-    setSortSelect(sort_select: { [key: string]: string }): Result {
-        this.sort_select = sort_select;
+    setSortSelect(sortSelect: { [key: string]: string }): Result {
+        this.sortSelect = sortSelect;
         return this;
     }
 
     getSortSelect(): { [key: string]: string } {
-        return this.sort_select;
+        return this.sortSelect;
     }
 
-    setSortSelectDefault(sort_select_default: string): Result {
-        this.sort_select_default = sort_select_default;
+    setSortSelectDefault(sortSelectDefault: string): Result {
+        this.sortSelectDefault = sortSelectDefault;
         return this;
     }
 
     getSortSelectDefault(): string {
-        return this.sort_select_default;
+        return this.sortSelectDefault;
     }
 
     setNoResultMessage(noResultMessage: string): Result {
-        this.no_result_message = noResultMessage;
+        this.noResultMessage = noResultMessage;
         return this;
     }
 
     getNoResultMessage(): string {
-        return this.no_result_message;
+        return this.noResultMessage;
     }
 
-    /**
-     * Render the results
-     *
-     * @param results
-     * @param pages
-     */
     render(results: {id: string, record: {}}[] = [], pages: {page: any, offset: number, active: string}[] = []): Node {
-        let template = this.getTemplate();
+        const template = this.getTemplate();
 
-        let mappedResults: {}[] = [];
+        const mappedResults: {}[] = [];
         if (results) {
             Object.keys(results).forEach((key: any) => {
                 mappedResults.push({
                     id: results[key].id,
-                    ...results[key].record
+                    ...results[key].record,
                 });
             });
         }
 
         // If the page does not exist, assume we're on the first page
-        let current_page = parseInt(URIHelper.getSearchParam('page')) || 1;
-        let last_page: {page: any, offset: number, active: string} = pages[pages.length - 1];
-        let options = {
+        const currentPage = parseInt(URIHelper.getSearchParam('page')) || 1;
+        const lastPage: {page: any, offset: number, active: string} = pages[pages.length - 1];
+        const options = {
             previousButton: this.getPrevious(),
             nextButton: this.getNext(),
-            previousPage: current_page - 1,
-            nextPage: current_page + 1,
+            previousPage: currentPage - 1,
+            nextPage: currentPage + 1,
             // Disable it if there are no pages or the current page is 1
             disablePreviousButton: (pages.length === 0 ||
-                current_page === 1) ? 'disabled' : '',
+                currentPage === 1) ? 'disabled' : '',
             // Disable it if there are no pages or the current page is the last page
             disableNextButton: (pages.length === 0 ||
-                last_page.page === current_page) ? 'disabled' : '',
+                lastPage.page === currentPage) ? 'disabled' : '',
             pages: pages,
             results: this.renderResults({
                 results: mappedResults,
-                no_result_message: this.no_result_message
+                no_result_message: this.getNoResultMessage(),
             }),
             lastButton: '',
             firstButton: '',
@@ -267,44 +319,44 @@ export class Result extends Widget {
             lastPage: 0,
             // Disable it if there are no pages or the current page is the last page
             disableLastButton: (pages.length === 0 ||
-                last_page.page === current_page) ? 'disabled' : '',
+                lastPage.page === currentPage) ? 'disabled' : '',
             // Disable it if there are no pages or the current page is 1
             disableFirstButton: (pages.length === 0 ||
-                current_page === 1) ? 'disabled' : '',
-            use_sort_select: (Object.keys(this.sort_select).length > 0),
+                currentPage === 1) ? 'disabled' : '',
+            use_sort_select: (Object.keys(this.getSortSelect()).length > 0),
             sort_select: this.renderSortSelect({
-                options: this.sort_select
-            })
+                options: this.getSortSelect(),
+            }),
         };
 
         // Enable the quick navigation
-        if (this.show_quick_pagination) {
+        if (this.getShowQuickPagination()) {
             options.lastButton = this.getLast();
             options.firstButton = this.getFirst();
             options.firstPage = 1;
-            options.lastPage = optional(last_page).page;
+            options.lastPage = optional(lastPage).page;
         }
 
-        let rendered = Mustache.render(template, options);
+        const rendered = Mustache.render(template, options);
 
         return document.createRange().createContextualFragment(rendered);
     }
 
     renderResults(options = {}) : string {
-        let template = this.getResultTemplate();
+        const template = this.getResultTemplate();
 
         options = {
-            ...options
+            ...options,
         };
 
         return Mustache.render(template, options);
     }
 
     renderSortSelect(options: {} = {}): string {
-        let template = this.getResultSortSelectTemplate();
+        const template = this.getResultSortSelectTemplate();
 
         options = {
-            ...options
+            ...options,
         };
 
         return Mustache.render(template, options);
@@ -312,26 +364,26 @@ export class Result extends Widget {
 
     executeJS() {
         document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
-            let autocompleteBars = this.client.widgets.autocompleteBar;
-            let aggregationBars = this.client.widgets.aggregationBar;
+            const autocompleteBars = this.client.widgets.autocompleteBar;
+            const aggregationBars = this.client.widgets.aggregationBar;
 
             // Build the options for the search
             let buckets = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
-                if (!bar.useInResults) {
+                if (!bar.getUseInResults()) {
                     return res;
                 }
 
-                bar.buckets.forEach((bucket) => {
+                bar.getBuckets().forEach((bucket) => {
                     res.push(bucket);
-                })
+                });
 
                 return res;
             }, []);
 
-            buckets = buckets.concat(this.buckets);
+            buckets = buckets.concat(this.getBuckets());
 
-            let autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
-                if (!bar.useInResults) {
+            const autocompleteValues = autocompleteBars.reduce((res, bar: AutocompleteBar) => {
+                if (!bar.getUseInResults()) {
                     return res;
                 }
 
@@ -340,20 +392,20 @@ export class Result extends Widget {
                 }
                 return res;
             }, []);
-            let aggregationValues = aggregationBars.map((bar: AggregationBar) => {
+            const aggregationValues = aggregationBars.map((bar: AggregationBar) => {
                 return bar.getValues();
             });
 
             e.detail.buckets = buckets;
             e.detail.search_values = {
                 'fuzzy': [
-                    ...[].concat.apply([], autocompleteValues),
-                ]
+                    ...autocompleteValues,
+                ],
             };
             e.detail.equals_search_values = {
                 'match': [
-                    ...[].concat.apply([], aggregationValues)
-                ]
+                    ...aggregationValues,
+                ],
             };
             e.detail.extra_search_values = {};
 
@@ -362,25 +414,25 @@ export class Result extends Widget {
 
         document.addEventListener(Events.onResultRequest, _debounce(async (e: CustomEvent) => {
             // If there is no page, assume we're on page 1
-            let current_page = parseInt(URIHelper.getSearchParam('page')) || 1;
+            let currentPage = parseInt(URIHelper.getSearchParam('page')) || 1;
             // Perform the search
-            let result = await this.client.search({
+            const result = await this.client.search({
                 buckets: e.detail.buckets,
                 search: {
-                    "should": {
-                        ...e.detail.search_values
+                    'should': {
+                        ...e.detail.search_values,
                     },
-                    "equals": {
-                        ...e.detail.equals_search_values
+                    'equals': {
+                        ...e.detail.equals_search_values,
                     },
-                    ...e.detail.extra_search_values
+                    ...e.detail.extra_search_values,
                 },
-                size: this.per_page,
-                mode: this.sort_mode,
-                group_by: this.group_by,
-                sort: this.sort_by,
-                direction: this.sort_direction,
-                offset: (current_page - 1) * this.per_page
+                size: this.getPerPage(),
+                mode: this.getSortMode(),
+                group_by: this.getGroupBy(),
+                sort: this.getSortBy(),
+                direction: this.getSortDirection(),
+                offset: (currentPage - 1) * this.getPerPage(),
             });
 
             if (result && result.data) {
@@ -389,34 +441,34 @@ export class Result extends Widget {
                 if (result.data.results) {
                     e.detail.pages = [];
                     // Add all the pages
-                    for (let i = 0; i < Math.ceil(result.data.count / this.per_page); i++) {
+                    for (let i = 0; i < Math.ceil(result.data.count / this.getPerPage()); i++) {
                         e.detail.pages.push({
                             page: (i + 1),
-                            offset: i * this.per_page,
-                            active: ((i === 0 && !current_page) ||
-                                current_page === (i + 1)) ? 'active' : ''
+                            offset: i * this.getPerPage(),
+                            active: ((i === 0 && !currentPage) ||
+                                currentPage === (i + 1)) ? 'active' : '',
                         });
                     }
-                    let total_pages = e.detail.pages.length;
+                    const totalPages = e.detail.pages.length;
 
                     // If there's more pages than the user wants to show start minifying
-                    if (e.detail.pages.length > this.minify_pages) {
+                    if (e.detail.pages.length > this.getMinifyPages()) {
                         let start: number = 0;
-                        let startArray: any = [];
-                        let endArray: any = [];
-                        let halfMinified = Math.ceil(this.minify_pages / 2);
+                        const startArray: any = [];
+                        const endArray: any = [];
+                        let halfMinified = Math.ceil(this.getMinifyPages() / 2);
                         let takeFull = false;
 
                         // Get the last page and add a separator
-                        if (total_pages - halfMinified >= current_page) {
-                            let last = e.detail.pages.pop();
+                        if (totalPages - halfMinified >= currentPage) {
+                            const last = e.detail.pages.pop();
 
                             // Separator
-                            if (total_pages - halfMinified != current_page) {
+                            if (totalPages - halfMinified != currentPage) {
                                 endArray.push({
                                     page: '...',
                                     offset: 0,
-                                    active: 'disabled'
+                                    active: 'disabled',
                                 });
                             }
 
@@ -425,30 +477,28 @@ export class Result extends Widget {
                             takeFull = true;
                         }
 
-                        if (halfMinified < current_page) {
-                            let first = e.detail.pages.shift();
+                        if (halfMinified < currentPage) {
+                            const first = e.detail.pages.shift();
 
                             startArray.push(first);
 
                             // If the minify pages is an uneven number add 1 to the half minified
-                            if (this.minify_pages % 2 === 1) {
+                            if (this.getMinifyPages() % 2 === 1) {
                                 halfMinified++;
                             }
 
                             if (takeFull) {
-                                let take = this.minify_pages;
+                                let take = this.getMinifyPages();
                                 // If the current page is the last page, minus one
-                                if (current_page == total_pages) {
-                                    current_page--;
-                                }
+                                if (currentPage == totalPages) {
+                                    currentPage--;
                                 // If the current page is the second to last page, take half instead of full
-                                else if (current_page == (total_pages - 2)) {
+                                } else if (currentPage == (totalPages - 2)) {
                                     take = halfMinified;
                                 }
-                                start = current_page - take;
-                            }
-                            else {
-                                start = current_page - halfMinified;
+                                start = currentPage - take;
+                            } else {
+                                start = currentPage - halfMinified;
                             }
 
                             if (start > 0) {
@@ -456,16 +506,16 @@ export class Result extends Widget {
                                 startArray.push({
                                     page: '...',
                                     offset: 0,
-                                    active: 'disabled'
+                                    active: 'disabled',
                                 });
                             }
                         }
 
-                        let items = e.detail.pages.splice(start, this.minify_pages);
+                        const items = e.detail.pages.splice(start, this.getMinifyPages());
 
                         e.detail.pages = [
                             ...items,
-                        ]
+                        ];
 
                         if (startArray.length > 0) {
                             e.detail.pages.unshift(...startArray);
@@ -488,16 +538,16 @@ export class Result extends Widget {
         }, 100));
 
         document.addEventListener(Events.onPageChange, (e: CustomEvent) => {
-            if (!this.initial_request && this.scroll_back_to_top) {
-                let elements = document.querySelectorAll(this.getEl());
+            if (!this.initialRequest && this.getScrollBackToTop()) {
+                const elements = document.querySelectorAll(this.getEl());
                 if (elements.length === 1) {
-                    let element: any = elements.item(0);
-                    let position = element.offsetTop;
-                    let offsetPosition = position - this.scroll_offset;
+                    const element: any = elements.item(0);
+                    const position = element.offsetTop;
+                    const offsetPosition = position - this.getScrollOffset();
 
                     window.scrollTo({
                         top: offsetPosition,
-                        behavior: "smooth"
+                        behavior: 'smooth',
                     });
                 }
             }
@@ -505,42 +555,43 @@ export class Result extends Widget {
 
         document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
             // Render the node
-            let node = this.render(e.detail.search_result, e.detail.pages);
+            const node = this.render(e.detail.search_result, e.detail.pages);
 
             document.querySelectorAll(this.getEl()).forEach((element) => {
-                let child = element.querySelector('.needletail-result');
+                const child = element.querySelector('.needletail-result');
                 element.replaceChild(node.cloneNode(true), child);
 
-                element.querySelectorAll('.needletail-result-pagination-page:not(.disabled):not(.active)').forEach((paginationElement) => {
-                    // Add the click event
-                    paginationElement.addEventListener('click', (e) => {
-                        let currentPage = URIHelper.getSearchParam('page');
-                        let pageNumber = paginationElement.getAttribute('data-page');
-                        URIHelper.addToHistory('page', pageNumber);
+                element.querySelectorAll('.needletail-result-pagination-page:not(.disabled):not(.active)')
+                    .forEach((paginationElement) => {
+                        // Add the click event
+                        paginationElement.addEventListener('click', (e) => {
+                            const currentPage = URIHelper.getSearchParam('page');
+                            const pageNumber = paginationElement.getAttribute('data-page');
+                            URIHelper.addToHistory('page', pageNumber);
 
-                        Events.emit(Events.onPageChange, {
-                            current_page: currentPage,
-                            new_page: pageNumber
+                            Events.emit(Events.onPageChange, {
+                                current_page: currentPage,
+                                new_page: pageNumber,
+                            });
+                            Events.emit(Events.onBeforeResultRequest, {});
                         });
-                        Events.emit(Events.onBeforeResultRequest, {});
                     });
-                });
             });
 
-            let sortSelect: any = document.getElementsByClassName('needletail-sort-select');
+            const sortSelect: any = document.getElementsByClassName('needletail-sort-select');
             for (let i = 0; i < sortSelect.length; i++) {
-                sortSelect[i].value = this.sort_select_default;
+                sortSelect[i].value = this.getSortSelectDefault();
 
                 sortSelect[i].addEventListener('change', (e: any) => {
-                    this.sort_select_default = e.target.value;
-                    this.sort_by = e.target.options[e.target.selectedIndex].getAttribute('data-attribute');
-                    this.sort_direction = e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc';
+                    this.setSortSelectDefault(e.target.value);
+                    this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
+                    this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
 
                     Events.emit(Events.onBeforeResultRequest, {});
                 });
             }
 
-            this.initial_request = false;
+            this.initialRequest = false;
             Events.emit(Events.resultFinished, {
                 name: this.discriminator,
             });

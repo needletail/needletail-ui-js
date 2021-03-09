@@ -1,8 +1,9 @@
 import template from './../../Html/Aggregations/switch.html';
-import { Aggregation } from './../../Imports/BaseClasses';
-import Mustache from "mustache";
-import {Events, URIHelper} from "../../Imports/Helpers";
-import {SwitchSettings} from "../../Imports/Interfaces";
+import {Aggregation} from './../../Imports/BaseClasses';
+import Mustache from 'mustache';
+import {Events, URIHelper} from '../../Imports/Helpers';
+// eslint-disable-next-line no-unused-vars
+import {SwitchSettings} from '../../Imports/Interfaces';
 
 export class Switch extends Aggregation {
     discriminator: string = 'Switch';
@@ -13,16 +14,16 @@ export class Switch extends Aggregation {
     constructor(options: SwitchSettings = {}) {
         super(options);
 
-        this.onValue = options.on_value || this.onValue;
-        this.offValue = options.off_value || this.offValue;
-        this.attributeValue = options.attribute_value || this.attributeValue;
+        this.setOnValue(options.on_value || this.getOnValue());
+        this.setOffValue(options.off_value || this.getOffValue());
+        this.setAttributeValue(options.attribute_value || this.getAttributeValue());
 
         this.value = {
-            field: this.attribute,
+            field: this.getAttribute(),
             value: '',
             is_aggregation: true,
             exclude_from_search: true,
-        }
+        };
     }
 
     setAttributeValue(attributeValue: string): Switch {
@@ -60,20 +61,16 @@ export class Switch extends Aggregation {
         return template;
     }
 
-    /**
-     * Renders the template for the aggregation
-     * @param options
-     */
     render(): string {
-        let template = this.getTemplate();
+        const template = this.getTemplate();
         return Mustache.render(template, {
             title: this.getTitle(),
-            classTitle: this.classTitle,
+            classTitle: this.getClassTitle(),
             name: this.getTitle(),
             onValue: this.getOnValue(),
             offValue: this.getOffValue(),
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
-            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : ''
+            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
         });
     }
 
@@ -81,95 +78,95 @@ export class Switch extends Aggregation {
      * Add listeners, set the default value
      */
     executeJS() {
-        let title = this.getTitle();
-        let prevVal = URIHelper.getSearchParam(title);
+        const title = this.getTitle();
+        const prevVal = URIHelper.getSearchParam(title);
 
-        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.classTitle}`).forEach((element: HTMLInputElement) => {
-            // Set the default value
-            element.checked = (URIHelper.getSearchParam(title) === this.getAttributeValue());
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
+            .forEach((element: HTMLInputElement) => {
+                // Set the default value
+                element.checked = (URIHelper.getSearchParam(title) === this.getAttributeValue());
 
-            element.addEventListener('change', () => {
-                this.handle(element);
+                element.addEventListener('change', () => {
+                    this.handle(element);
+                });
+
+                if (element.checked) {
+                    this.hasActiveAggregation = true;
+                    Events.emit(Events.onAggregationValueChange, {
+                        'name': this.getAttribute(),
+                        'hasActive': this.hasActiveAggregation,
+                    });
+                }
             });
 
-            if (element.checked) {
-                this.hasActiveAggregation = true;
-                Events.emit(Events.onAggregationValueChange, {
-                    'name': this.attribute,
-                    'hasActive': this.hasActiveAggregation
-                });
-            }
-        });
-
-        document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.classTitle}`).forEach((element) => {
-            if (this.getCollapsible()) {
-                element.addEventListener('click', (e) => {
-                    if (element.classList.contains('needletail-collapsed')) {
-                        element.classList.remove('needletail-collapsed');
-                    } else {
-                        element.classList.add('needletail-collapsed');
-                    }
-                });
-            }
-        });
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.getClassTitle()}`)
+            .forEach((element) => {
+                if (this.getCollapsible()) {
+                    element.addEventListener('click', (e) => {
+                        if (element.classList.contains('needletail-collapsed')) {
+                            element.classList.remove('needletail-collapsed');
+                        } else {
+                            element.classList.add('needletail-collapsed');
+                        }
+                    });
+                }
+            });
 
         this.values[prevVal] = prevVal;
         this.value = {
-            field: this.attribute,
+            field: this.getAttribute(),
             value: prevVal,
-            is_aggregation: true
+            is_aggregation: true,
         };
     }
 
-    /**
-     * Handles the setting of the URL and putting the correct value in for the search
-     * @param element
-     * @param skipHistory
-     */
     handle(element: any, skipHistory = false) {
-        let attributeValue = this.getAttributeValue();
+        const attributeValue = this.getAttributeValue();
         if (!skipHistory) {
             URIHelper.addToHistory(this.getTitle(), attributeValue, true);
         }
 
         if (this.values[attributeValue]) {
             delete this.values[attributeValue];
-        }
-        else {
-            this.values[attributeValue] = attributeValue
+        } else {
+            this.values[attributeValue] = attributeValue;
         }
 
         this.value = {
-            field: this.attribute,
+            field: this.getAttribute(),
             value: (this.values[attributeValue]) ? attributeValue : '',
-            is_aggregation: true
+            is_aggregation: true,
         };
 
         this.hasActiveAggregation = true;
         if (!this.values[attributeValue]) {
             this.value = {
-                field: this.attribute,
+                field: this.getAttribute(),
                 value: '',
                 is_aggregation: true,
                 exclude_from_search: true,
-            }
+            };
 
             this.hasActiveAggregation = false;
         }
 
         Events.emit(Events.onBeforeResultRequest, {});
         Events.emit(Events.onAggregationValueChange, {
-            'name': this.attribute,
-            'hasActive': this.hasActiveAggregation
+            'name': this.getAttribute(),
+            'hasActive': this.hasActiveAggregation,
         });
     }
 
     reset() {
-        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.classTitle}`).forEach((element: HTMLInputElement) => {
-            if (element.checked) {
-                element.checked = false;
-                this.handle(element);
-            }
-        });
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
+            .forEach((element: HTMLInputElement) => {
+                if (element.checked) {
+                    element.checked = false;
+                    this.handle(element);
+                }
+            });
     }
 }

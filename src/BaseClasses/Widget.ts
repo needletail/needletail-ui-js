@@ -1,5 +1,7 @@
-import {WidgetSettings} from "../Imports/Interfaces";
-import {Client} from "../Client";
+// eslint-disable-next-line no-unused-vars
+import {WidgetSettings} from '../Imports/Interfaces';
+// eslint-disable-next-line no-unused-vars
+import {Client} from '../Client';
 
 export class Widget {
     /**
@@ -16,7 +18,7 @@ export class Widget {
     client: Client;
 
     constructor(options: WidgetSettings = {}) {
-        this.el = options.el || '';
+        this.setEl(options.el || '');
     }
 
     setEl(el: string): Widget {
@@ -44,22 +46,23 @@ export class Widget {
 
     /**
      * Render the HTML and transform it into a HTML Node
-     * @param options
+     * @param {{}} options
+     * @return {Node}
      */
     render(options = {}): Node {
-        let template = this.getTemplate();
-        return document.createRange().createContextualFragment(template)
+        const template = this.getTemplate();
+        return document.createRange().createContextualFragment(template);
     }
 
     executeJS(): void {}
 
     /**
      * Render and append the widgets into the right position
-     * @param options
+     * @param {{}} options
      */
     build(options = {}): void {
-        let elements = document.querySelectorAll(this.getEl());
-        let domHtml = this.render(options);
+        const elements = document.querySelectorAll(this.getEl());
+        const domHtml = this.render(options);
 
         elements.forEach((element) => {
             element.innerHTML = '';

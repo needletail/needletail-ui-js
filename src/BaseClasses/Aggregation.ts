@@ -1,4 +1,5 @@
-import {AggregationSettings} from "../Imports/Interfaces";
+// eslint-disable-next-line no-unused-vars
+import {AggregationSettings} from '../Imports/Interfaces';
 
 export class Aggregation {
     /**
@@ -36,12 +37,21 @@ export class Aggregation {
     hasActiveAggregation: boolean = true;
 
     constructor(options: AggregationSettings = {}) {
-        this.title = options.title || '';
-        this.classTitle = this.title.replace(/ /g, '-') || '';
-        this.template = options.template || '';
-        this.attribute = options.attribute || this.title;
-        this.collapsible = options.collapsible || this.collapsible;
-        this.defaultCollapsed = options.default_collapsed || this.defaultCollapsed;
+        this.setTitle(options.title || '');
+        this.setClassTitle(this.getTitle() || '');
+        this.setTemplate(options.template || '');
+        this.setAttribute(options.attribute || this.getTitle());
+        this.setCollapsible(options.collapsible || this.getCollapsible());
+        this.setDefaultCollapsed(options.default_collapsed || this.getDefaultCollapsed());
+    }
+
+    setClassTitle(classTitle: string): Aggregation {
+        this.classTitle = classTitle.replace(/ /g, '-');
+        return this;
+    }
+
+    getClassTitle(): string {
+        return this.classTitle;
     }
 
     setAttribute(attribute: string): Aggregation {
@@ -53,7 +63,7 @@ export class Aggregation {
                 value: '',
                 is_aggregation: true,
                 exclude_from_search: true,
-            }
+            };
         }
         return this;
     }
@@ -82,7 +92,7 @@ export class Aggregation {
 
     setTitle(title: string): Aggregation {
         this.title = title;
-        this.classTitle = title.replace(' ', '-');
+        this.setClassTitle(this.title);
         return this;
     }
 
@@ -102,6 +112,7 @@ export class Aggregation {
     /**
      * This function will be used to render the HTML
      * This is done by using Mustache-JS
+     * @return {string}
      */
     render(): string {
         return this.getTemplate();
