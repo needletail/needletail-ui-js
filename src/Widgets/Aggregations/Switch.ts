@@ -160,6 +160,13 @@ export class Switch extends Aggregation {
     }
 
     reset() {
+        this.value = {
+            field: this.getAttribute(),
+            value: '',
+            is_aggregation: true,
+            exclude_from_search: true,
+        };
+
         // eslint-disable-next-line max-len
         document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {
