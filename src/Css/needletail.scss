@@ -250,6 +250,10 @@
             -ms-user-select: none;
             user-select: none;
 
+            &.needletail-hidden {
+                display: none;
+            }
+
             .needletail-aggregation-checkbox-option-input {
                 position: absolute;
                 opacity: 0;
@@ -304,6 +308,10 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+
+            &.needletail-hidden {
+                display: none;
+            }
 
             .needletail-aggregation-radio-option-input {
                 position: absolute;
@@ -492,4 +500,15 @@
     font-size: 16px;
     padding: 6px;
     margin-top: 6px;
+}
+
+.needletail-show-more-options,
+.needletail-show-less-options {
+    color: #2c80ff;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &.needletail-hidden {
+        display: none;
+    }
 }

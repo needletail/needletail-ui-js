@@ -3,16 +3,28 @@ import {Aggregation} from './../../Imports/BaseClasses';
 import Mustache from 'mustache';
 // eslint-disable-next-line no-unused-vars
 import {RadioSettings} from '../../Imports/Interfaces';
-import {Events, URIHelper} from '../../Imports/Helpers';
+import {Events, optional, URIHelper} from '../../Imports/Helpers';
 
 export class Radio extends Aggregation {
     discriminator: string = 'Radio';
     hideOnEmpty: boolean = true;
+    useShowMoreOptions: boolean = true;
+    showMoreOptionsText: string = 'Show more options';
+    showLessOptionsText: string = 'Show less options';
+    showMoreOptionsLoad: number = 10;
 
     constructor(options: RadioSettings = {}) {
         super(options);
 
         this.setHideOnEmpty(options.hide_on_empty || this.getHideOnEmpty());
+        this.setUseShowMoreOptions((typeof optional(options.show_more_options).use !== 'undefined') ?
+            options.show_more_options.use : this.getUseShowMoreOptions());
+        this.setShowMoreOptionsText(optional(options.show_more_options).text ?
+            options.show_more_options.text : this.getShowMoreOptionsText());
+        this.setShowLessOptionsText(optional(options.show_more_options).less_text ?
+            options.show_more_options.less_text : this.getShowLessOptionsText());
+        this.setShowMoreOptionsLoad(optional(options.show_more_options).load ?
+            options.show_more_options.load : this.getShowMoreOptionsLoad());
 
         this.value = {
             field: this.getAttribute(),
@@ -20,6 +32,42 @@ export class Radio extends Aggregation {
             is_aggregation: true,
             exclude_from_search: true,
         };
+    }
+
+    setUseShowMoreOptions(useShowMoreOptions: boolean): Radio {
+        this.useShowMoreOptions = useShowMoreOptions;
+        return this;
+    }
+
+    getUseShowMoreOptions(): boolean {
+        return this.useShowMoreOptions;
+    }
+
+    setShowMoreOptionsText(showMoreOptionsText: string): Radio {
+        this.showMoreOptionsText = showMoreOptionsText;
+        return this;
+    }
+
+    getShowMoreOptionsText(): string {
+        return this.showMoreOptionsText;
+    }
+
+    setShowLessOptionsText(showLessOptionsText: string): Radio {
+        this.showLessOptionsText = showLessOptionsText;
+        return this;
+    }
+
+    getShowLessOptionsText(): string {
+        return this.showLessOptionsText;
+    }
+
+    setShowMoreOptionsLoad(showMoreOptionsLoad: number): Radio {
+        this.showMoreOptionsLoad = showMoreOptionsLoad;
+        return this;
+    }
+
+    getShowMoreOptionsLoad(): number {
+        return this.showMoreOptionsLoad;
     }
 
     getTemplate(): string {
@@ -47,6 +95,9 @@ export class Radio extends Aggregation {
             options: options,
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
             collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
+            show_more_options: this.getUseShowMoreOptions(),
+            show_more_options_text: this.getShowMoreOptionsText(),
+            show_less_options_text: this.getShowLessOptionsText(),
         });
     }
 
@@ -82,13 +133,14 @@ export class Radio extends Aggregation {
                 document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-radio.needletail-aggregation-radio-${this.getClassTitle()}`)
                     .forEach((element) => {
                         if (this.getCollapsible()) {
-                            element.addEventListener('click', (e) => {
-                                if (element.classList.contains('needletail-collapsed')) {
-                                    element.classList.remove('needletail-collapsed');
-                                } else {
-                                    element.classList.add('needletail-collapsed');
-                                }
-                            });
+                            element.querySelector('.needletail-aggregation-radio-title')
+                                .addEventListener('click', (e) => {
+                                    if (element.classList.contains('needletail-collapsed')) {
+                                        element.classList.remove('needletail-collapsed');
+                                    } else {
+                                        element.classList.add('needletail-collapsed');
+                                    }
+                                });
 
                             if (wasCollapsed) {
                                 element.classList.add('needletail-collapsed');
@@ -103,6 +155,40 @@ export class Radio extends Aggregation {
                             } else {
                                 element.classList.remove('needletail-empty');
                             }
+                        }
+
+                        if (this.getUseShowMoreOptions()) {
+                            const showMoreOptions = element.querySelector('.needletail-show-more-options');
+                            const showLessOptions = element.querySelector('.needletail-show-less-options');
+                            const radioOptions = element.querySelectorAll('.needletail-aggregation-radio-option');
+
+                            if (radioOptions.length <= this.getShowMoreOptionsLoad()) {
+                                showMoreOptions.classList.add('needletail-hidden');
+                            }
+
+                            const max = (this.getShowMoreOptionsLoad() > radioOptions.length) ?
+                                radioOptions.length : this.getShowMoreOptionsLoad();
+                            for (let i = 0; i < max; i++) {
+                                radioOptions.item(i).classList.remove('needletail-hidden');
+                            }
+
+                            showMoreOptions.addEventListener('click', (e) => {
+                                showMoreOptions.classList.add('needletail-hidden');
+                                showLessOptions.classList.remove('needletail-hidden');
+
+                                for (let i = this.getShowMoreOptionsLoad(); i < radioOptions.length; i++) {
+                                    radioOptions.item(i).classList.remove('needletail-hidden');
+                                }
+                            });
+
+                            showLessOptions.addEventListener('click', (e) => {
+                                showLessOptions.classList.add('needletail-hidden');
+                                showMoreOptions.classList.remove('needletail-hidden');
+
+                                for (let i = this.getShowMoreOptionsLoad(); i < radioOptions.length; i++) {
+                                    radioOptions.item(i).classList.add('needletail-hidden');
+                                }
+                            });
                         }
                     });
 

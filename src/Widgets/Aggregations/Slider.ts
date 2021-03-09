@@ -324,13 +324,14 @@ export class Slider extends Aggregation {
         document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-slider.needletail-aggregation-slider-${this.getClassTitle()}`)
             .forEach((element) => {
                 if (this.getCollapsible()) {
-                    element.addEventListener('click', (e) => {
-                        if (element.classList.contains('needletail-collapsed')) {
-                            element.classList.remove('needletail-collapsed');
-                        } else {
-                            element.classList.add('needletail-collapsed');
-                        }
-                    });
+                    element.querySelector('.needletail-aggregation-slider-title')
+                        .addEventListener('click', (e) => {
+                            if (element.classList.contains('needletail-collapsed')) {
+                                element.classList.remove('needletail-collapsed');
+                            } else {
+                                element.classList.add('needletail-collapsed');
+                            }
+                        });
                 }
             });
     }

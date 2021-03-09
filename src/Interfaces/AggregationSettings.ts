@@ -16,6 +16,12 @@ export interface AggregationSettings {
  */
 export interface CheckboxSettings extends AggregationSettings {
     hide_on_empty?: boolean;
+    show_more_options?: {
+        use?: boolean;
+        text?: string;
+        less_text?: string;
+        load?: number;
+    }
 }
 
 /**
@@ -23,6 +29,12 @@ export interface CheckboxSettings extends AggregationSettings {
  */
 export interface RadioSettings extends AggregationSettings {
     hide_on_empty?: boolean;
+    show_more_options?: {
+        use?: boolean;
+        text?: string;
+        less_text?: string;
+        load?: number;
+    }
 }
 
 /**

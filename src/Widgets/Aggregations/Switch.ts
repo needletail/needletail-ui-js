@@ -104,13 +104,14 @@ export class Switch extends Aggregation {
         document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.getClassTitle()}`)
             .forEach((element) => {
                 if (this.getCollapsible()) {
-                    element.addEventListener('click', (e) => {
-                        if (element.classList.contains('needletail-collapsed')) {
-                            element.classList.remove('needletail-collapsed');
-                        } else {
-                            element.classList.add('needletail-collapsed');
-                        }
-                    });
+                    element.querySelector('.needletail-aggregation-switch-title')
+                        .addEventListener('click', (e) => {
+                            if (element.classList.contains('needletail-collapsed')) {
+                                element.classList.remove('needletail-collapsed');
+                            } else {
+                                element.classList.add('needletail-collapsed');
+                            }
+                        });
                 }
             });
 
