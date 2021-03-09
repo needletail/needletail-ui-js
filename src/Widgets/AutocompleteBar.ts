@@ -533,6 +533,7 @@ export class AutocompleteBar extends Widget {
                 e.detail.search_result = result.data.results.map((r: any) => {
                     let bucket_name: string = (r.bucket) ? r.bucket.toString() : '';
                     let mapped = {
+                        id: r.id,
                         ...r.record,
                         bucket: (bucket_name !== '' && this.bucketMapping[bucket_name]) ? this.bucketMapping[bucket_name] : '',
                         value: {},

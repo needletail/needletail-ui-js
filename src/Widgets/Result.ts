@@ -235,7 +235,10 @@ export class Result extends Widget {
         let mappedResults: {}[] = [];
         if (results) {
             Object.keys(results).forEach((key: any) => {
-                mappedResults.push(results[key].record);
+                mappedResults.push({
+                    id: results[key].id,
+                    ...results[key].record
+                });
             });
         }
 

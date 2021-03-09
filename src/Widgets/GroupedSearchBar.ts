@@ -551,6 +551,7 @@ export class GroupedSearchBar extends Widget {
                             key: bucket.key ?? bucketKey,
                             results: r.results.map((r: any) => {
                                 let mapped = {
+                                    id: r.id,
                                     ...r.record,
                                     value: {},
                                     raw: {}
