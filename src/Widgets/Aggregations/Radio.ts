@@ -138,6 +138,10 @@ export class Radio extends Aggregation {
             URIHelper.addToHistory(this.getTitle(), element.value, removeFromHistory);
         }
 
+        if (removeFromHistory) {
+            element.value = '';
+        }
+
         this.value = {
             field: this.getAttribute(),
             value: element.value,
