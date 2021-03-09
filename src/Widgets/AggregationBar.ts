@@ -157,6 +157,7 @@ export class AggregationBar extends Widget {
                     field.reset();
                 });
 
+                Events.emit(Events.onBeforeResultRequest, {});
                 Events.emit(Events.onAggregationValueChange, {});
             });
         }
