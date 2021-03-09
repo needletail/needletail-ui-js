@@ -165,14 +165,7 @@ export class Slider extends Aggregation {
 
         document.querySelectorAll('.needletail-aggregation-slider-container__range').forEach((element: HTMLInputElement) => {
             document.addEventListener("DOMContentLoaded", () => {
-                this.elements[this.classTitle] = {
-                    slider: element.querySelector('.needletail-aggregation-slider-range'),
-                    inputMin: element.querySelector('.needletail-aggregation-slider-input-min'),
-                    inputMax: element.querySelector('.needletail-aggregation-slider-input-max'),
-                    leftSlider: element.querySelector('.needletail-aggregation-slider-range-left'),
-                    rightSlider: element.querySelector('.needletail-aggregation-slider-range-right'),
-                    divider: element.querySelector('.needletail-aggregation-slider-range-divider')
-                };
+                this.fetchElements(element);
 
                 let slider = this.elements[this.classTitle].slider;
                 let inputMin = this.elements[this.classTitle].inputMin;
@@ -196,6 +189,10 @@ export class Slider extends Aggregation {
                 }
 
                 inputMin.addEventListener('change', _debounce(() => {
+                    if (!inputMin) {
+                        this.fetchElements(element);
+                    }
+
                     if (parseInt(inputMin.value) < this.min) {
                         inputMin.value = this.min.toString();
                     } else if (parseInt(inputMin.value) > parseInt(inputMax.value)) {
@@ -211,6 +208,10 @@ export class Slider extends Aggregation {
                 }, 200));
 
                 inputMax.addEventListener('change', _debounce(() => {
+                    if (!inputMax) {
+                        this.fetchElements(element);
+                    }
+
                     if (parseInt(inputMax.value) > this.max) {
                         inputMax.value = this.max.toString();
                     } else if (parseInt(inputMax.value) < parseInt(inputMin.value)) {
@@ -228,6 +229,7 @@ export class Slider extends Aggregation {
                 leftSlider.addEventListener('mousedown', (e) => {
                     document.onmousemove = (e) => {
                         e.preventDefault();
+                        this.fetchElements(element);
                         this.moveLeft(e);
                     };
 
@@ -240,6 +242,7 @@ export class Slider extends Aggregation {
                 leftSlider.addEventListener('touchstart', (e) => {
                     document.ontouchmove = (e) => {
                         e.preventDefault();
+                        this.fetchElements(element);
                         this.moveLeft(e);
                     };
 
@@ -252,6 +255,7 @@ export class Slider extends Aggregation {
                 rightSlider.addEventListener('mousedown', (e) => {
                     document.onmousemove = (e) => {
                         e.preventDefault();
+                        this.fetchElements(element);
                         this.moveRight(e);
                     }
 
@@ -264,6 +268,7 @@ export class Slider extends Aggregation {
                 rightSlider.addEventListener('touchstart', (e) => {
                     document.ontouchmove = (e) => {
                         e.preventDefault();
+                        this.fetchElements(element);
                         this.moveRight(e);
                     }
 
@@ -482,5 +487,16 @@ export class Slider extends Aggregation {
         inputMin.value = Math.round(((this.max / 100) * percentage) + this.min).toString();
         inputMin.dispatchEvent(new Event('change'));
         this.calculateDivider(divider, leftSlider, rightSlider);
+    }
+
+    fetchElements(element: any) {
+        this.elements[this.classTitle] = {
+            slider: element.querySelector('.needletail-aggregation-slider-range'),
+            inputMin: element.querySelector('.needletail-aggregation-slider-input-min'),
+            inputMax: element.querySelector('.needletail-aggregation-slider-input-max'),
+            leftSlider: element.querySelector('.needletail-aggregation-slider-range-left'),
+            rightSlider: element.querySelector('.needletail-aggregation-slider-range-right'),
+            divider: element.querySelector('.needletail-aggregation-slider-range-divider')
+        };
     }
 }
