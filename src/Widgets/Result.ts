@@ -399,12 +399,14 @@ export class Result extends Widget {
             e.detail.buckets = buckets;
             e.detail.search_values = {
                 'fuzzy': [
-                    ...autocompleteValues,
+                    // eslint-disable-next-line prefer-spread
+                    ...[].concat.apply([], autocompleteValues),
                 ],
             };
             e.detail.equals_search_values = {
                 'match': [
-                    ...aggregationValues,
+                    // eslint-disable-next-line prefer-spread
+                    ...[].concat.apply([], aggregationValues),
                 ],
             };
             e.detail.extra_search_values = {};
