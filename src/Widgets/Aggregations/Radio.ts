@@ -164,13 +164,6 @@ export class Radio extends Aggregation {
     }
 
     reset() {
-        this.value = {
-            field: this.getAttribute(),
-            value: '',
-            is_aggregation: true,
-            exclude_from_search: true,
-        };
-
         // eslint-disable-next-line max-len
         document.querySelectorAll(`.needletail-aggregation-radio-option-input.needletail-aggregation-radio-option-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {

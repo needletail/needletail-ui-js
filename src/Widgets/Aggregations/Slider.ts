@@ -401,20 +401,6 @@ export class Slider extends Aggregation {
     }
 
     reset() {
-        let value = this.getDefaultValue().toString();
-        if (this.getRangeSlider()) {
-            this.setType('from:to');
-            value = this.getDefaultRangeMin() + ':' + this.getDefaultRangeMax();
-        }
-
-        this.value = {
-            field: this.getAttribute(),
-            value: value,
-            type: this.getType(),
-            is_aggregation: true,
-            exclude_from_search: true,
-        };
-
         // eslint-disable-next-line max-len
         document.querySelectorAll(`.needletail-aggregation-slider-input.needletail-aggregation-slider-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {
