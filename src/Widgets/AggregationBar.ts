@@ -156,6 +156,8 @@ export class AggregationBar extends Widget {
                 this.fields.forEach((field: FieldOptions) => {
                     field.reset();
                 });
+
+                Events.emit(Events.onAggregationValueChange, {});
             });
         }
 
