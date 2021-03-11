@@ -495,6 +495,10 @@ export class AutocompleteBar extends Widget {
                         e.preventDefault();
                         // eslint-disable-next-line max-len
                         const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                        if (results.length < 1) {
+                            return;
+                        }
+
                         if (e.key === 'ArrowUp') {
                             // Move the active class up one
                             if (this.selectedResult > 0) {
