@@ -482,7 +482,7 @@ export class GroupedSearchBar extends Widget {
                         // this.handle(element);
                         Events.emit(Events.onSubmitGroupedSearch, {
                             id: this.getQuery(),
-                            value: results[this.selectedResult].dataset,
+                            value: (results[this.selectedResult]) ? results[this.selectedResult].dataset : element.value,
                         });
                     } else if (e.key === 'Escape') {
                         if (this.getInitialInput()) {
