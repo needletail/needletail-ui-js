@@ -352,7 +352,7 @@ export class AutocompleteBar extends Widget {
     }
 
     setSortDirection(sortDirection: string): AutocompleteBar {
-        if (this.allowedDirections.indexOf(sortDirection) > -1) {
+        if (this.allowedDirections.indexOf(sortDirection) === -1) {
             sortDirection = 'asc';
         }
 

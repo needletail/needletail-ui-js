@@ -313,7 +313,7 @@ export class GroupedSearchBar extends Widget {
     }
 
     setSortDirection(sortDirection: string): GroupedSearchBar {
-        if (this.allowedDirections.indexOf(sortDirection) > -1) {
+        if (this.allowedDirections.indexOf(sortDirection) === -1) {
             sortDirection = 'asc';
         }
 

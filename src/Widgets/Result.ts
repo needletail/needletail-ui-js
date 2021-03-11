@@ -242,7 +242,7 @@ export class Result extends Widget {
     }
 
     setSortDirection(sortDirection: string): Result {
-        if (this.allowedDirections.indexOf(sortDirection) > -1) {
+        if (this.allowedDirections.indexOf(sortDirection) === -1) {
             sortDirection = 'asc';
         }
 
@@ -585,6 +585,7 @@ export class Result extends Widget {
                 sortSelect[i].value = this.getSortSelectDefault();
 
                 sortSelect[i].addEventListener('change', (e: any) => {
+                    console.log(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
                     this.setSortSelectDefault(e.target.value);
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
