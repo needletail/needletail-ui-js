@@ -66,7 +66,7 @@ export class Switch extends Aggregation {
         return Mustache.render(template, {
             title: this.getTitle(),
             classTitle: this.getClassTitle(),
-            name: this.getTitle(),
+            name: this.getClassTitle(),
             onValue: this.getOnValue(),
             offValue: this.getOffValue(),
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',

@@ -167,7 +167,7 @@ export class Slider extends Aggregation {
         return Mustache.render(template, {
             title: this.getTitle(),
             classTitle: this.getClassTitle(),
-            name: this.getTitle(),
+            name: this.getClassTitle(),
             min: this.getMin(),
             max: this.getMax(),
             value: this.getDefaultValue(),

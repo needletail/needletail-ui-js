@@ -112,7 +112,7 @@ export class Checkbox extends Aggregation {
                 const options: {}[] = [];
                 e.detail[this.getAttribute()].forEach((val: any) => {
                     options.push({
-                        name: title,
+                        name: this.getClassTitle(),
                         ...val,
                     });
                 });
