@@ -169,6 +169,9 @@ export class AutocompleteBar extends Widget {
     }
 
     setAttribute(attribute: string|string[]): AutocompleteBar {
+        if (this.attribute === '') {
+            this.attribute = attribute;
+        }
         this.attribute = attribute;
         return this;
     }
@@ -178,7 +181,9 @@ export class AutocompleteBar extends Widget {
     }
 
     setAttributes(attribute: string|string[]): AutocompleteBar {
-        this.attribute = attribute;
+        if (this.attribute === '') {
+            this.attribute = attribute;
+        }
         return this;
     }
 
