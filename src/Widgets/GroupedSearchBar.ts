@@ -152,9 +152,7 @@ export class GroupedSearchBar extends Widget {
     }
 
     setAttribute(attribute: string|string[]): GroupedSearchBar {
-        if (this.attribute === '') {
-            this.attribute = attribute;
-        }
+        this.attribute = attribute;
         return this;
     }
 

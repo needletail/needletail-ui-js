@@ -169,9 +169,6 @@ export class AutocompleteBar extends Widget {
     }
 
     setAttribute(attribute: string|string[]): AutocompleteBar {
-        if (this.attribute === '') {
-            this.attribute = attribute;
-        }
         this.attribute = attribute;
         return this;
     }
