@@ -410,6 +410,7 @@ export class Result extends Widget {
                 ],
             };
             e.detail.extra_search_values = {};
+            e.detail.should_search_values = {};
 
             Events.emit(Events.onResultRequest, e.detail);
         }, 100));
@@ -422,9 +423,10 @@ export class Result extends Widget {
                 buckets: e.detail.buckets,
                 search: {
                     'should': {
-                        ...e.detail.search_values,
+                        ...e.detail.should_search_values,
                     },
                     'equals': {
+                        ...e.detail.search_values,
                         ...e.detail.equals_search_values,
                     },
                     ...e.detail.extra_search_values,
