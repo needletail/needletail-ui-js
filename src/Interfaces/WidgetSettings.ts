@@ -34,7 +34,7 @@ export interface AutocompleteBarSettings extends WidgetSettings {
     in_url?: boolean;
     query?: string;
     search?: {
-        buckets?: string;
+        buckets?: string[];
         attribute?: string;
         attributes?: string[];
         size?: number;
@@ -69,7 +69,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
     in_url?: boolean;
     query?: string;
     search?: {
-        buckets?: string;
+        buckets?: string[];
         attribute?: string;
         attributes?: string[];
         size?: number;

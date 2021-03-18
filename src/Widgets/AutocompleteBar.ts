@@ -188,7 +188,7 @@ export class AutocompleteBar extends Widget {
         return this.attribute;
     }
 
-    setBuckets(buckets: []): AutocompleteBar {
+    setBuckets(buckets: string[]): AutocompleteBar {
         this.buckets = buckets;
         return this;
     }
