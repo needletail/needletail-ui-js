@@ -103,10 +103,19 @@ export class Radio extends Aggregation {
     render(options: {}[] = []): string {
         const template = this.getTemplate();
 
-        options.sort((a: {value: string}, b: {value: string}) => {
-            return this.getOptionOrder().indexOf(a.value.toLowerCase()) -
-                this.getOptionOrder().indexOf(b.value.toLowerCase());
-        });
+        if (this.getOptionOrder()) {
+            options.sort((a: {value: string}, b: {value: string}) => {
+                let indexA = this.getOptionOrder().indexOf(a.value.toLowerCase());
+                let indexB = this.getOptionOrder().indexOf(b.value.toLowerCase());
+                if (indexA === -1) {
+                    indexA = 9999;
+                }
+                if (indexB === -1) {
+                    indexB = 9999;
+                }
+                return indexA - indexB;
+            });
+        }
 
         return Mustache.render(template, {
             title: this.getTitle(),
