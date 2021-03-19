@@ -12,6 +12,7 @@ export class Radio extends Aggregation {
     showMoreOptionsText: string = 'Show more options';
     showLessOptionsText: string = 'Show less options';
     showMoreOptionsLoad: number = 10;
+    optionOrder: string[] = [];
 
     constructor(options: RadioSettings = {}) {
         super(options);
@@ -25,6 +26,7 @@ export class Radio extends Aggregation {
             options.show_more_options.less_text : this.getShowLessOptionsText());
         this.setShowMoreOptionsLoad(optional(options.show_more_options).load ?
             options.show_more_options.load : this.getShowMoreOptionsLoad());
+        this.setOptionOrder(options.option_order || this.getOptionOrder());
 
         this.value = {
             field: this.getAttribute(),
@@ -32,6 +34,17 @@ export class Radio extends Aggregation {
             is_aggregation: true,
             exclude_from_search: true,
         };
+    }
+
+    setOptionOrder(optionOrder: string[]): Radio {
+        this.optionOrder = optionOrder.map((o: string) => {
+            return o.toLowerCase();
+        });
+        return this;
+    }
+
+    getOptionOrder(): string[] {
+        return this.optionOrder;
     }
 
     setUseShowMoreOptions(useShowMoreOptions: boolean): Radio {
@@ -89,6 +102,12 @@ export class Radio extends Aggregation {
 
     render(options: {}[] = []): string {
         const template = this.getTemplate();
+
+        options.sort((a: {value: string}, b: {value: string}) => {
+            return this.getOptionOrder().indexOf(a.value.toLowerCase()) -
+                this.getOptionOrder().indexOf(b.value.toLowerCase());
+        });
+
         return Mustache.render(template, {
             title: this.getTitle(),
             classTitle: this.getClassTitle(),

@@ -16,6 +16,7 @@ export interface AggregationSettings {
  */
 export interface CheckboxSettings extends AggregationSettings {
     hide_on_empty?: boolean;
+    option_order?: string[];
     show_more_options?: {
         use?: boolean;
         text?: string;
@@ -29,6 +30,7 @@ export interface CheckboxSettings extends AggregationSettings {
  */
 export interface RadioSettings extends AggregationSettings {
     hide_on_empty?: boolean;
+    option_order?: string[];
     show_more_options?: {
         use?: boolean;
         text?: string;
