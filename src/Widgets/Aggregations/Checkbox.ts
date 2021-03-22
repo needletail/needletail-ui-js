@@ -241,6 +241,14 @@ export class Checkbox extends Aggregation {
                         });
                     });
                 }
+            } else {
+                if (this.getHideOnEmpty()) {
+                    // eslint-disable-next-line max-len
+                    document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-checkbox.needletail-aggregation-checkbox-${this.getClassTitle()}`)
+                        .forEach((element) => {
+                            element.classList.add('needletail-empty');
+                        });
+                }
             }
         });
 
