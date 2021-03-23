@@ -99,6 +99,7 @@ export interface ResultSettings extends WidgetSettings {
         show_quick_pagination?: boolean;
         scroll_back_to_top?: boolean;
         scroll_offset?: number;
+        active_class?: string;
     },
     result_template?: string;
     group_by?: string;

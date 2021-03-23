@@ -62,6 +62,7 @@ export class Result extends Widget {
     buckets: [] = [];
     sortMode: string = 'min';
     allowedDirections: string[] = ['asc', 'desc'];
+    activeClass: string = 'active';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -86,6 +87,16 @@ export class Result extends Widget {
         this.setSortMode(options.sort_mode || this.getSortMode());
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
+        this.setPaginationActiveClass(optional(options.pagination).active_class || this.getPaginationActiveClass());
+    }
+
+    setPaginationActiveClass(activeClass: string): Result {
+        this.activeClass = activeClass;
+        return this;
+    }
+
+    getPaginationActiveClass(): string {
+        return this.activeClass;
     }
 
     setBuckets(buckets: []): Result {
@@ -450,7 +461,7 @@ export class Result extends Widget {
                             page: (i + 1),
                             offset: i * this.getPerPage(),
                             active: ((i === 0 && !currentPage) ||
-                                currentPage === (i + 1)) ? 'active' : '',
+                                currentPage === (i + 1)) ? this.getPaginationActiveClass() : '',
                         });
                     }
                     const totalPages = e.detail.pages.length;
