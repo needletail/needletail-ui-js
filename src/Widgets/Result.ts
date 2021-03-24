@@ -55,7 +55,7 @@ export class Result extends Widget {
     sortSelect: { [key: string]: {name: string, display_name: string, attribute: string, direction: string} } = {};
     sortSelectTemplate: string;
     sortSelectDefault: string;
-    sortDirection: string = 'asc';
+    sortDirection: string = '';
     noResultMessage: string = 'No results where found';
     initialRequest: boolean = true;
     scrollOffset: number = 100;
