@@ -51,7 +51,8 @@ export class Result extends Widget {
     resultTemplate: string;
     groupBy: string = '';
     sortBy: string = '';
-    sortSelect: { [key: string]: string } = {};
+    // eslint-disable-next-line camelcase
+    sortSelect: { [key: string]: {name: string, display_name: string, attribute: string, direction: string} } = {};
     sortSelectTemplate: string;
     sortSelectDefault: string;
     sortDirection: string = 'asc';
@@ -80,10 +81,10 @@ export class Result extends Widget {
             options.pagination.scroll_back_to_top : this.getScrollBackToTop());
         this.setResultTemplate(options.result_template);
         this.setGroupBy(options.group_by || '');
-        this.setSortBy(options.sort_by || options.sort_select_default || '');
-        this.setSortDirection(options.sort_direction || this.getSortDirection());
         this.setSortSelect(options.sort_select || {});
         this.setSortSelectDefault(options.sort_select_default || '');
+        this.setSortBy(options.sort_by || '');
+        this.setSortDirection(options.sort_direction || this.getSortDirection());
         this.setSortMode(options.sort_mode || this.getSortMode());
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
@@ -235,6 +236,14 @@ export class Result extends Widget {
     }
 
     setSortBy(sortBy: string): Result {
+        if (sortBy === '' && (Object.keys(this.getSortSelect()).length > 0)) {
+            for (const key in this.getSortSelect()) {
+                if (this.getSortSelect()[key].name === this.getSortSelectDefault()) {
+                    sortBy = this.getSortSelect()[key].attribute || '';
+                }
+            }
+        }
+
         this.sortBy = sortBy;
         return this;
     }
@@ -253,6 +262,14 @@ export class Result extends Widget {
     }
 
     setSortDirection(sortDirection: string): Result {
+        if (sortDirection === '' && (Object.keys(this.getSortSelect()).length > 0)) {
+            for (const key in this.getSortSelect()) {
+                if (this.getSortSelect()[key].name === this.getSortSelectDefault()) {
+                    sortDirection = this.getSortSelect()[key].direction || '';
+                }
+            }
+        }
+
         if (this.allowedDirections.indexOf(sortDirection) === -1) {
             sortDirection = 'asc';
         }
@@ -265,12 +282,14 @@ export class Result extends Widget {
         return this.sortDirection;
     }
 
-    setSortSelect(sortSelect: { [key: string]: string }): Result {
+    // eslint-disable-next-line max-len,camelcase
+    setSortSelect(sortSelect: { [key: string]: {name: string, display_name: string, attribute: string, direction: string} }): Result {
         this.sortSelect = sortSelect;
         return this;
     }
 
-    getSortSelect(): { [key: string]: string } {
+    // eslint-disable-next-line camelcase
+    getSortSelect(): { [key: string]: {name: string, display_name: string, attribute: string, direction: string} } {
         return this.sortSelect;
     }
 
