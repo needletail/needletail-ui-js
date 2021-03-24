@@ -100,6 +100,7 @@ export interface ResultSettings extends WidgetSettings {
         scroll_back_to_top?: boolean;
         scroll_offset?: number;
         active_class?: string;
+        hide_on_single_page?: boolean;
     },
     result_template?: string;
     group_by?: string;

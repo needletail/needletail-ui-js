@@ -492,6 +492,10 @@
         .needletail-result-pagination-next {
             margin-right: 0px;
         }
+
+        &.needletail-hidden {
+            display: none;
+        }
     }
 }
 

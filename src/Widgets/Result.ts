@@ -64,6 +64,8 @@ export class Result extends Widget {
     sortMode: string = 'min';
     allowedDirections: string[] = ['asc', 'desc'];
     activeClass: string = 'active';
+    hideOnSinglePage: boolean = true;
+    hidePagination: boolean = false;
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -79,6 +81,8 @@ export class Result extends Widget {
         this.setScrollOffset(optional(options.pagination).scroll_offset || this.getScrollOffset());
         this.setScrollBackToTop((typeof optional(options.pagination).scroll_back_to_top !== 'undefined') ?
             options.pagination.scroll_back_to_top : this.getScrollBackToTop());
+        this.setHideOnSinglePage((typeof optional(options.pagination).hide_on_single_page !== 'undefined') ?
+            options.pagination.hide_on_single_page : this.getHideOnSinglePage());
         this.setResultTemplate(options.result_template);
         this.setGroupBy(options.group_by || '');
         this.setSortSelect(options.sort_select || {});
@@ -89,6 +93,15 @@ export class Result extends Widget {
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
         this.setPaginationActiveClass(optional(options.pagination).active_class || this.getPaginationActiveClass());
+    }
+
+    setHideOnSinglePage(hideOnSinglePage: boolean): Result {
+        this.hideOnSinglePage = hideOnSinglePage;
+        return this;
+    }
+
+    getHideOnSinglePage(): boolean {
+        return this.hideOnSinglePage;
     }
 
     setPaginationActiveClass(activeClass: string): Result {
@@ -357,6 +370,7 @@ export class Result extends Widget {
             sort_select: this.renderSortSelect({
                 options: this.getSortSelect(),
             }),
+            hide_pagination: (this.hidePagination) ? 'needletail-hidden' : '',
         };
 
         // Enable the quick navigation
@@ -485,8 +499,11 @@ export class Result extends Widget {
                     }
                     const totalPages = e.detail.pages.length;
 
+                    if (totalPages === 1 && this.getHideOnSinglePage()) {
+                        this.hidePagination = true;
+
                     // If there's more pages than the user wants to show start minifying
-                    if (e.detail.pages.length > this.getMinifyPages()) {
+                    } else if (totalPages > this.getMinifyPages()) {
                         let start: number = 0;
                         const startArray: any = [];
                         const endArray: any = [];
