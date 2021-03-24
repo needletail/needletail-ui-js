@@ -40,10 +40,10 @@ export interface AutocompleteBarSettings extends WidgetSettings {
         size?: number;
         group_by?: string;
         sort_by?: string;
-        direction?: string;
+        sort_direction?: string;
         show_bucket?: boolean;
         bucket_mapping?: {[key: string]: string};
-        mode?: string;
+        sort_mode?: string;
     }
     minimum_characters?: number;
     show_results?: boolean;
@@ -75,8 +75,8 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
         size?: number;
         group_by?: string;
         sort_by?: string;
-        direction?: string;
-        mode?: string;
+        sort_direction?: string;
+        sort_mode?: string;
     }
     minimum_characters?: number;
     show_results?: boolean;

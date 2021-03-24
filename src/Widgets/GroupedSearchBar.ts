@@ -101,8 +101,8 @@ export class GroupedSearchBar extends Widget {
         this.setSize(optional(options.search).size || this.getSize());
         this.setGroupBy(optional(options.search).group_by || '');
         this.setSortBy(optional(options.search).sort_by || '');
-        this.setSortDirection(optional(options.search).direction || this.getSortDirection());
-        this.setSortMode(optional(options.search).mode || this.getSortMode());
+        this.setSortDirection(optional(options.search).sort_direction || this.getSortDirection());
+        this.setSortMode(optional(options.search).sort_mode || this.getSortMode());
         this.setMinimumCharacters((typeof options.minimum_characters !== 'undefined') ?
             options.minimum_characters : this.getMinimumCharacters());
         this.setShowResults((typeof options.show_results !== 'undefined') ?

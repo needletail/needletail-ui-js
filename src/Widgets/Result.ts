@@ -80,7 +80,7 @@ export class Result extends Widget {
             options.pagination.scroll_back_to_top : this.getScrollBackToTop());
         this.setResultTemplate(options.result_template);
         this.setGroupBy(options.group_by || '');
-        this.setSortBy(options.sort_by || '');
+        this.setSortBy(options.sort_by || options.sort_select_default || '');
         this.setSortDirection(options.sort_direction || this.getSortDirection());
         this.setSortSelect(options.sort_select || {});
         this.setSortSelectDefault(options.sort_select_default || '');
@@ -434,10 +434,10 @@ export class Result extends Widget {
                 buckets: e.detail.buckets,
                 search: {
                     'should': {
+                        ...e.detail.search_values,
                         ...e.detail.should_search_values,
                     },
                     'equals': {
-                        ...e.detail.search_values,
                         ...e.detail.equals_search_values,
                     },
                     ...e.detail.extra_search_values,
