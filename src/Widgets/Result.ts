@@ -501,9 +501,12 @@ export class Result extends Widget {
 
                     if (totalPages === 1 && this.getHideOnSinglePage()) {
                         this.hidePagination = true;
+                    } else {
+                        this.hidePagination = false;
+                    }
 
                     // If there's more pages than the user wants to show start minifying
-                    } else if (totalPages > this.getMinifyPages()) {
+                    if (totalPages > this.getMinifyPages()) {
                         let start: number = 0;
                         const startArray: any = [];
                         const endArray: any = [];
