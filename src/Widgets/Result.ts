@@ -324,7 +324,8 @@ export class Result extends Widget {
         return this.noResultMessage;
     }
 
-    render(results: {id: string, record: {}}[] = [], pages: {page: any, offset: number, active: string}[] = []): Node {
+    // eslint-disable-next-line max-len
+    render(results: {id: string, record: {}}[] = [], pages: {page: any, offset: number, active: string}[] = [], firstRender = true): Node {
         const template = this.getTemplate();
 
         const mappedResults: {}[] = [];
@@ -371,6 +372,7 @@ export class Result extends Widget {
                 options: this.getSortSelect(),
             }),
             hide_pagination: (this.hidePagination) ? 'needletail-hidden' : '',
+            hideOnInitialRequest: (firstRender) ? 'needletail-hide-on-initial-request' : '',
         };
 
         // Enable the quick navigation
@@ -609,7 +611,7 @@ export class Result extends Widget {
 
         document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
             // Render the node
-            const node = this.render(e.detail.search_result, e.detail.pages);
+            const node = this.render(e.detail.search_result, e.detail.pages, false);
 
             document.querySelectorAll(this.getEl()).forEach((element) => {
                 const child = element.querySelector('.needletail-result');
