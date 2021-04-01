@@ -667,7 +667,7 @@ export class GroupedSearchBar extends Widget {
         if (options && options.results) {
             options.results.forEach((r: any) => {
                 const bucket: any = this.getBuckets().find((b: any) => {
-                    return (b.name === r.key || b === r.key);
+                    return (b.key === r.key || b === r.key);
                 });
 
                 if (bucket && bucket.template) {
