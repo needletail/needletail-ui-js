@@ -589,7 +589,9 @@ export class GroupedSearchBar extends Widget {
 
                 Object.keys(result.data).forEach((bucketKey: any) => {
                     const r = result.data[bucketKey];
-                    const bucket: any = this.getBuckets().find((b: any) => b.name === bucketKey);
+                    const bucket: any = this.getBuckets().find((b: any) => {
+                        return (b.name === bucketKey || b === bucketKey);
+                    });
 
                     // If there is data map it to include some easy access values
                     if (r.count > 0) {
@@ -664,7 +666,9 @@ export class GroupedSearchBar extends Widget {
 
         if (options && options.results) {
             options.results.forEach((r: any) => {
-                const bucket: any = this.getBuckets().find((b: any) => b.name === r.key);
+                const bucket: any = this.getBuckets().find((b: any) => {
+                    return (b.name === r.key || b === r.key);
+                });
 
                 if (bucket && bucket.template) {
                     innerResults.push(this.renderResultTemplates(r, bucket.template));
