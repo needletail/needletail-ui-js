@@ -89,6 +89,7 @@ export interface GroupedSearchBarSettings extends WidgetSettings {
  * Contains the specific settings for the result widet
  */
 export interface ResultSettings extends WidgetSettings {
+    query?: string;
     per_page?: number;
     minify_pages?: number;
     pagination?: {

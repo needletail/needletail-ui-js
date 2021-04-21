@@ -470,6 +470,7 @@ export class GroupedSearchBar extends Widget {
                         element.value = results[this.selectedResult].getAttribute('data-attribute');
 
                         Events.emit(Events.onArrowMovementGroupedSearch, {
+                            query: this.getQuery(),
                             value: results[this.selectedResult].dataset,
                         });
                     } else if (e.key === 'Enter') {

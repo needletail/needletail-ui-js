@@ -525,6 +525,7 @@ export class AutocompleteBar extends Widget {
                         }
 
                         Events.emit(Events.onArrowMovementSearch, {
+                            query: this.getQuery(),
                             value: results[this.selectedResult].dataset,
                         });
                     } else if (e.key === 'Enter') {

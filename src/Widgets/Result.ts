@@ -66,10 +66,12 @@ export class Result extends Widget {
     activeClass: string = 'active';
     hideOnSinglePage: boolean = true;
     hidePagination: boolean = false;
+    query: string = 'result';
 
     constructor(options: ResultSettings = {}) {
         super(options);
 
+        this.setQuery(options.query || this.getQuery());
         this.setPerPage(options.per_page || this.getPerPage());
         this.setPrevious(optional(options.pagination).previous || this.getPrevious());
         this.setNext(optional(options.pagination).next || this.getNext());
@@ -93,6 +95,15 @@ export class Result extends Widget {
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
         this.setPaginationActiveClass(optional(options.pagination).active_class || this.getPaginationActiveClass());
+    }
+
+    getQuery(): string {
+        return this.query;
+    }
+
+    setQuery(query: string): Result {
+        this.query = query;
+        return this;
     }
 
     setHideOnSinglePage(hideOnSinglePage: boolean): Result {
@@ -629,7 +640,9 @@ export class Result extends Widget {
                                 current_page: currentPage,
                                 new_page: pageNumber,
                             });
-                            Events.emit(Events.onBeforeResultRequest, {});
+                            Events.emit(Events.onBeforeResultRequest, {
+                                query: this.getQuery(),
+                            });
                         });
                     });
             });
@@ -643,7 +656,9 @@ export class Result extends Widget {
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
 
-                    Events.emit(Events.onBeforeResultRequest, {});
+                    Events.emit(Events.onBeforeResultRequest, {
+                        query: this.getQuery(),
+                    });
                 });
             }
 
@@ -657,6 +672,8 @@ export class Result extends Widget {
             URIHelper.addToHistory('page', '1');
         });
 
-        Events.emit(Events.onBeforeResultRequest, {});
+        Events.emit(Events.onBeforeResultRequest, {
+            query: this.getQuery(),
+        });
     }
 }
