@@ -541,7 +541,7 @@ export class AutocompleteBar extends Widget {
                         // Handle on enter key and fire an event.
                         // this.handle(element);
                         Events.emit(Events.onSubmitSearch, {
-                            id: this.getQuery(),
+                            query: this.getQuery(),
                             value: (results[this.selectedResult]) ? results[this.selectedResult].dataset : element.value,
                         });
                     } else if (e.key === 'Escape') {
@@ -714,7 +714,7 @@ export class AutocompleteBar extends Widget {
 
                         // this.handle(element);
                         Events.emit(Events.onSubmitSearch, {
-                            id: this.getQuery(),
+                            query: this.getQuery(),
                             value: element.dataset,
                         });
                     });
