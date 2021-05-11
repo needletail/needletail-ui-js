@@ -496,6 +496,8 @@ export class Result extends Widget {
                 offset: (currentPage - 1) * this.getPerPage(),
             });
 
+            e.detail.status = result.status;
+
             if (result && result.data) {
                 e.detail.count = result.data.count;
 

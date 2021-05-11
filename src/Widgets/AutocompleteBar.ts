@@ -605,6 +605,8 @@ export class AutocompleteBar extends Widget {
                 mode: this.getSortMode(),
             });
 
+            e.detail.status = result.status;
+
             // If there is data map it to include some easy access values
             if (result && result.data.count > 0) {
                 e.detail.search_result = result.data.results.map((r: any) => {

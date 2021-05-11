@@ -236,9 +236,42 @@ export class Checkbox extends Aggregation {
                         // eslint-disable-next-line max-len
                         const elements = document.querySelectorAll(`.needletail-aggregation-checkbox-option-input-${this.getClassTitle()}[value='${value}']`);
 
-                        elements.forEach((element: HTMLInputElement) => {
-                            element.checked = true;
-                        });
+                        if (elements.length === 0) {
+                            // eslint-disable-next-line max-len
+                            const lastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                            const lastItem = lastItems[lastItems.length - 1];
+                            const newItem = lastItem.cloneNode(true);
+                            lastItem.after(newItem);
+
+                            // eslint-disable-next-line max-len
+                            const newLastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                            const newLastItem = newLastItems[newLastItems.length - 1];
+
+                            const text = newLastItem.querySelector('.needletail-aggregation-checkbox-option-label');
+                            const count = newLastItem.querySelector('.needletail-aggregation-checkbox-option-count');
+                            // eslint-disable-next-line max-len
+                            const input: HTMLInputElement = newLastItem.querySelector('.needletail-aggregation-checkbox-option-input');
+
+                            if (text) {
+                                text.innerHTML = value;
+                            }
+                            if (count) {
+                                count.innerHTML = '(0)';
+                            }
+                            if (input) {
+                                input.setAttribute('value', value);
+                                input.checked = true;
+                                this.values[value] = value;
+
+                                input.addEventListener('change', () => {
+                                    this.handle(input);
+                                });
+                            }
+                        } else {
+                            elements.forEach((element: HTMLInputElement) => {
+                                element.checked = true;
+                            });
+                        }
                     });
                 }
             } else {

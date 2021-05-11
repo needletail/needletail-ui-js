@@ -585,6 +585,8 @@ export class GroupedSearchBar extends Widget {
                 buckets: buckets,
             });
 
+            e.detail.status = result.status;
+
             if (result && result.data) {
                 e.detail.search_result = [];
 
