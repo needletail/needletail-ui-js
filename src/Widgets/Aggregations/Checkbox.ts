@@ -149,11 +149,13 @@ export class Checkbox extends Aggregation {
                 const textElement = this.render(options);
                 const node = document.createRange().createContextualFragment(textElement);
                 let wasCollapsed = false;
+                let wasShownMoreOptions = false;
 
                 // eslint-disable-next-line max-len
                 document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-checkbox.needletail-aggregation-checkbox-${this.getClassTitle()}`)
                     .forEach((element) => {
                         wasCollapsed = element.classList.contains('needletail-collapsed');
+                        wasShownMoreOptions = element.classList.contains('needletail-show-more-options');
                         element.replaceWith(node.cloneNode(true));
                     });
 
@@ -186,8 +188,8 @@ export class Checkbox extends Aggregation {
                         }
 
                         if (this.getUseShowMoreOptions()) {
-                            const showMoreOptions = element.querySelector('.needletail-show-more-options');
-                            const showLessOptions = element.querySelector('.needletail-show-less-options');
+                            const showMoreOptions: HTMLElement = element.querySelector('.needletail-show-more-options');
+                            const showLessOptions: HTMLElement = element.querySelector('.needletail-show-less-options');
                             const checkboxOptions = element.querySelectorAll('.needletail-aggregation-checkbox-option');
 
                             if (checkboxOptions.length <= this.getShowMoreOptionsLoad()) {
@@ -217,6 +219,10 @@ export class Checkbox extends Aggregation {
                                     checkboxOptions.item(i).classList.add('needletail-hidden');
                                 }
                             });
+
+                            if (!wasShownMoreOptions) {
+                                showMoreOptions.click();
+                            }
                         }
                     });
 
