@@ -67,6 +67,13 @@ export class Result extends Widget {
     hideOnSinglePage: boolean = true;
     hidePagination: boolean = false;
     query: string = 'result';
+    infiniteScroll: boolean = false;
+    infinityPage: number = 1;
+    hardReset: boolean = false;
+    totalPages: number = 1;
+    bottomScrollOffset: number = 0;
+    loader: string = null;
+    allowedLoaders: string[] = ['round-dots', 'round-line', 'straight-bars', 'straight-dots'];
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -95,6 +102,9 @@ export class Result extends Widget {
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
         this.setPaginationActiveClass(optional(options.pagination).active_class || this.getPaginationActiveClass());
+        this.setInfiniteScroll(optional(options.pagination).infinite_scroll || this.getInfiniteScroll());
+        this.setBottomScrollOffset(optional(options.pagination).bottom_scroll_offset || this.getBottomScrollOffset());
+        this.setLoader(options.loader || this.getLoader());
     }
 
     getQuery(): string {
@@ -103,6 +113,35 @@ export class Result extends Widget {
 
     setQuery(query: string): Result {
         this.query = query;
+        return this;
+    }
+
+    getInfiniteScroll(): boolean {
+        return this.infiniteScroll;
+    }
+
+    setInfiniteScroll(infiniteScroll: boolean): Result {
+        this.infiniteScroll = infiniteScroll;
+        return this;
+    }
+
+    getBottomScrollOffset(): number {
+        return this.bottomScrollOffset;
+    }
+
+    setBottomScrollOffset(bottomScrollOffset: number): Result {
+        this.bottomScrollOffset = bottomScrollOffset;
+        return this;
+    }
+
+    getLoader(): string {
+        return this.loader;
+    }
+
+    setLoader(loader: string): Result {
+        if (this.allowedLoaders.indexOf(loader) !== -1) {
+            this.loader = loader;
+        }
         return this;
     }
 
@@ -382,8 +421,9 @@ export class Result extends Widget {
             sort_select: this.renderSortSelect({
                 options: this.getSortSelect(),
             }),
-            hide_pagination: (this.hidePagination) ? 'needletail-hidden' : '',
+            hide_pagination: (this.hidePagination || this.getInfiniteScroll()) ? 'needletail-hidden' : '',
             hideOnInitialRequest: (firstRender) ? 'needletail-hide-on-initial-request' : '',
+            infinite_scroll: this.getInfiniteScroll(),
         };
 
         // Enable the quick navigation
@@ -473,8 +513,28 @@ export class Result extends Widget {
         }, 100));
 
         document.addEventListener(Events.onResultRequest, _debounce(async (e: CustomEvent) => {
-            // If there is no page, assume we're on page 1
-            let currentPage = parseInt(URIHelper.getSearchParam('page')) || 1;
+            let currentPage = 1;
+            let size = this.getPerPage();
+            let offset;
+
+            if (this.initialRequest) {
+                this.infinityPage = parseInt(URIHelper.getSearchParam('page')) || 1;
+            }
+
+            if (this.getInfiniteScroll()) {
+                currentPage = this.infinityPage;
+                offset = (currentPage - 1) * this.getPerPage();
+
+                if (this.initialRequest) {
+                    size *= currentPage;
+                    offset = 0;
+                }
+            } else {
+                // If there is no page, assume we're on page 1
+                currentPage = parseInt(URIHelper.getSearchParam('page')) || 1;
+                offset = (currentPage - 1) * this.getPerPage();
+            }
+
             // Perform the search
             const result = await this.client.search({
                 buckets: e.detail.buckets,
@@ -488,12 +548,12 @@ export class Result extends Widget {
                     },
                     ...e.detail.extra_search_values,
                 },
-                size: this.getPerPage(),
+                size: size,
                 mode: this.getSortMode(),
                 group_by: this.getGroupBy(),
                 sort: this.getSortBy(),
                 direction: this.getSortDirection(),
-                offset: (currentPage - 1) * this.getPerPage(),
+                offset: offset,
             });
 
             e.detail.status = result.status;
@@ -513,6 +573,7 @@ export class Result extends Widget {
                         });
                     }
                     const totalPages = e.detail.pages.length;
+                    this.totalPages = totalPages;
 
                     if (totalPages === 1 && this.getHideOnSinglePage()) {
                         this.hidePagination = true;
@@ -624,29 +685,51 @@ export class Result extends Widget {
 
         document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
             // Render the node
-            const node = this.render(e.detail.search_result, e.detail.pages, false);
+            const node: Node = this.render(e.detail.search_result, e.detail.pages, false);
 
             document.querySelectorAll(this.getEl()).forEach((element) => {
                 const child = element.querySelector('.needletail-result');
-                element.replaceChild(node.cloneNode(true), child);
 
-                element.querySelectorAll('.needletail-result-pagination-page:not(.disabled):not(.active)')
-                    .forEach((paginationElement) => {
-                        // Add the click event
-                        paginationElement.addEventListener('click', (e) => {
-                            const currentPage = URIHelper.getSearchParam('page');
-                            const pageNumber = paginationElement.getAttribute('data-page');
-                            URIHelper.addToHistory('page', pageNumber);
+                if (this.getInfiniteScroll()) {
+                    const lastItems = child.querySelectorAll('.needletail-result-result');
+                    const lastItem = lastItems[lastItems.length - 1];
 
-                            Events.emit(Events.onPageChange, {
-                                current_page: currentPage,
-                                new_page: pageNumber,
-                            });
-                            Events.emit(Events.onBeforeResultRequest, {
-                                query: this.getQuery(),
+                    if (lastItem && !this.hardReset) {
+                        let resultChild: Node;
+
+                        node.childNodes.forEach((childNode: HTMLElement) => {
+                            if (childNode.classList &&
+                                childNode.classList.contains('needletail-result') &&
+                                !resultChild) {
+                                resultChild = childNode.querySelector('.needletail-result-results');
+                            }
+                        });
+                        lastItem.after(resultChild);
+                    } else {
+                        element.replaceChild(node.cloneNode(true), child);
+                        this.hardReset = false;
+                    }
+                } else {
+                    element.replaceChild(node.cloneNode(true), child);
+
+                    element.querySelectorAll('.needletail-result-pagination-page:not(.disabled):not(.active)')
+                        .forEach((paginationElement) => {
+                            // Add the click event
+                            paginationElement.addEventListener('click', (e) => {
+                                const currentPage = URIHelper.getSearchParam('page');
+                                const pageNumber = paginationElement.getAttribute('data-page');
+                                URIHelper.addToHistory('page', pageNumber);
+
+                                Events.emit(Events.onPageChange, {
+                                    current_page: currentPage,
+                                    new_page: pageNumber,
+                                });
+                                Events.emit(Events.onBeforeResultRequest, {
+                                    query: this.getQuery(),
+                                });
                             });
                         });
-                    });
+                }
             });
 
             const sortSelect: any = document.getElementsByClassName('needletail-sort-select');
@@ -664,20 +747,79 @@ export class Result extends Widget {
                 });
             }
 
+            const elements = document.querySelectorAll('.needletail-result-result');
+            elements.forEach((element, index) => {
+                element.addEventListener('click', (e: any) => {
+                    URIHelper.addToHistory('index', index.toString());
+                });
+            });
+
+            if (this.initialRequest && this.getInfiniteScroll()) {
+                const element: any = elements.item(parseInt(URIHelper.getSearchParam('index')));
+                const position = element.offsetTop;
+                const offsetPosition = position - this.getScrollOffset();
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth',
+                });
+            }
+
+            this.stopLoader('infinity-scroll');
+
             this.initialRequest = false;
             Events.emit(Events.resultFinished, {
                 name: this.discriminator,
             });
         });
 
+        if (this.getInfiniteScroll()) {
+            window.addEventListener('scroll', _debounce(() => {
+                const {
+                    scrollTop,
+                    scrollHeight,
+                    clientHeight,
+                } = document.documentElement;
+
+                if (scrollTop + clientHeight >= scrollHeight - this.getBottomScrollOffset() &&
+                    this.totalPages >= this.infinityPage + 1) {
+                    this.infinityPage++;
+                    URIHelper.addToHistory('page', this.infinityPage.toString());
+
+                    this.startLoader('infinity-scroll');
+                    Events.emit(Events.onBeforeResultRequest, {
+                        query: this.getQuery(),
+                    });
+                }
+            }, 200));
+        }
+
         document.addEventListener(Events.onAggregationValueChange, (e) => {
             if (!this.initialRequest) {
                 URIHelper.addToHistory('page', '1');
+                this.infinityPage = 1;
+                this.hardReset = true;
             }
         });
 
         Events.emit(Events.onBeforeResultRequest, {
             query: this.getQuery(),
+        });
+    }
+
+    startLoader(name: string) {
+        if (this.getLoader()) {
+            const loaders = document.querySelectorAll(`.needletail-loader.${name}`);
+            loaders.forEach((loader) => {
+                loader.classList.add(`needletail-loader-${this.getLoader()}`);
+            });
+        }
+    }
+
+    stopLoader(name: string) {
+        const loaders = document.querySelectorAll(`.needletail-loader.${name}`);
+        loaders.forEach((loader) => {
+            loader.classList.remove(`needletail-loader-${this.getLoader()}`);
         });
     }
 }

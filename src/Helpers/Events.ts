@@ -58,6 +58,8 @@ export class Events {
      */
     static onPageChange: string = 'onPageChange';
 
+    static onClickResult: string = 'onClickResult';
+
     /**
      * When any of the aggregations are updated
      */

@@ -102,6 +102,8 @@ export interface ResultSettings extends WidgetSettings {
         scroll_offset?: number;
         active_class?: string;
         hide_on_single_page?: boolean;
+        infinite_scroll?: boolean;
+        bottom_scroll_offset?: number;
     },
     result_template?: string;
     group_by?: string;
@@ -112,4 +114,5 @@ export interface ResultSettings extends WidgetSettings {
     sort_mode?: string;
     no_result_message?: string;
     buckets?: [];
+    loader?: string;
 }

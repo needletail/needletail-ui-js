@@ -5,6 +5,9 @@
     <div class="needletail-result-results {{ hideOnInitialRequest }}">
         {{{results}}}
     </div>
+    {{#infinite_scroll}}
+    <div class="needletail-loader infinity-scroll"></div>
+    {{/infinite_scroll}}
 
     <div class="needletail-result-pagination {{ hide_pagination }}">
         {{#firstButton}}

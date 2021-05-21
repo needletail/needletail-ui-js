@@ -1,3 +1,14 @@
+:root {
+    --primary: #2c80ff;
+    --primary-dark: #0044ab;
+    --primary-lighten: #abcdff;
+}
+
+@import 'loaders/round-dots';
+@import 'loaders/round-line';
+@import 'loaders/straight-bars';
+@import 'loaders/straight-dots';
+
 .needletail-clear-filters-top {
     padding-bottom: 16px;
 }
@@ -74,7 +85,7 @@
                 height: 0;
 
                 &:checked + .needletail-aggregation-switch-slider {
-                    background-color: #2c80ff;
+                    background-color: var(--primary);
 
                     &:before {
                         -webkit-transform: translateX(13px);
@@ -84,7 +95,7 @@
                 }
 
                 &:focus + .needletail-aggregation-switch-slider {
-                    box-shadow: 0 0 1px #2c80ff;
+                    box-shadow: 0 0 1px var(--primary);
                 }
             }
 
@@ -134,7 +145,7 @@
                     appearance: none;
                     width: 1.5em;
                     height: 1.5em;
-                    background: #2c80ff;
+                    background: var(--primary);
                     cursor: pointer;
                     border-radius: 100%;
                 }
@@ -142,7 +153,7 @@
                 &::-moz-range-thumb {
                     width: 1.5em;
                     height: 1.5em;
-                    background: #2c80ff;
+                    background: var(--primary);
                     cursor: pointer;
                     border-radius: 100%;
                 }
@@ -164,7 +175,7 @@
                         position: relative;
 
                         .needletail-aggregation-slider-range-divider {
-                            background-color: lighten(#2c80ff, 25%);
+                            background-color: var(--primary-lighten);
                             height: 100%;
                             width: 100%;
                             position: absolute;
@@ -176,7 +187,7 @@
                             touch-action: none;
                             height: 2em;
                             width: 1em;
-                            background-color: #2c80ff;
+                            background-color: var(--primary);
                             position: absolute;
                             top: -0.25em;
                             border-radius: 2px;
@@ -262,7 +273,7 @@
                 cursor: pointer;
 
                 &:checked ~ .needletail-aggregation-checkbox-option-checkmark {
-                    background-color: #2c80ff;
+                    background-color: var(--primary);
 
                     &:after {
                         display: block;
@@ -321,7 +332,7 @@
                 cursor: pointer;
 
                 &:checked ~ .needletail-aggregation-radio-option-checkmark {
-                    background-color: #2c80ff;
+                    background-color: var(--primary);
 
                     &:after {
                         display: block;
@@ -400,7 +411,7 @@
 
         .needletail-grouped-search-bar-result {
             &.active {
-                background-color: rgba(44,128,255,0.6);
+                background-color: var(--secondary);
             }
         }
     }
@@ -446,7 +457,7 @@
 
         .needletail-autocomplete-bar-result {
             &.active {
-                background-color: rgba(44,128,255,0.6);
+                background-color: var(--secondary);
             }
         }
     }
@@ -469,8 +480,8 @@
         flex-direction: row;
 
         .needletail-result-pagination-page {
-            background-color: #2c80ff;
-            border: 1px solid #2c80ff;
+            background-color: var(--primary);
+            border: 1px solid var(--primary);
             padding: 5px 10px;
             justify-content: center;
             margin: 10px 2px;
@@ -481,7 +492,7 @@
             &.active, &.disabled {
                 cursor: default;
                 background-color: #fff;
-                color: #2c80ff;
+                color: var(--primary);
             }
         }
 
@@ -508,7 +519,7 @@
 
 .needletail-show-more-options,
 .needletail-show-less-options {
-    color: #2c80ff;
+    color: var(--primary);
     cursor: pointer;
     text-decoration: underline;
 
