@@ -243,35 +243,39 @@ export class Checkbox extends Aggregation {
                         const elements = document.querySelectorAll(`.needletail-aggregation-checkbox-option-input-${this.getClassTitle()}[value='${value}']`);
 
                         if (elements.length === 0) {
-                            // eslint-disable-next-line max-len
-                            const lastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
-                            const lastItem = lastItems[lastItems.length - 1];
-                            const newItem = lastItem.cloneNode(true);
-                            lastItem.after(newItem);
+                            const strippedValue = value.replace(/(<([^>]+)>)/gi, '');
 
-                            // eslint-disable-next-line max-len
-                            const newLastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
-                            const newLastItem = newLastItems[newLastItems.length - 1];
+                            if (strippedValue) {
+                                // eslint-disable-next-line max-len
+                                const lastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                                const lastItem = lastItems[lastItems.length - 1];
+                                const newItem = lastItem.cloneNode(true);
+                                lastItem.after(newItem);
 
-                            const text = newLastItem.querySelector('.needletail-aggregation-checkbox-option-label');
-                            const count = newLastItem.querySelector('.needletail-aggregation-checkbox-option-count');
-                            // eslint-disable-next-line max-len
-                            const input: HTMLInputElement = newLastItem.querySelector('.needletail-aggregation-checkbox-option-input');
+                                // eslint-disable-next-line max-len
+                                const newLastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                                const newLastItem = newLastItems[newLastItems.length - 1];
 
-                            if (text) {
-                                text.innerHTML = value;
-                            }
-                            if (count) {
-                                count.innerHTML = '(0)';
-                            }
-                            if (input) {
-                                input.setAttribute('value', value);
-                                input.checked = true;
-                                this.values[value] = value;
+                                const text = newLastItem.querySelector('.needletail-aggregation-checkbox-option-label');
+                                const count = newLastItem.querySelector('.needletail-aggregation-checkbox-option-count');
+                                // eslint-disable-next-line max-len
+                                const input: HTMLInputElement = newLastItem.querySelector('.needletail-aggregation-checkbox-option-input');
 
-                                input.addEventListener('change', () => {
-                                    this.handle(input);
-                                });
+                                if (text) {
+                                    text.innerHTML = strippedValue;
+                                }
+                                if (count) {
+                                    count.innerHTML = '0';
+                                }
+                                if (input) {
+                                    input.setAttribute('value', strippedValue);
+                                    input.checked = true;
+                                    this.values[strippedValue] = strippedValue;
+
+                                    input.addEventListener('change', () => {
+                                        this.handle(input);
+                                    });
+                                }
                             }
                         } else {
                             elements.forEach((element: HTMLInputElement) => {
