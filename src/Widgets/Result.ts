@@ -671,7 +671,7 @@ export class Result extends Widget {
         });
 
         document.addEventListener(Events.onAggregationValueChange, (e) => {
-            if (!URIHelper.getSearchParam('page')) {
+            if (!this.initialRequest) {
                 URIHelper.addToHistory('page', '1');
             }
         });
