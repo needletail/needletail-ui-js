@@ -155,8 +155,10 @@ export class Checkbox extends Aggregation {
                 document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-checkbox.needletail-aggregation-checkbox-${this.getClassTitle()}`)
                     .forEach((element) => {
                         wasCollapsed = element.classList.contains('needletail-collapsed');
-                        wasShownMoreOptions = !element.querySelector('.needletail-show-more-options')
-                            .classList.contains('needletail-hidden');
+                        const showMoreOptionsElement = element.querySelector('.needletail-show-more-options');
+                        if (showMoreOptionsElement) {
+                            wasShownMoreOptions = !showMoreOptionsElement.classList.contains('needletail-hidden');
+                        }
                         element.replaceWith(node.cloneNode(true));
                     });
 
@@ -187,8 +189,6 @@ export class Checkbox extends Aggregation {
                                 element.classList.remove('needletail-empty');
                             }
                         }
-
-                        console.log(this.getClassTitle(), wasShownMoreOptions);
 
                         if (this.getUseShowMoreOptions()) {
                             const showMoreOptions: HTMLElement = element.querySelector('.needletail-show-more-options');
