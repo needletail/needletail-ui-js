@@ -156,7 +156,10 @@ export class Radio extends Aggregation {
                 document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-radio.needletail-aggregation-radio-${this.getClassTitle()}`)
                     .forEach((element) => {
                         wasCollapsed = element.classList.contains('needletail-collapsed');
-                        wasShownMoreOptions = element.classList.contains('needletail-show-more-options');
+                        const showMoreOptionsElement = element.querySelector('.needletail-show-more-options');
+                        if (showMoreOptionsElement) {
+                            wasShownMoreOptions = !showMoreOptionsElement.classList.contains('needletail-hidden');
+                        }
                         element.replaceWith(node.cloneNode(true));
                     });
 
@@ -221,7 +224,8 @@ export class Radio extends Aggregation {
                                 }
                             });
 
-                            if (!wasShownMoreOptions) {
+                            if (!wasShownMoreOptions &&
+                                radioOptions.length > this.getShowMoreOptionsLoad()) {
                                 showMoreOptions.click();
                             }
                         }

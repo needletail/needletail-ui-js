@@ -223,7 +223,8 @@ export class Checkbox extends Aggregation {
                                 }
                             });
 
-                            if (!wasShownMoreOptions) {
+                            if (!wasShownMoreOptions &&
+                                checkboxOptions.length > this.getShowMoreOptionsLoad()) {
                                 showMoreOptions.click();
                             }
                         }
