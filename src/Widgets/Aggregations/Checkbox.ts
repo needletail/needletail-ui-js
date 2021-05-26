@@ -156,8 +156,15 @@ export class Checkbox extends Aggregation {
                     .forEach((element) => {
                         wasCollapsed = element.classList.contains('needletail-collapsed');
                         const showMoreOptionsElement = element.querySelector('.needletail-show-more-options');
-                        if (showMoreOptionsElement) {
+                        const showLessOptionsElement = element.querySelector('.needletail-show-less-options');
+                        if (this.getUseShowMoreOptions()) {
                             wasShownMoreOptions = !showMoreOptionsElement.classList.contains('needletail-hidden');
+                            const bothHidden = (showMoreOptionsElement.classList.contains('needletail-hidden') &&
+                                    showLessOptionsElement.classList.contains('needletail-hidden'));
+
+                            if (bothHidden) {
+                                wasShownMoreOptions = true;
+                            }
                         }
                         element.replaceWith(node.cloneNode(true));
                     });
