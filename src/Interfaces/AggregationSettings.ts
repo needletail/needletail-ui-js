@@ -22,6 +22,7 @@ export interface CheckboxSettings extends AggregationSettings {
         text?: string;
         less_text?: string;
         load?: number;
+        never_hide_checked?: boolean;
     }
 }
 

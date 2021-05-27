@@ -13,6 +13,7 @@ export class Checkbox extends Aggregation {
     showLessOptionsText: string = 'Show less options';
     showMoreOptionsLoad: number = 10;
     optionOrder: string[] = [];
+    neverHideChecked: boolean = true;
 
     constructor(options: CheckboxSettings = {}) {
         super(options);
@@ -27,6 +28,8 @@ export class Checkbox extends Aggregation {
         this.setShowMoreOptionsLoad(optional(options.show_more_options).load ?
             options.show_more_options.load : this.getShowMoreOptionsLoad());
         this.setOptionOrder(options.option_order || this.getOptionOrder());
+        this.setNeverHideChecked(optional(options.show_more_options).never_hide_checked ?
+            options.show_more_options.never_hide_checked : this.getNeverHideChecked());
 
         this.value = {
             field: this.getAttribute(),
@@ -45,6 +48,15 @@ export class Checkbox extends Aggregation {
 
     getOptionOrder(): string[] {
         return this.optionOrder;
+    }
+
+    setNeverHideChecked(neverHideChecked: boolean): Checkbox {
+        this.neverHideChecked = neverHideChecked;
+        return this;
+    }
+
+    getNeverHideChecked(): boolean {
+        return this.neverHideChecked;
     }
 
     setUseShowMoreOptions(useShowMoreOptions: boolean): Checkbox {
@@ -198,9 +210,12 @@ export class Checkbox extends Aggregation {
                         }
 
                         if (this.getUseShowMoreOptions()) {
-                            const showMoreOptions: HTMLElement = element.querySelector('.needletail-show-more-options');
-                            const showLessOptions: HTMLElement = element.querySelector('.needletail-show-less-options');
-                            const checkboxOptions = element.querySelectorAll('.needletail-aggregation-checkbox-option');
+                            const showMoreOptions: HTMLElement = element
+                                .querySelector('.needletail-show-more-options');
+                            const showLessOptions: HTMLElement = element
+                                .querySelector('.needletail-show-less-options');
+                            const checkboxOptions: NodeListOf<HTMLElement> = element
+                                .querySelectorAll('.needletail-aggregation-checkbox-option');
 
                             if (checkboxOptions.length <= this.getShowMoreOptionsLoad()) {
                                 showMoreOptions.classList.add('needletail-hidden');
@@ -226,7 +241,13 @@ export class Checkbox extends Aggregation {
                                 showMoreOptions.classList.remove('needletail-hidden');
 
                                 for (let i = this.getShowMoreOptionsLoad(); i < checkboxOptions.length; i++) {
-                                    checkboxOptions.item(i).classList.add('needletail-hidden');
+                                    const item = checkboxOptions.item(i);
+                                    const input: HTMLInputElement = item
+                                        .querySelector('.needletail-aggregation-checkbox-option-input');
+
+                                    if (!input.checked || !this.getNeverHideChecked()) {
+                                        item.classList.add('needletail-hidden');
+                                    }
                                 }
                             });
 
@@ -291,6 +312,7 @@ export class Checkbox extends Aggregation {
                         } else {
                             elements.forEach((element: HTMLInputElement) => {
                                 element.checked = true;
+                                element.parentElement.classList.remove('needletail-hidden');
                             });
                         }
                     });
