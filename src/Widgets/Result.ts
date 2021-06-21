@@ -74,6 +74,8 @@ export class Result extends Widget {
     bottomScrollOffset: number = 0;
     loader: string = null;
     allowedLoaders: string[] = ['round-dots', 'round-line', 'straight-bars', 'straight-dots'];
+    totalResults: number = 0;
+    totalResultsText: string = 'Total results';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -105,6 +107,7 @@ export class Result extends Widget {
         this.setInfiniteScroll(optional(options.pagination).infinite_scroll || this.getInfiniteScroll());
         this.setBottomScrollOffset(optional(options.pagination).bottom_scroll_offset || this.getBottomScrollOffset());
         this.setLoader(options.loader || this.getLoader());
+        this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
     }
 
     getQuery(): string {
@@ -113,6 +116,24 @@ export class Result extends Widget {
 
     setQuery(query: string): Result {
         this.query = query;
+        return this;
+    }
+
+    getTotalResults(): number {
+        return this.totalResults;
+    }
+
+    setTotalResults(totalResults: number): Result {
+        this.totalResults = totalResults;
+        return this;
+    }
+
+    getTotalResultsText(): string {
+        return this.totalResultsText;
+    }
+
+    setTotalResultsText(totalResultsText: string): Result {
+        this.totalResultsText = totalResultsText;
         return this;
     }
 
@@ -392,46 +413,48 @@ export class Result extends Widget {
         const currentPage = parseInt(URIHelper.getSearchParam('page')) || 1;
         const lastPage: {page: any, offset: number, active: string} = pages[pages.length - 1];
         const options = {
-            previousButton: this.getPrevious(),
-            nextButton: this.getNext(),
-            previousPage: currentPage - 1,
-            nextPage: currentPage + 1,
+            previous_button: this.getPrevious(),
+            next_button: this.getNext(),
+            previous_page: currentPage - 1,
+            next_page: currentPage + 1,
             // Disable it if there are no pages or the current page is 1
-            disablePreviousButton: (pages.length === 0 ||
+            disable_previous_button: (pages.length === 0 ||
                 currentPage === 1) ? 'disabled' : '',
             // Disable it if there are no pages or the current page is the last page
-            disableNextButton: (pages.length === 0 ||
+            disable_next_button: (pages.length === 0 ||
                 lastPage.page === currentPage) ? 'disabled' : '',
             pages: pages,
             results: this.renderResults({
                 results: mappedResults,
                 no_result_message: this.getNoResultMessage(),
             }),
-            lastButton: '',
-            firstButton: '',
-            firstPage: 0,
-            lastPage: 0,
+            last_button: '',
+            first_button: '',
+            first_page: 0,
+            last_page: 0,
             // Disable it if there are no pages or the current page is the last page
-            disableLastButton: (pages.length === 0 ||
+            disable_last_button: (pages.length === 0 ||
                 lastPage.page === currentPage) ? 'disabled' : '',
             // Disable it if there are no pages or the current page is 1
-            disableFirstButton: (pages.length === 0 ||
+            disable_first_button: (pages.length === 0 ||
                 currentPage === 1) ? 'disabled' : '',
             use_sort_select: (Object.keys(this.getSortSelect()).length > 0),
             sort_select: this.renderSortSelect({
                 options: this.getSortSelect(),
             }),
             hide_pagination: (this.hidePagination || this.getInfiniteScroll()) ? 'needletail-hidden' : '',
-            hideOnInitialRequest: (firstRender) ? 'needletail-hide-on-initial-request' : '',
+            hide_on_initial_request: (firstRender) ? 'needletail-hide-on-initial-request' : '',
             infinite_scroll: this.getInfiniteScroll(),
+            total_results: this.getTotalResults(),
+            total_results_text: this.getTotalResultsText(),
         };
 
         // Enable the quick navigation
         if (this.getShowQuickPagination()) {
-            options.lastButton = this.getLast();
-            options.firstButton = this.getFirst();
-            options.firstPage = 1;
-            options.lastPage = optional(lastPage).page;
+            options.last_button = this.getLast();
+            options.first_button = this.getFirst();
+            options.first_page = 1;
+            options.last_page = optional(lastPage).page;
         }
 
         const rendered = Mustache.render(template, options);
@@ -560,6 +583,7 @@ export class Result extends Widget {
 
             if (result && result.data) {
                 e.detail.count = result.data.count;
+                this.setTotalResults(e.detail.count);
 
                 if (result.data.results) {
                     e.detail.pages = [];

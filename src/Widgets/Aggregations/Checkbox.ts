@@ -131,7 +131,7 @@ export class Checkbox extends Aggregation {
 
         return Mustache.render(template, {
             title: this.getTitle(),
-            classTitle: this.getClassTitle(),
+            class_title: this.getClassTitle(),
             options: options,
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
             collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',

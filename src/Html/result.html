@@ -1,8 +1,11 @@
 <div class="needletail-result">
+    <div class="needletail-total-results">
+        <span class="needletail-total-results-count">{{ total_results }}</span> {{ total_results_text }}
+    </div>
     {{#use_sort_select}}
         {{{ sort_select }}}
     {{/use_sort_select}}
-    <div class="needletail-result-results {{ hideOnInitialRequest }}">
+    <div class="needletail-result-results {{ hide_on_initial_request }}">
         {{{results}}}
     </div>
     {{#infinite_scroll}}
@@ -10,18 +13,18 @@
     {{/infinite_scroll}}
 
     <div class="needletail-result-pagination {{ hide_pagination }}">
-        {{#firstButton}}
-            <div class="needletail-result-pagination-page needletail-result-pagination-first {{disableFirstButton}}" data-page="{{firstPage}}">{{{firstButton}}}</div>
-        {{/firstButton}}
-        <div class="needletail-result-pagination-page needletail-result-pagination-previous {{disablePreviousButton}}" data-page="{{previousPage}}">{{{previousButton}}}</div>
+        {{#first_button}}
+            <div class="needletail-result-pagination-page needletail-result-pagination-first {{ disable_first_button }}" data-page="{{ first_page }}">{{{ first_button }}}</div>
+        {{/first_button}}
+        <div class="needletail-result-pagination-page needletail-result-pagination-previous {{ disable_previous_button }}" data-page="{{ previous_page }}">{{{ previous_button }}}</div>
         {{#pages}}
             <div class="needletail-result-pagination-page {{active}}" data-offset="{{offset}}" data-page="{{page}}">
                 {{page}}
             </div>
         {{/pages}}
-        <div class="needletail-result-pagination-page needletail-result-pagination-next {{disableNextButton}}" data-page="{{nextPage}}">{{{nextButton}}}</div>
-        {{#lastButton}}
-            <div class="needletail-result-pagination-page needletail-result-pagination-last {{disableLastButton}}" data-page="{{lastPage}}">{{{lastButton}}}</div>
-        {{/lastButton}}
+        <div class="needletail-result-pagination-page needletail-result-pagination-next {{ disable_next_button }}" data-page="{{ next_page }}">{{{ next_button }}}</div>
+        {{#last_button}}
+            <div class="needletail-result-pagination-page needletail-result-pagination-last {{ disable_last_button }}" data-page="{{ last_page }}">{{{ last_button }}}</div>
+        {{/last_button}}
     </div>
 </div>

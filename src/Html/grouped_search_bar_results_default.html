@@ -1,10 +1,10 @@
 <div class="needletail-grouped-search-bar-result-title">
-    {{key}}
+    {{ key }}
 </div>
 <div class="needletail-grouped-search-bar-result-results">
     {{#results}}
-        <div class="needletail-grouped-search-bar-result" data-attribute="{{raw.title}}">
-            {{#highlight.title}}{{{highlight.title}}}{{/highlight.title}}{{^highlight.title}}{{title}}{{/highlight.title}}
+        <div class="needletail-grouped-search-bar-result" data-attribute="{{ raw.title }}">
+            {{#highlight.title}}{{{ highlight.title }}}{{/highlight.title}}{{^highlight.title}}{{ title }}{{/highlight.title}}
         </div>
     {{/results}}
 </div>

@@ -116,9 +116,9 @@ export class AggregationBar extends Widget {
 
         const rendered = Mustache.render(template, {
             fields: fields,
-            clearFilters: this.renderClearFilters(),
-            showClearFiltersTop: this.getClearFiltersTop(),
-            showClearFiltersBottom: this.getClearFiltersBottom(),
+            clear_filters: this.renderClearFilters(),
+            show_clear_filters_top: this.getClearFiltersTop(),
+            show_clear_filters_bottom: this.getClearFiltersBottom(),
         });
 
         return document.createRange().createContextualFragment(rendered);
