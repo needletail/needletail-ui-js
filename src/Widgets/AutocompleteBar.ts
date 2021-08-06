@@ -59,7 +59,7 @@ export class AutocompleteBar extends Widget {
     /**
      * The value to send to the search
      */
-    value: {} = {};
+    value: {field?: any, value?: any} = {};
     /**
      * The amount of results to show
      */

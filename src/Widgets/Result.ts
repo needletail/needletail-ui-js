@@ -508,7 +508,16 @@ export class Result extends Widget {
                 }
 
                 if (Object.keys(bar.value).length > 0) {
-                    res.push(bar.value);
+                    if (typeof bar.value.field === 'string') {
+                        res.push(bar.value);
+                    } else {
+                        bar.value.field.forEach((field: any) => {
+                            res.push({
+                                field: field,
+                                value: bar.value.value,
+                            });
+                        });
+                    }
                 }
                 return res;
             }, []);
