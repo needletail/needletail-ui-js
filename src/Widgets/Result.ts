@@ -526,12 +526,7 @@ export class Result extends Widget {
             });
 
             e.detail.buckets = buckets;
-            e.detail.search_values = {
-                'fuzzy': [
-                    // eslint-disable-next-line prefer-spread
-                    ...[].concat.apply([], autocompleteValues),
-                ],
-            };
+            e.detail.search_values = {};
             e.detail.equals_search_values = {
                 'match': [
                     // eslint-disable-next-line prefer-spread
@@ -539,7 +534,12 @@ export class Result extends Widget {
                 ],
             };
             e.detail.extra_search_values = {};
-            e.detail.should_search_values = {};
+            e.detail.should_search_values = {
+                'fuzzy': [
+                    // eslint-disable-next-line prefer-spread
+                    ...[].concat.apply([], autocompleteValues),
+                ],
+            };
 
             Events.emit(Events.onResultRequest, e.detail);
         }, 100));
