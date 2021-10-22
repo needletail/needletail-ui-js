@@ -599,6 +599,7 @@ export class GroupedSearchBar extends Widget {
                     // If there is data map it to include some easy access values
                     if (r.count > 0) {
                         e.detail.search_result.push({
+                            raw: bucket,
                             key: bucket.key ?? bucketKey,
                             results: r.results.map((r: any) => {
                                 const mapped = {
