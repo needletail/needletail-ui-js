@@ -524,6 +524,8 @@ export class AutocompleteBar extends Widget {
                             }
                         }
 
+                        this.handleUrlChange(element);
+
                         Events.emit(Events.onArrowMovementSearch, {
                             query: this.getQuery(),
                             value: results[this.selectedResult].dataset,
@@ -538,6 +540,8 @@ export class AutocompleteBar extends Widget {
                                 this.selectedResult = this.skipForceResults;
                             }
                         }
+
+                        this.handleUrlChange(element);
                         // Handle on enter key and fire an event.
                         // this.handle(element);
                         Events.emit(Events.onSubmitSearch, {
@@ -735,7 +739,7 @@ export class AutocompleteBar extends Widget {
         }
 
         // Put the value in the url
-        URIHelper.addToHistory(this.getQuery(), element.getAttribute('data-initial-value'));
+        URIHelper.addToHistory(this.getQuery(), element.getAttribute('data-initial-value') ?? element.value);
     }
 
     handle(element: any) {
