@@ -40,6 +40,7 @@ export class Events {
      * When the arrow up or down is pressed
      */
     static onArrowMovementSearch: string = 'onArrowMovementSearch';
+    static onForceResultBlur: string = 'onForceResultBlur';
 
     /**
      * When the result should be updated

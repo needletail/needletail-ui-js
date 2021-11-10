@@ -447,6 +447,28 @@ export class AutocompleteBar extends Widget {
                     setTimeout(() => {
                         element.classList.remove('active');
                     }, 100);
+
+                    if (this.getForceUseOfResult()) {
+                        // eslint-disable-next-line max-len
+                        const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
+                        if (results.length < 1) {
+                            return;
+                        }
+
+                        if (this.selectedResult === -1) {
+                            this.selectedResult = 0;
+
+                            this.switchActiveClass(results);
+                            element.value = results[this.selectedResult].getAttribute('data-attribute');
+
+                            this.handleUrlChange(element);
+
+                            Events.emit(Events.onForceResultBlur, {
+                                query: this.getQuery(),
+                                value: results[this.selectedResult].dataset,
+                            });
+                        }
+                    }
                 });
 
                 if (this.getInitialInput()) {
