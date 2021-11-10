@@ -452,6 +452,11 @@ export class AutocompleteBar extends Widget {
                         // eslint-disable-next-line max-len
                         const results: any = document.querySelectorAll(`${this.getEl()} .needletail-autocomplete-bar-result`);
                         if (results.length < 1) {
+                            Events.emit(Events.onForceResultBlur, {
+                                query: this.getQuery(),
+                                value: null,
+                            });
+
                             return;
                         }
 
