@@ -27,7 +27,7 @@ export class Slider extends Aggregation {
         super(options);
 
         this.setRange(options.min || 0, options.max || 10);
-        this.setDefaultValue(options.default_value || 5);
+        this.setDefaultValue((typeof options.default_value === 'number') ? options.default_value : 5);
         this.setRangeSlider((typeof options.range !== 'undefined') ?
             options.range : this.getRangeSlider());
         this.setDefaultRangeMin(options.default_range_min || this.getMin());
