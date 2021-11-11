@@ -305,6 +305,16 @@
                     display: none;
                 }
             }
+
+            .needletail-aggregation-checkbox-option-count {
+                &:before {
+                    content: '(';
+                }
+
+                &:after {
+                    content: ')'
+                }
+            }
         }
     }
 
@@ -360,6 +370,16 @@
                     border-radius: 50%;
                     background: white;
                     display: none;
+                }
+            }
+
+            .needletail-aggregation-radio-option-count {
+                &:before {
+                    content: '(';
+                }
+
+                &:after {
+                    content: ')'
                 }
             }
         }

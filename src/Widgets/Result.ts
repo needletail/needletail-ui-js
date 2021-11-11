@@ -75,7 +75,7 @@ export class Result extends Widget {
     loader: string = null;
     allowedLoaders: string[] = ['round-dots', 'round-line', 'straight-bars', 'straight-dots'];
     totalResults: number = 0;
-    totalResultsText: string = 'Total results';
+    totalResultsText: string = ':count total results';
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -129,7 +129,43 @@ export class Result extends Widget {
     }
 
     getTotalResultsText(): string {
-        return this.totalResultsText;
+        const count = this.getTotalResults() ?? 0;
+        let copy = this.totalResultsText;
+
+        copy = copy.replace(/:count/ig, count.toString());
+        const split = copy.split('|');
+
+        if (split.length === 0) {
+            return copy;
+        }
+        const singleRegex = /^{(\d+)} (.+)/;
+        const multiRegex = /^\[(\d+),(\d+|\*)] (.+)/;
+        let final = copy;
+
+        split.forEach((s: string) => {
+            const singleMatch = singleRegex.exec(s);
+            if (singleMatch) {
+                if (count === parseInt(singleMatch[1])) {
+                    final = singleMatch[2];
+                }
+            }
+
+            const multiMatch = multiRegex.exec(s);
+            if (multiMatch) {
+                let infinite = false;
+                if (multiMatch[2] === '*') {
+                    infinite = true;
+                }
+
+                if (count >= parseInt(multiMatch[1]) && (
+                    count <= parseInt(multiMatch[2]) || infinite
+                )) {
+                    final = multiMatch[3];
+                }
+            }
+        });
+
+        return final;
     }
 
     setTotalResultsText(totalResultsText: string): Result {
