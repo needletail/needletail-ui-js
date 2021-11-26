@@ -14,6 +14,7 @@ export class Checkbox extends Aggregation {
     showMoreOptionsLoad: number = 10;
     optionOrder: string[] = [];
     neverHideChecked: boolean = true;
+    showSelectedZero: boolean = true;
 
     constructor(options: CheckboxSettings = {}) {
         super(options);
@@ -30,6 +31,8 @@ export class Checkbox extends Aggregation {
         this.setOptionOrder(options.option_order || this.getOptionOrder());
         this.setNeverHideChecked(optional(options.show_more_options).never_hide_checked ?
             options.show_more_options.never_hide_checked : this.getNeverHideChecked());
+        this.setShowSelectedZero((typeof options.show_selected_zero !== 'undefined') ?
+            options.show_selected_zero : this.getShowSelectedZero());
 
         this.value = {
             field: this.getAttribute(),
@@ -48,6 +51,15 @@ export class Checkbox extends Aggregation {
 
     getOptionOrder(): string[] {
         return this.optionOrder;
+    }
+
+    setShowSelectedZero(showSelectedZero: boolean): Checkbox {
+        this.showSelectedZero = showSelectedZero;
+        return this;
+    }
+
+    getShowSelectedZero(): boolean {
+        return this.showSelectedZero;
     }
 
     setNeverHideChecked(neverHideChecked: boolean): Checkbox {
@@ -275,38 +287,40 @@ export class Checkbox extends Aggregation {
                         const elements = document.querySelectorAll(`.needletail-aggregation-checkbox-option-input-${this.getClassTitle()}[value='${value}']`);
 
                         if (elements.length === 0) {
-                            const strippedValue = value.replace(/(<([^>]+)>)/gi, '');
+                            if (this.getShowSelectedZero()) {
+                                const strippedValue = value.replace(/(<([^>]+)>)/gi, '');
 
-                            if (strippedValue) {
-                                // eslint-disable-next-line max-len
-                                const lastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
-                                const lastItem = lastItems[lastItems.length - 1];
-                                const newItem = lastItem.cloneNode(true);
-                                lastItem.after(newItem);
+                                if (strippedValue) {
+                                    // eslint-disable-next-line max-len
+                                    const lastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                                    const lastItem = lastItems[lastItems.length - 1];
+                                    const newItem = lastItem.cloneNode(true);
+                                    lastItem.after(newItem);
 
-                                // eslint-disable-next-line max-len
-                                const newLastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
-                                const newLastItem = newLastItems[newLastItems.length - 1];
+                                    // eslint-disable-next-line max-len
+                                    const newLastItems = document.querySelectorAll(`.needletail-aggregation-checkbox-${this.getClassTitle()} .needletail-aggregation-checkbox-option`);
+                                    const newLastItem = newLastItems[newLastItems.length - 1];
 
-                                const text = newLastItem.querySelector('.needletail-aggregation-checkbox-option-label');
-                                const count = newLastItem.querySelector('.needletail-aggregation-checkbox-option-count');
-                                // eslint-disable-next-line max-len
-                                const input: HTMLInputElement = newLastItem.querySelector('.needletail-aggregation-checkbox-option-input');
+                                    const text = newLastItem.querySelector('.needletail-aggregation-checkbox-option-label');
+                                    const count = newLastItem.querySelector('.needletail-aggregation-checkbox-option-count');
+                                    // eslint-disable-next-line max-len
+                                    const input: HTMLInputElement = newLastItem.querySelector('.needletail-aggregation-checkbox-option-input');
 
-                                if (text) {
-                                    text.innerHTML = strippedValue;
-                                }
-                                if (count) {
-                                    count.innerHTML = '0';
-                                }
-                                if (input) {
-                                    input.setAttribute('value', strippedValue);
-                                    input.checked = true;
-                                    this.values[strippedValue] = strippedValue;
+                                    if (text) {
+                                        text.innerHTML = strippedValue;
+                                    }
+                                    if (count) {
+                                        count.innerHTML = '0';
+                                    }
+                                    if (input) {
+                                        input.setAttribute('value', strippedValue);
+                                        input.checked = true;
+                                        this.values[strippedValue] = strippedValue;
 
-                                    input.addEventListener('change', () => {
-                                        this.handle(input);
-                                    });
+                                        input.addEventListener('change', () => {
+                                            this.handle(input);
+                                        });
+                                    }
                                 }
                             }
                         } else {
