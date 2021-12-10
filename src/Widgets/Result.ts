@@ -520,6 +520,10 @@ export class Result extends Widget {
 
     executeJS() {
         document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
+            if (!e.detail.query) {
+                e.detail.query = this.getQuery();
+            }
+
             const autocompleteBars = this.client.widgets.autocompleteBar;
             const aggregationBars = this.client.widgets.aggregationBar;
 
