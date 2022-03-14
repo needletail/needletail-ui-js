@@ -1,17 +1,19 @@
-const path = require('path');
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 
 module.exports = {
     mode: 'production',
     target: 'web',
-    entry: ['./src/Css/needletail.scss', './src/Needletail.ts'],
+    entry: {
+        'needletail-ui': ['./src/Css/needletail.scss', './src/Needletail.ts'],
+    },
     output: {
         path: __dirname,
-        filename: 'needletail-ui.min.js',
+        filename: '[name].min.js',
         libraryTarget: 'umd',
     },
-    optimization: {
-        minimize: true
-    },
+    plugins: [
+        new UnminifiedWebpackPlugin(),
+    ],
     resolve: {
         extensions: ['.ts', '.js'],
     },
