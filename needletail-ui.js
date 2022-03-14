@@ -3772,6 +3772,7 @@ class AutocompleteBar extends BaseClasses_1.Widget {
                 });
             }
             element.addEventListener('keydown', (e) => {
+                element.classList.add('active');
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                     e.preventDefault();
                     // eslint-disable-next-line max-len
@@ -4417,6 +4418,7 @@ class GroupedSearchBar extends BaseClasses_1.Widget {
                 });
             }
             element.addEventListener('keydown', (e) => {
+                element.classList.add('active');
                 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                     e.preventDefault();
                     // eslint-disable-next-line max-len

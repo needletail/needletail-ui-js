@@ -445,6 +445,8 @@ export class GroupedSearchBar extends Widget {
                 }
 
                 element.addEventListener('keydown', (e) => {
+                    element.classList.add('active');
+
                     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                         e.preventDefault();
                         // eslint-disable-next-line max-len
