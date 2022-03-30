@@ -12,7 +12,7 @@
     "eslint-fix": "eslint \"src/**/*\" --fix"
   },
   "devDependencies": {
-    "@needletail/js": "^3.0.14",
+    "@needletail/js": "^3.0.16",
     "@types/lodash": "^4.14.165",
     "@types/mustache": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^3.0.0",
