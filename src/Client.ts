@@ -6,8 +6,8 @@ import {WidgetOptions} from './Imports/Types';
 export class Client extends NeedletailClient {
     widgets: WidgetCollection;
 
-    constructor(readKey: string) {
-        super(readKey);
+    constructor(readKey: string, baseUrl: string) {
+        super(readKey, baseUrl);
 
         this.widgets = new WidgetCollection(this);
     }
