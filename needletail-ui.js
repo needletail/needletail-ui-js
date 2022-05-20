@@ -1793,7 +1793,7 @@ class URIHelper {
         const currentUrl = new URL(window.location.href);
         if (deleteOnExist && currentUrl.searchParams.has(name)) {
             const values = currentUrl.searchParams.getAll(name);
-            const index = values.indexOf(value);
+            const index = values.indexOf(String(value));
             if (index > -1) {
                 currentUrl.searchParams.delete(name);
                 delete values[index];
