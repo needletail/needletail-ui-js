@@ -1482,7 +1482,7 @@ class Switch extends BaseClasses_1.Aggregation {
         return this;
     }
     getAttributeValue() {
-        return this.attributeValue;
+        return this.attributeValue.toString();
     }
     setOnValue(onValue) {
         this.onValue = onValue;

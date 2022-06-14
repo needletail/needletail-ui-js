@@ -32,7 +32,7 @@ export class Switch extends Aggregation {
     }
 
     getAttributeValue(): string {
-        return this.attributeValue;
+        return this.attributeValue.toString();
     }
 
     setOnValue(onValue: string): Switch {
