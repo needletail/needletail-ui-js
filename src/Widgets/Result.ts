@@ -810,6 +810,7 @@ export class Result extends Widget {
                 sortSelect[i].value = this.getSortSelectDefault();
 
                 sortSelect[i].addEventListener('change', (e: any) => {
+                    this.hardReset = true;
                     this.setSortSelectDefault(e.target.value);
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
