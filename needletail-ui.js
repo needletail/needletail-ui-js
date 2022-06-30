@@ -4818,6 +4818,7 @@ class Result extends BaseClasses_1.Widget {
         this.allowedLoaders = ['round-dots', 'round-line', 'straight-bars', 'straight-dots'];
         this.totalResults = 0;
         this.totalResultsText = ':count total results';
+        this.extraOptions = {};
         this.setQuery(options.query || this.getQuery());
         this.setPerPage(options.per_page || this.getPerPage());
         this.setPrevious(Helpers_1.optional(options.pagination).previous || this.getPrevious());
@@ -4846,6 +4847,7 @@ class Result extends BaseClasses_1.Widget {
         this.setBottomScrollOffset(Helpers_1.optional(options.pagination).bottom_scroll_offset || this.getBottomScrollOffset());
         this.setLoader(options.loader || this.getLoader());
         this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
+        this.setExtraOptions(options.extra_options || {});
     }
     getQuery() {
         return this.query;
@@ -5100,6 +5102,13 @@ class Result extends BaseClasses_1.Widget {
     getNoResultMessage() {
         return this.noResultMessage;
     }
+    setExtraOptions(options) {
+        this.extraOptions = options;
+        return this;
+    }
+    getExtraOptions() {
+        return this.extraOptions;
+    }
     // eslint-disable-next-line max-len
     render(results = [], pages = [], firstRender = true) {
         const template = this.getTemplate();
@@ -5147,6 +5156,7 @@ class Result extends BaseClasses_1.Widget {
             infinite_scroll: this.getInfiniteScroll(),
             total_results: this.getTotalResults(),
             total_results_text: this.getTotalResultsText(),
+            extra_options: this.getExtraOptions(),
         };
         // Enable the quick navigation
         if (this.getShowQuickPagination()) {

@@ -76,6 +76,7 @@ export class Result extends Widget {
     allowedLoaders: string[] = ['round-dots', 'round-line', 'straight-bars', 'straight-dots'];
     totalResults: number = 0;
     totalResultsText: string = ':count total results';
+    extraOptions: {} = {};
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -108,6 +109,7 @@ export class Result extends Widget {
         this.setBottomScrollOffset(optional(options.pagination).bottom_scroll_offset || this.getBottomScrollOffset());
         this.setLoader(options.loader || this.getLoader());
         this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
+        this.setExtraOptions(options.extra_options || {});
     }
 
     getQuery(): string {
@@ -431,6 +433,15 @@ export class Result extends Widget {
         return this.noResultMessage;
     }
 
+    setExtraOptions(options: {}): Result {
+        this.extraOptions = options;
+        return this;
+    }
+
+    getExtraOptions(): {} {
+        return this.extraOptions;
+    }
+
     // eslint-disable-next-line max-len
     render(results: {id: string, record: {}}[] = [], pages: {page: any, offset: number, active: string}[] = [], firstRender = true): Node {
         const template = this.getTemplate();
@@ -483,6 +494,7 @@ export class Result extends Widget {
             infinite_scroll: this.getInfiniteScroll(),
             total_results: this.getTotalResults(),
             total_results_text: this.getTotalResultsText(),
+            extra_options: this.getExtraOptions(),
         };
 
         // Enable the quick navigation

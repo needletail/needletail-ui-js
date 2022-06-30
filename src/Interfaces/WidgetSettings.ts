@@ -116,4 +116,5 @@ export interface ResultSettings extends WidgetSettings {
     buckets?: [];
     loader?: string;
     total_results_text?: string;
+    extra_options?: {};
 }
