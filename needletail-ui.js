@@ -5383,7 +5383,7 @@ class Result extends BaseClasses_1.Widget {
                                 resultChild = childNode.querySelector('.needletail-result-results');
                             }
                         });
-                        lastItem.after(resultChild);
+                        lastItem.after(...resultChild.childNodes);
                     }
                     else {
                         element.replaceChild(node.cloneNode(true), child);

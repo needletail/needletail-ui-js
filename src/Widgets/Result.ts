@@ -777,7 +777,7 @@ export class Result extends Widget {
                                 resultChild = childNode.querySelector('.needletail-result-results');
                             }
                         });
-                        lastItem.after(resultChild);
+                        lastItem.after(...resultChild.childNodes);
                     } else {
                         element.replaceChild(node.cloneNode(true), child);
                         this.hardReset = false;
