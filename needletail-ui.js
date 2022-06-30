@@ -5414,10 +5414,12 @@ class Result extends BaseClasses_1.Widget {
             for (let i = 0; i < sortSelect.length; i++) {
                 sortSelect[i].value = this.getSortSelectDefault();
                 sortSelect[i].addEventListener('change', (e) => {
-                    this.hardReset = true;
                     this.setSortSelectDefault(e.target.value);
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
+                    Helpers_1.URIHelper.addToHistory('page', '1');
+                    this.infinityPage = 1;
+                    this.hardReset = true;
                     Helpers_1.Events.emit(Helpers_1.Events.onBeforeResultRequest, {
                         query: this.getQuery(),
                     });
