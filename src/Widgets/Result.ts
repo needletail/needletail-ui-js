@@ -2,6 +2,7 @@ import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/result.html';
 import resultTemplate from './../Html/result_results.html';
 import resultSortSelect from './../Html/result_sort_select.html';
+import skeletonTemplate from './../Html/skeleton.html';
 import Mustache from 'mustache';
 // eslint-disable-next-line no-unused-vars
 import {ResultSettings} from '../Imports/Interfaces';
@@ -77,6 +78,8 @@ export class Result extends Widget {
     totalResults: number = 0;
     totalResultsText: string = ':count total results';
     extraOptions: {} = {};
+    useSkeleton: boolean = false;
+    skeletonTemplate: string;
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -110,6 +113,31 @@ export class Result extends Widget {
         this.setLoader(options.loader || this.getLoader());
         this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
         this.setExtraOptions(options.extra_options || {});
+        this.setUseSkeleton((typeof optional(options).use_skeleton !== 'undefined') ?
+            optional(options).use_skeleton : this.getUseSkeleton());
+        this.setSkeletonTemplate(optional(options).skeleton_template || this.getSkeletonTemplate());
+    }
+
+    getUseSkeleton(): boolean {
+        return this.useSkeleton;
+    }
+
+    setUseSkeleton(useSkeleton: boolean): Result {
+        this.useSkeleton = useSkeleton;
+        return this;
+    }
+
+    getSkeletonTemplate(): string {
+        if (this.skeletonTemplate) {
+            return this.skeletonTemplate;
+        }
+
+        return skeletonTemplate;
+    }
+
+    setSkeletonTemplate(template: string): Result {
+        this.skeletonTemplate = template;
+        return this;
     }
 
     getQuery(): string {
@@ -442,6 +470,16 @@ export class Result extends Widget {
         return this.extraOptions;
     }
 
+    renderSkeleton(): Node {
+        const options = {
+            records: new Array(this.getPerPage()).fill(null),
+        };
+
+        const rendered = Mustache.render(this.getSkeletonTemplate(), options);
+
+        return document.createRange().createContextualFragment(rendered);
+    }
+
     // eslint-disable-next-line max-len
     render(results: {id: string, record: {}}[] = [], pages: {page: any, offset: number, active: string}[] = [], firstRender = true): Node {
         const template = this.getTemplate();
@@ -534,6 +572,15 @@ export class Result extends Widget {
         document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
             if (!e.detail.query) {
                 e.detail.query = this.getQuery();
+            }
+
+            if (this.getUseSkeleton()) {
+                const skeletonNode: Node = this.renderSkeleton();
+                document.querySelectorAll(this.getEl()).forEach((element) => {
+                    const child = element.querySelector('.needletail-result');
+
+                    element.replaceChild(skeletonNode.cloneNode(true), child);
+                });
             }
 
             const autocompleteBars = this.client.widgets.autocompleteBar;
@@ -842,14 +889,14 @@ export class Result extends Widget {
                 });
             });
 
-            if (this.initialRequest && this.getInfiniteScroll()) {
+            if (this.initialRequest) {
                 const element: any = elements.item(parseInt(URIHelper.getSearchParam('index')));
                 const position = element.offsetTop;
                 const offsetPosition = position - this.getScrollOffset();
 
                 window.scrollTo({
                     top: offsetPosition,
-                    behavior: 'smooth',
+                    behavior: this.getInfiniteScroll() ? 'smooth' : 'auto',
                 });
             }
 

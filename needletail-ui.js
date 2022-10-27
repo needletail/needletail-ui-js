@@ -3408,7 +3408,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(41), exports);
 __exportStar(__webpack_require__(44), exports);
 __exportStar(__webpack_require__(48), exports);
-__exportStar(__webpack_require__(52), exports);
+__exportStar(__webpack_require__(53), exports);
 
 
 /***/ }),
@@ -4826,6 +4826,7 @@ const BaseClasses_1 = __webpack_require__(0);
 const result_html_1 = __importDefault(__webpack_require__(49));
 const result_results_html_1 = __importDefault(__webpack_require__(50));
 const result_sort_select_html_1 = __importDefault(__webpack_require__(51));
+const skeleton_html_1 = __importDefault(__webpack_require__(52));
 const mustache_1 = __importDefault(__webpack_require__(1));
 const Helpers_1 = __webpack_require__(2);
 const debounce_1 = __importDefault(__webpack_require__(3));
@@ -4890,6 +4891,7 @@ class Result extends BaseClasses_1.Widget {
         this.totalResults = 0;
         this.totalResultsText = ':count total results';
         this.extraOptions = {};
+        this.useSkeleton = false;
         this.setQuery(options.query || this.getQuery());
         this.setPerPage(options.per_page || this.getPerPage());
         this.setPrevious((0, Helpers_1.optional)(options.pagination).previous || this.getPrevious());
@@ -4919,6 +4921,26 @@ class Result extends BaseClasses_1.Widget {
         this.setLoader(options.loader || this.getLoader());
         this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
         this.setExtraOptions(options.extra_options || {});
+        this.setUseSkeleton((typeof (0, Helpers_1.optional)(options).use_skeleton !== 'undefined') ?
+            (0, Helpers_1.optional)(options).use_skeleton : this.getUseSkeleton());
+        this.setSkeletonTemplate((0, Helpers_1.optional)(options).skeleton_template || this.getSkeletonTemplate());
+    }
+    getUseSkeleton() {
+        return this.useSkeleton;
+    }
+    setUseSkeleton(useSkeleton) {
+        this.useSkeleton = useSkeleton;
+        return this;
+    }
+    getSkeletonTemplate() {
+        if (this.skeletonTemplate) {
+            return this.skeletonTemplate;
+        }
+        return skeleton_html_1.default;
+    }
+    setSkeletonTemplate(template) {
+        this.skeletonTemplate = template;
+        return this;
     }
     getQuery() {
         return this.query;
@@ -5180,6 +5202,13 @@ class Result extends BaseClasses_1.Widget {
     getExtraOptions() {
         return this.extraOptions;
     }
+    renderSkeleton() {
+        const options = {
+            records: new Array(this.getPerPage()).fill(null),
+        };
+        const rendered = mustache_1.default.render(this.getSkeletonTemplate(), options);
+        return document.createRange().createContextualFragment(rendered);
+    }
     // eslint-disable-next-line max-len
     render(results = [], pages = [], firstRender = true) {
         const template = this.getTemplate();
@@ -5253,6 +5282,13 @@ class Result extends BaseClasses_1.Widget {
         document.addEventListener(Helpers_1.Events.onBeforeResultRequest, (0, debounce_1.default)((e) => {
             if (!e.detail.query) {
                 e.detail.query = this.getQuery();
+            }
+            if (this.getUseSkeleton()) {
+                const skeletonNode = this.renderSkeleton();
+                document.querySelectorAll(this.getEl()).forEach((element) => {
+                    const child = element.querySelector('.needletail-result');
+                    element.replaceChild(skeletonNode.cloneNode(true), child);
+                });
             }
             const autocompleteBars = this.client.widgets.autocompleteBar;
             const aggregationBars = this.client.widgets.aggregationBar;
@@ -5512,13 +5548,13 @@ class Result extends BaseClasses_1.Widget {
                     Helpers_1.URIHelper.addToHistory('index', index.toString());
                 });
             });
-            if (this.initialRequest && this.getInfiniteScroll()) {
+            if (this.initialRequest) {
                 const element = elements.item(parseInt(Helpers_1.URIHelper.getSearchParam('index')));
                 const position = element.offsetTop;
                 const offsetPosition = position - this.getScrollOffset();
                 window.scrollTo({
                     top: offsetPosition,
-                    behavior: 'smooth',
+                    behavior: this.getInfiniteScroll() ? 'smooth' : 'auto',
                 });
             }
             this.stopLoader('infinity-scroll');
@@ -5599,6 +5635,15 @@ module.exports = code;
 
 /***/ }),
 /* 52 */
+/***/ (function(module, exports) {
+
+// Module
+var code = "<div class=\"needletail-skeleton needletail-result\"> <ul class=\"needletail-skeleton-spacing needletail-skeleton-spacing--l\"> {{#records}} <li class=\"needletail-skeleton-base\"> <div class=\"needletail-skeleton-media\"> <span class=\"needletail-skeleton-box\" style=\"width:100px;height:100px\"></span> </div> <div class=\"needletail-skeleton-body\"> <div class=\"needletail-skeleton-spacing\"> <h3 class=\"needletail-skeleton-header\"> <span class=\"needletail-skeleton-box\" style=\"width:55%\"></span> </h3> <p> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:90%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:83%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> </p> </div> </div> </li> {{/records}} </ul> </div> ";
+// Exports
+module.exports = code;
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5609,8 +5654,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AggregationBar = void 0;
 const BaseClasses_1 = __webpack_require__(0);
-const aggregation_bar_html_1 = __importDefault(__webpack_require__(53));
-const clear_filters_html_1 = __importDefault(__webpack_require__(54));
+const aggregation_bar_html_1 = __importDefault(__webpack_require__(54));
+const clear_filters_html_1 = __importDefault(__webpack_require__(55));
 const mustache_1 = __importDefault(__webpack_require__(1));
 const Helpers_1 = __webpack_require__(2);
 class AggregationBar extends BaseClasses_1.Widget {
@@ -5784,7 +5829,7 @@ exports.AggregationBar = AggregationBar;
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 // Module
@@ -5793,7 +5838,7 @@ var code = "<div class=\"needletail-aggregation-bar\"> {{#show_clear_filters_top
 module.exports = code;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 // Module

@@ -117,4 +117,6 @@ export interface ResultSettings extends WidgetSettings {
     loader?: string;
     total_results_text?: string;
     extra_options?: {};
+    use_skeleton?: boolean;
+    skeleton_template?: string;
 }
