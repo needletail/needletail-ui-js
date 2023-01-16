@@ -4622,11 +4622,12 @@ class GroupedSearchBar extends BaseClasses_1.Widget {
                             raw: bucket,
                             key: (_a = bucket.key) !== null && _a !== void 0 ? _a : bucketKey,
                             results: r.results.map((r) => {
+                                var _a;
                                 const mapped = Object.assign(Object.assign({ id: r.id }, r.record), { value: {}, raw: {} });
                                 if (r.highlight) {
                                     mapped.highlight = {};
                                 }
-                                let attributes = this.getAttributes();
+                                let attributes = (_a = bucket.attribute) !== null && _a !== void 0 ? _a : this.getAttributes();
                                 if (typeof attributes === 'string') {
                                     attributes = [attributes];
                                 }

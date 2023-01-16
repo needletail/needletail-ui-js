@@ -615,7 +615,7 @@ export class GroupedSearchBar extends Widget {
                                     mapped.highlight = {};
                                 }
 
-                                let attributes: any = this.getAttributes();
+                                let attributes: any = bucket.attribute ?? this.getAttributes();
 
                                 if (typeof attributes === 'string') {
                                     attributes = [attributes];
