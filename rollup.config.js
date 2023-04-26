@@ -8,7 +8,7 @@ import terser from '@rollup/plugin-terser';
 export default {
     input: 'src/Needletail.ts',
     output: {
-        file: 'needletail.min.js',
+        file: 'needletail-ui.min.js',
         format: 'es',
         plugins: [],
     },
