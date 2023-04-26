@@ -7,125 +7,889 @@
 		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 775:
+/***/ ((module) => {
+
+!function(t,e){if(true)module.exports=e();else { var i, n; }}(window,(function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var r=e[i]={i:i,l:!1,exports:{}};return t[i].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)n.d(i,r,function(e){return t[e]}.bind(null,r));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=6)}([function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.BaseEndpoint=void 0;const r=n(1);e.BaseEndpoint=class{constructor(t,e){this.apiKey=t,this.baseUrl=e}getApiKey(){return this.apiKey}get(t,e={}){return i(this,void 0,void 0,(function*(){try{const n=yield fetch(this.baseUrl+t,Object.assign({method:"GET"},this.getOptions(e))),i=n;return n.body&&(i.data=yield n.json()),i}catch(t){console.error(t)}}))}post(t,e={}){return i(this,void 0,void 0,(function*(){try{const n=yield fetch(this.baseUrl+t,Object.assign({method:"POST"},this.getOptions(e))),i=n;return n.body&&(i.data=yield n.json()),i}catch(t){console.error(t)}}))}getOptions(t={}){return{headers:Object.assign({"content-type":"application/json; charset=UTF-8",[r.Config.headers.apiKey]:this.getApiKey()},t.headers),body:JSON.stringify(t.data)}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Config=void 0;class i{}e.Config=i,i.baseUrl="https://api.needletail.io/3.0/",i.headers={apiKey:"x-needletail-api-key"}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Bucket=void 0;const i=n(4),r=n(3);class s extends r.BaseEntity{setName(t){return this.name=t,this}getName(){return this.name}setShowScore(t){return this.showScore=t,this}isShowScore(){return this.showScore}setDocumentCount(t){return this.documentCount=t,this}getDocumentCount(){return this.documentCount}setSearchableAttributes(t){return this.searchableAttributes=t,this}getSearchableAttributes(){return this.searchableAttributes}setRetrievableAttributes(t){return this.retrievableAttributes=t,this}getRetrievableAttributes(){return this.retrievableAttributes}setGroupBy(t){return this.groupBy=t,this}getGroupBy(){return this.groupBy}setAttributes(t){return this.attributes=t,this}getAttributes(){return this.attributes}setBoosts(t){return this.boosts=t,this}getBoosts(){return this.boosts}synonyms(){return new i.Synonyms(this.getApiKey(),this,this.getBaseUrl())}alternatives(){return new i.Alternatives(this.getApiKey(),this,this.getBaseUrl())}setBaseUrl(t){return this.baseUrl=t,this}getBaseUrl(){return this.baseUrl}}e.Bucket=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.BaseEntity=void 0;e.BaseEntity=class{setApiKey(t){return this.apiKey=t,this}getApiKey(){if(!this.apiKey)throw new Error("API key not set");return this.apiKey}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(9),e),r(n(12),e),r(n(13),e),r(n(14),e),r(n(15),e)},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(2),e),r(n(10),e),r(n(11),e)},function(t,e,n){t.exports=n(7)},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(8),e),r(n(1),e),r(n(16),e),r(n(18),e),r(n(22),e)},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Client=void 0;const r=n(4),s=n(2),o=n(1);e.Client=class{constructor(t,e){this.readKey=t,this.baseUrl=null!=e?e:o.Config.baseUrl}bulk(t){return i(this,void 0,void 0,(function*(){return yield new r.BulkSearch(this.getReadKey(),this.baseUrl).find(t)}))}search(t){return i(this,void 0,void 0,(function*(){return yield new r.Search(this.getReadKey(),this.baseUrl).find(t)}))}buckets(){return new r.Buckets(this.getReadKey(),this.baseUrl)}alternatives(t){const e=new s.Bucket;return e.setApiKey(this.getReadKey()).setName(t),e.alternatives()}synonyms(t){const e=new s.Bucket;return e.setApiKey(this.getReadKey()).setName(t),e.synonyms()}getReadKey(){return this.readKey}}},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Alternatives=void 0;const r=n(0),s=n(5);class o extends r.BaseEndpoint{constructor(t,e,n){super(t,n),this.bucket=e}all(){return i(this,void 0,void 0,(function*(){const t=yield this.get(`buckets/${this.bucket.getName()}/alternatives`),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get(`buckets/${this.bucket.getName()}/alternatives/${t}`);return this.toEntity(e)}))}toEntity(t){return(new s.Alternative).setApiKey(this.getApiKey()).setId(t.id).setOriginalWord(t.original_word).setAlternativeWords(t.alternative_words)}}e.Alternatives=o},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Synonym=void 0;const i=n(3);class r extends i.BaseEntity{setBucket(t){return this.bucket=t,this}getBucket(){return this.bucket}setId(t){return this.id=t,this}getId(){return this.id}setWords(t){return this.words=t,this}getWords(){return this.words}}e.Synonym=r},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Alternative=void 0;const i=n(3);class r extends i.BaseEntity{setBucket(t){return this.bucket=t,this}getBucket(){return this.bucket}setId(t){return this.id=t,this}getId(){return this.id}setOriginalWord(t){return this.originalWord=t,this}getOriginalWord(){return this.originalWord}setAlternativeWords(t){return this.alternativeWords=t,this}getAlternativeWords(){return this.alternativeWords}}e.Alternative=r},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Buckets=void 0;const r=n(0),s=n(2);class o extends r.BaseEndpoint{all(){return i(this,void 0,void 0,(function*(){const t=yield this.get("buckets"),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get("buckets/"+t);return this.toEntity(e)}))}toEntity(t){return(new s.Bucket).setApiKey(this.getApiKey()).setName(t.name).setShowScore(t.show_score).setDocumentCount(t.document_count).setSearchableAttributes(t.searchable_attributes).setRetrievableAttributes(t.retrievable_attributes).setGroupBy(t.group_by).setAttributes(t.attributes).setBoosts(t.boosts)}}e.Buckets=o},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Synonyms=void 0;const r=n(0),s=n(5);class o extends r.BaseEndpoint{constructor(t,e,n){super(t,n),this.bucket=e}all(){return i(this,void 0,void 0,(function*(){const t=yield this.get(`buckets/${this.bucket.getName()}/synonyms`),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get(`buckets/${this.bucket.getName()}/synonyms/${t}`);return this.toEntity(e)}))}toEntity(t){return(new s.Synonym).setApiKey(this.getApiKey()).setId(t.id).setWords(t.words)}}e.Synonyms=o},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.BulkSearch=void 0;const i=n(0);class r extends i.BaseEndpoint{find(t){return this.post("search/bulk",{data:t})}}e.BulkSearch=r},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Search=void 0;const i=n(0);class r extends i.BaseEndpoint{find(t){return this.post("search",{data:t})}}e.Search=r},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(17),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.geoPoint=void 0,e.geoPoint=function(t,e,n){return{geo_point:{lat:t,lng:e,distance:n}}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(19),e),r(n(20),e),r(n(21),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.equals=void 0,e.equals=function(t={}){return{equals:t}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.notEquals=void 0,e.notEquals=function(t={}){return{not_equals:t}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.should=void 0,e.should=function(t={}){return{should:t}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(23),e),r(n(24),e),r(n(25),e),r(n(26),e),r(n(27),e),r(n(28),e),r(n(29),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.field=void 0,e.field=function(t){return{field:{field:t}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.fuzzy=void 0,e.fuzzy=function(t,e){return{fuzzy:{field:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.like=void 0,e.like=function(t,e){return{like:{fields:"string"==typeof t?[t]:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.match=void 0,e.match=function(t,e){return{match:{field:t,values:"string"==typeof e?[e]:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.range=void 0,e.range=function(t,e,n){return{range:{field:t,gte:e,lte:n}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.regex=void 0,e.regex=function(t,e){return{regex:{field:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.startsWith=void 0,e.startsWith=function(t,e){return{starts_with:{field:t,value:e}}}}])}));
+
+/***/ }),
+
+/***/ 3665:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
 "use strict";
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "needletail.min.css");
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(18), exports);
-__exportStar(__webpack_require__(19), exports);
+/***/ }),
+
+/***/ 2213:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation needletail-aggregation-checkbox needletail-aggregation-checkbox-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-checkbox-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> {{#options}} <label class=\"needletail-aggregation-checkbox-option {{#show_more_options}}needletail-hidden{{/show_more_options}}\"> <input type=\"checkbox\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-checkbox-option-input needletail-aggregation-checkbox-option-input-{{ name }}\"> <span class=\"needletail-aggregation-checkbox-option-checkmark\"></span> <span class=\"needletail-aggregation-checkbox-option-label\">{{ value }}</span> <span class=\"needletail-aggregation-checkbox-option-count\">{{ count }}</span> </label> {{/options}} {{#show_more_options}} <div class=\"needletail-show-more-options\">{{{ show_more_options_text }}}</div> <div class=\"needletail-show-less-options needletail-hidden\">{{{ show_less_options_text }}}</div> {{/show_more_options}} </div> </div> ";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 9256:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation needletail-aggregation-radio needletail-aggregation-radio-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-radio-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> {{#options}} <label class=\"needletail-aggregation-radio-option {{#show_more_options}}needletail-hidden{{/show_more_options}}\"> <input type=\"radio\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-radio-option-input needletail-aggregation-radio-option-input-{{ name }}\"> <span class=\"needletail-aggregation-radio-option-checkmark\"></span> <span class=\"needletail-aggregation-radio-option-label\">{{ value }}</span> <span class=\"needletail-aggregation-radio-option-count\">{{ count }}</span> </label> {{/options}} {{#show_more_options}} <div class=\"needletail-show-more-options\">{{{ show_more_options_text }}}</div> <div class=\"needletail-show-less-options needletail-hidden\">{{{ show_less_options_text }}}</div> {{/show_more_options}} </div> </div> ";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 4131:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation needletail-aggregation-slider needletail-aggregation-slider-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-slider-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <div class=\"needletail-aggregation-slider-container\"> <input type=\"range\" name=\"{{ name }}\" min=\"{{ min }}\" max=\"{{ max }}\" value=\"{{ value }}\" class=\"needletail-aggregation-slider-input needletail-aggregation-slider-input-{{ name }}\"> </div> </div> </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 6345:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation needletail-aggregation-slider needletail-aggregation-slider-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-slider-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <div class=\"needletail-aggregation-slider-container__range\"> {{#inputs_top}} <div class=\"needletail-aggregation-slider-inputs top\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-min {{ display_only }}\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-max {{ display_only }}\"> </div> {{/inputs_top}} <div class=\"needletail-aggregation-slider-range-container\"> <div class=\"needletail-aggregation-slider-range\"> <div class=\"needletail-aggregation-slider-range-left\"></div> <div class=\"needletail-aggregation-slider-range-divider\"></div> <div class=\"needletail-aggregation-slider-range-right\"></div> </div> </div> {{#inputs_bottom}} <div class=\"needletail-aggregation-slider-inputs bottom\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-min {{ display_only }}\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-max {{ display_only }}\"> </div> {{/inputs_bottom}} </div> </div> </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 8306:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation needletail-aggregation-switch needletail-aggregation-switch-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-switch-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <span class=\"needletail-aggregation-boolean-label\">{{ off_value }}</span> <label class=\"needletail-aggregation-switch-container\"> <input type=\"checkbox\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-switch-input needletail-aggregation-switch-input-{{ name }}\"> <span class=\"needletail-aggregation-switch-slider\"></span> </label> <span class=\"needletail-aggregation-boolean-label\">{{ on_value }}</span> </div> </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 5581:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-aggregation-bar\"> {{#show_clear_filters_top}} <div class=\"needletail-clear-filters-top\"> {{{ clear_filters }}} </div> {{/show_clear_filters_top}} {{#fields}} <div class=\"needletail-aggregation-item\"> {{{ . }}} </div> {{/fields}} {{#show_clear_filters_bottom}} <div class=\"needletail-clear-filters-bottom\"> {{{ clear_filters }}} </div> {{/show_clear_filters_bottom}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 4773:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-autocomplete-bar needletail-autocomplete-bar-{{ name }}\"> <input type=\"text\" class=\"needletail-autocomplete-bar-input needletail-empty\" autocomplete=\"off\" spellcheck=\"false\" placeholder=\"{{ placeholder }}\"> {{{ results }}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 5542:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-autocomplete-bar-results\"> {{#initial_input}} <div class=\"needletail-autocomplete-bar-result needletail-initial-input\" data-attribute=\"{{ initial_input }}\"> {{ initial_input }} </div> {{/initial_input}} {{#results}} <div class=\"needletail-autocomplete-bar-result\" data-attribute=\"{{ raw.title }}\"> {{#highlight.title}}{{{ highlight.title }}}{{/highlight.title}}{{^highlight.title}}{{ title }}{{/highlight.title}} </div> {{/results}} {{^results}} <div class=\"needletail-autocomplete-bar-no-result\"> {{{ no_result_message }}} </div> {{/results}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 757:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<span class=\"needletail-clear-filters {{ hidden }}\">{{{ text }}}</span>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 7512:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-grouped-search-bar needletail-grouped-search-bar-{{ name }}\"> <input type=\"text\" class=\"needletail-grouped-search-bar-input needletail-empty\" autocomplete=\"off\" spellcheck=\"false\" placeholder=\"{{ placeholder }}\"> {{{ results }}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 3070:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-grouped-search-bar-results\"> <div class=\"needletail-grouped-search-bar-result-results\"> {{#initial_input}} <div class=\"needletail-grouped-search-bar-result needletail-initial-input\" data-attribute=\"{{ initial_input }}\"> {{{ initial_input }}} </div> {{/initial_input}} </div> {{#results}} {{{ . }}} {{/results}} {{^results}} <div class=\"needletail-grouped-search-bar-no-result\"> {{{ no_result_message }}} </div> {{/results}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 7302:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-grouped-search-bar-result-title\"> {{ key }} </div> <div class=\"needletail-grouped-search-bar-result-results\"> {{#results}} <div class=\"needletail-grouped-search-bar-result\" data-attribute=\"{{ raw.title }}\"> {{#highlight.title}}{{{ highlight.title }}}{{/highlight.title}}{{^highlight.title}}{{ title }}{{/highlight.title}} </div> {{/results}} </div>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 9567:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-result\"> <div class=\"needletail-total-results\"> {{ total_results_text }} </div> {{#use_sort_select}} {{{ sort_select }}} {{/use_sort_select}} <div class=\"needletail-result-results {{ hide_on_initial_request }}\"> {{{results}}} </div> {{#infinite_scroll}} <div class=\"needletail-loader infinity-scroll\"></div> {{/infinite_scroll}} <div class=\"needletail-result-pagination {{ hide_pagination }}\"> {{#first_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-first {{ disable_first_button }}\" data-page=\"{{ first_page }}\">{{{ first_button }}}</div> {{/first_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-previous {{ disable_previous_button }}\" data-page=\"{{ previous_page }}\">{{{ previous_button }}}</div> {{#pages}} <div class=\"needletail-result-pagination-page {{active}}\" data-offset=\"{{offset}}\" data-page=\"{{page}}\"> {{page}} </div> {{/pages}} <div class=\"needletail-result-pagination-page needletail-result-pagination-next {{ disable_next_button }}\" data-page=\"{{ next_page }}\">{{{ next_button }}}</div> {{#last_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-last {{ disable_last_button }}\" data-page=\"{{ last_page }}\">{{{ last_button }}}</div> {{/last_button}} </div> </div> ";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 8506:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "{{#results}} <div class=\"needletail-result-result\"> <div class=\"needletail-result-title\">{{ title }}</div> <div class=\"needletail-result-body\">{{ body }}</div> </div> {{/results}} {{^results}} <div class=\"needletail-result-no-result\"> {{{ no_result_message }}} </div> {{/results}}";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 9660:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<select class=\"needletail-sort-select\"> {{#options}} <option value=\"{{ name }}\" data-attribute=\"{{ attribute }}\" data-direction=\"{{ direction }}\">{{#display_name}}{{{ display_name }}}{{/display_name}}{{^display_name}}{{ name }}{{/display_name}}</option> {{/options}} </select>";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 4148:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = "<div class=\"needletail-skeleton needletail-result\"> <ul class=\"needletail-skeleton-spacing needletail-skeleton-spacing--l\"> {{#records}} <li class=\"needletail-skeleton-base\"> <div class=\"needletail-skeleton-media\"> <span class=\"needletail-skeleton-box\" style=\"width:100px;height:100px\"></span> </div> <div class=\"needletail-skeleton-body\"> <div class=\"needletail-skeleton-spacing\"> <h3 class=\"needletail-skeleton-header\"> <span class=\"needletail-skeleton-box\" style=\"width:55%\"></span> </h3> <p> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:90%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:83%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> </p> </div> </div> </li> {{/records}} </ul> </div> ";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 2705:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var root = __webpack_require__(5639);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 4239:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Symbol = __webpack_require__(2705),
+    getRawTag = __webpack_require__(9607),
+    objectToString = __webpack_require__(2333);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+
+/***/ 7561:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var trimmedEndIndex = __webpack_require__(7990);
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+module.exports = baseTrim;
+
+
+/***/ }),
+
+/***/ 1957:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof __webpack_require__.g == 'object' && __webpack_require__.g && __webpack_require__.g.Object === Object && __webpack_require__.g;
+
+module.exports = freeGlobal;
+
+
+/***/ }),
+
+/***/ 9607:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Symbol = __webpack_require__(2705);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+
+/***/ 2333:
+/***/ ((module) => {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+
+/***/ 5639:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var freeGlobal = __webpack_require__(1957);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ 7990:
+/***/ ((module) => {
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+module.exports = trimmedEndIndex;
+
+
+/***/ }),
+
+/***/ 3279:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isObject = __webpack_require__(3218),
+    now = __webpack_require__(7771),
+    toNumber = __webpack_require__(4841);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+
+/***/ 3218:
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+
+/***/ 7005:
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+
+/***/ 3448:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseGetTag = __webpack_require__(4239),
+    isObjectLike = __webpack_require__(7005);
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ }),
+
+/***/ 7771:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var root = __webpack_require__(5639);
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+
+/***/ 4841:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseTrim = __webpack_require__(7561),
+    isObject = __webpack_require__(3218),
+    isSymbol = __webpack_require__(3448);
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = baseTrim(value);
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+
+/***/ }),
+
+/***/ 466:
+/***/ (function(module) {
 
 (function (global, factory) {
    true ? module.exports = factory() :
-  undefined;
+  0;
 }(this, (function () { 'use strict';
 
   /*!
@@ -897,750 +1661,13 @@ __exportStar(__webpack_require__(19), exports);
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 2894:
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(20), exports);
-__exportStar(__webpack_require__(21), exports);
-__exportStar(__webpack_require__(4), exports);
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(5),
-    now = __webpack_require__(29),
-    toNumber = __webpack_require__(32);
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        clearTimeout(timerId);
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Events = void 0;
-class Events {
-    static emit(name, data = {}) {
-        const event = new CustomEvent(name, {
-            'detail': data,
-        });
-        document.dispatchEvent(event);
-    }
-}
-exports.Events = Events;
-/**
- * Called when the grouped search bar is submitted
- */
-Events.onSubmitGroupedSearch = 'onSubmitGroupedSearch';
-/**
- * Called when the grouped search bar starts searching
- */
-Events.onGroupedSearch = 'onGroupedSearch';
-/**
- * Called before the grouped search bar starts searching
- */
-Events.onBeforeGroupedSearch = 'onBeforeGroupedSearch';
-/**
- * Called after the grouped search bar finishes searching
- */
-Events.onAfterGroupedSearch = 'onAfterGroupedSearch';
-/**
- * When the arrow up or down is pressed
- */
-Events.onArrowMovementGroupedSearch = 'onArrowMovementGroupedSearch';
-/**
- * Called when the autocomplete bar is submitted
- */
-Events.onSubmitSearch = 'onSubmitSearch';
-/**
- * Called when the autocomplete bar starts searching
- */
-Events.onSearch = 'onSearch';
-/**
- * Called before the autocomplete bar starts searching
- */
-Events.onBeforeSearch = 'onBeforeSearch';
-/**
- * Called after the autocomplete bar finishes searching
- */
-Events.onAfterSearch = 'onAfterSearch';
-/**
- * When the arrow up or down is pressed
- */
-Events.onArrowMovementSearch = 'onArrowMovementSearch';
-Events.onForceResultBlur = 'onForceResultBlur';
-/**
- * When the result should be updated
- */
-Events.onResultRequest = 'onResultRequest';
-/**
- * Before the results are updated
- */
-Events.onBeforeResultRequest = 'onBeforeResultRequest';
-/**
- * After the results are updated
- */
-Events.onAfterResultRequest = 'onAfterResultRequest';
-/**
- * When a page gets changed
- */
-Events.onPageChange = 'onPageChange';
-Events.onClickResult = 'onClickResult';
-/**
- * When any of the aggregations are updated
- */
-Events.onAggsUpdate = 'onAggsUpdate';
-Events.onAggregationValueChange = 'onAggregationValueChange';
-Events.autocompleteBarFinished = 'autocompleteBarFinished';
-Events.groupedSearchBarFinished = 'groupedSearchBarFinished';
-Events.resultFinished = 'resultFinished';
-Events.aggregationFinished = 'aggregationFinished';
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(30);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(6);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(9);
-module.exports = __webpack_require__(10);
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "needletail.min.css");
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(11), exports);
-__exportStar(__webpack_require__(15), exports);
-__exportStar(__webpack_require__(40), exports);
-__exportStar(__webpack_require__(4), exports);
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
-const js_1 = __webpack_require__(12);
-const Collections_1 = __webpack_require__(13);
-class Client extends js_1.Client {
-    constructor(readKey, baseUrl = null) {
-        super(readKey, baseUrl);
-        this.widgets = new Collections_1.WidgetCollection(this);
-    }
-    /**
-     * Add a widget to the client
-     * @param {WidgetOptions} widget
-     * @return {Client}
-     */
-    addWidget(widget) {
-        this.widgets.add(widget);
-        return this;
-    }
-    /**
-     * Add multiple widgets at the same time
-     * @param {WidgetOptions[]} widgets
-     * @return {Client}
-     */
-    addMultipleWidgets(widgets) {
-        this.widgets.addMultiple(widgets);
-        return this;
-    }
-}
-exports.Client = Client;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(t,e){if(true)module.exports=e();else { var i, n; }}(window,(function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var r=e[i]={i:i,l:!1,exports:{}};return t[i].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)n.d(i,r,function(e){return t[e]}.bind(null,r));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=6)}([function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.BaseEndpoint=void 0;const r=n(1);e.BaseEndpoint=class{constructor(t,e){this.apiKey=t,this.baseUrl=e}getApiKey(){return this.apiKey}get(t,e={}){return i(this,void 0,void 0,(function*(){try{const n=yield fetch(this.baseUrl+t,Object.assign({method:"GET"},this.getOptions(e))),i=n;return n.body&&(i.data=yield n.json()),i}catch(t){console.error(t)}}))}post(t,e={}){return i(this,void 0,void 0,(function*(){try{const n=yield fetch(this.baseUrl+t,Object.assign({method:"POST"},this.getOptions(e))),i=n;return n.body&&(i.data=yield n.json()),i}catch(t){console.error(t)}}))}getOptions(t={}){return{headers:Object.assign({"content-type":"application/json; charset=UTF-8",[r.Config.headers.apiKey]:this.getApiKey()},t.headers),body:JSON.stringify(t.data)}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Config=void 0;class i{}e.Config=i,i.baseUrl="https://api.needletail.io/3.0/",i.headers={apiKey:"x-needletail-api-key"}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Bucket=void 0;const i=n(4),r=n(3);class s extends r.BaseEntity{setName(t){return this.name=t,this}getName(){return this.name}setShowScore(t){return this.showScore=t,this}isShowScore(){return this.showScore}setDocumentCount(t){return this.documentCount=t,this}getDocumentCount(){return this.documentCount}setSearchableAttributes(t){return this.searchableAttributes=t,this}getSearchableAttributes(){return this.searchableAttributes}setRetrievableAttributes(t){return this.retrievableAttributes=t,this}getRetrievableAttributes(){return this.retrievableAttributes}setGroupBy(t){return this.groupBy=t,this}getGroupBy(){return this.groupBy}setAttributes(t){return this.attributes=t,this}getAttributes(){return this.attributes}setBoosts(t){return this.boosts=t,this}getBoosts(){return this.boosts}synonyms(){return new i.Synonyms(this.getApiKey(),this,this.getBaseUrl())}alternatives(){return new i.Alternatives(this.getApiKey(),this,this.getBaseUrl())}setBaseUrl(t){return this.baseUrl=t,this}getBaseUrl(){return this.baseUrl}}e.Bucket=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.BaseEntity=void 0;e.BaseEntity=class{setApiKey(t){return this.apiKey=t,this}getApiKey(){if(!this.apiKey)throw new Error("API key not set");return this.apiKey}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(9),e),r(n(12),e),r(n(13),e),r(n(14),e),r(n(15),e)},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(2),e),r(n(10),e),r(n(11),e)},function(t,e,n){t.exports=n(7)},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(8),e),r(n(1),e),r(n(16),e),r(n(18),e),r(n(22),e)},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Client=void 0;const r=n(4),s=n(2),o=n(1);e.Client=class{constructor(t,e){this.readKey=t,this.baseUrl=null!=e?e:o.Config.baseUrl}bulk(t){return i(this,void 0,void 0,(function*(){return yield new r.BulkSearch(this.getReadKey(),this.baseUrl).find(t)}))}search(t){return i(this,void 0,void 0,(function*(){return yield new r.Search(this.getReadKey(),this.baseUrl).find(t)}))}buckets(){return new r.Buckets(this.getReadKey(),this.baseUrl)}alternatives(t){const e=new s.Bucket;return e.setApiKey(this.getReadKey()).setName(t),e.alternatives()}synonyms(t){const e=new s.Bucket;return e.setApiKey(this.getReadKey()).setName(t),e.synonyms()}getReadKey(){return this.readKey}}},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Alternatives=void 0;const r=n(0),s=n(5);class o extends r.BaseEndpoint{constructor(t,e,n){super(t,n),this.bucket=e}all(){return i(this,void 0,void 0,(function*(){const t=yield this.get(`buckets/${this.bucket.getName()}/alternatives`),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get(`buckets/${this.bucket.getName()}/alternatives/${t}`);return this.toEntity(e)}))}toEntity(t){return(new s.Alternative).setApiKey(this.getApiKey()).setId(t.id).setOriginalWord(t.original_word).setAlternativeWords(t.alternative_words)}}e.Alternatives=o},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Synonym=void 0;const i=n(3);class r extends i.BaseEntity{setBucket(t){return this.bucket=t,this}getBucket(){return this.bucket}setId(t){return this.id=t,this}getId(){return this.id}setWords(t){return this.words=t,this}getWords(){return this.words}}e.Synonym=r},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Alternative=void 0;const i=n(3);class r extends i.BaseEntity{setBucket(t){return this.bucket=t,this}getBucket(){return this.bucket}setId(t){return this.id=t,this}getId(){return this.id}setOriginalWord(t){return this.originalWord=t,this}getOriginalWord(){return this.originalWord}setAlternativeWords(t){return this.alternativeWords=t,this}getAlternativeWords(){return this.alternativeWords}}e.Alternative=r},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Buckets=void 0;const r=n(0),s=n(2);class o extends r.BaseEndpoint{all(){return i(this,void 0,void 0,(function*(){const t=yield this.get("buckets"),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get("buckets/"+t);return this.toEntity(e)}))}toEntity(t){return(new s.Bucket).setApiKey(this.getApiKey()).setName(t.name).setShowScore(t.show_score).setDocumentCount(t.document_count).setSearchableAttributes(t.searchable_attributes).setRetrievableAttributes(t.retrievable_attributes).setGroupBy(t.group_by).setAttributes(t.attributes).setBoosts(t.boosts)}}e.Buckets=o},function(t,e,n){"use strict";var i=this&&this.__awaiter||function(t,e,n,i){return new(n||(n=Promise))((function(r,s){function o(t){try{c(i.next(t))}catch(t){s(t)}}function u(t){try{c(i.throw(t))}catch(t){s(t)}}function c(t){var e;t.done?r(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(o,u)}c((i=i.apply(t,e||[])).next())}))};Object.defineProperty(e,"__esModule",{value:!0}),e.Synonyms=void 0;const r=n(0),s=n(5);class o extends r.BaseEndpoint{constructor(t,e,n){super(t,n),this.bucket=e}all(){return i(this,void 0,void 0,(function*(){const t=yield this.get(`buckets/${this.bucket.getName()}/synonyms`),e=[];return t.forEach(t=>{e.push(this.toEntity(t))}),e}))}find(t){return i(this,void 0,void 0,(function*(){const e=yield this.get(`buckets/${this.bucket.getName()}/synonyms/${t}`);return this.toEntity(e)}))}toEntity(t){return(new s.Synonym).setApiKey(this.getApiKey()).setId(t.id).setWords(t.words)}}e.Synonyms=o},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.BulkSearch=void 0;const i=n(0);class r extends i.BaseEndpoint{find(t){return this.post("search/bulk",{data:t})}}e.BulkSearch=r},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Search=void 0;const i=n(0);class r extends i.BaseEndpoint{find(t){return this.post("search",{data:t})}}e.Search=r},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(17),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.geoPoint=void 0,e.geoPoint=function(t,e,n){return{geo_point:{lat:t,lng:e,distance:n}}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(19),e),r(n(20),e),r(n(21),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.equals=void 0,e.equals=function(t={}){return{equals:t}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.notEquals=void 0,e.notEquals=function(t={}){return{not_equals:t}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.should=void 0,e.should=function(t={}){return{should:t}}},function(t,e,n){"use strict";var i=this&&this.__createBinding||(Object.create?function(t,e,n,i){void 0===i&&(i=n),Object.defineProperty(t,i,{enumerable:!0,get:function(){return e[n]}})}:function(t,e,n,i){void 0===i&&(i=n),t[i]=e[n]}),r=this&&this.__exportStar||function(t,e){for(var n in t)"default"===n||Object.prototype.hasOwnProperty.call(e,n)||i(e,t,n)};Object.defineProperty(e,"__esModule",{value:!0}),r(n(23),e),r(n(24),e),r(n(25),e),r(n(26),e),r(n(27),e),r(n(28),e),r(n(29),e)},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.field=void 0,e.field=function(t){return{field:{field:t}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.fuzzy=void 0,e.fuzzy=function(t,e){return{fuzzy:{field:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.like=void 0,e.like=function(t,e){return{like:{fields:"string"==typeof t?[t]:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.match=void 0,e.match=function(t,e){return{match:{field:t,values:"string"==typeof e?[e]:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.range=void 0,e.range=function(t,e,n){return{range:{field:t,gte:e,lte:n}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.regex=void 0,e.regex=function(t,e){return{regex:{field:t,value:e}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.startsWith=void 0,e.startsWith=function(t,e){return{starts_with:{field:t,value:e}}}}])}));
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(14), exports);
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.WidgetCollection = void 0;
-class WidgetCollection {
-    constructor(client) {
-        /**
-         * @type {AutocompleteBar[]} All the autocomplete bar widgets
-         */
-        this.autocompleteBar = [];
-        /**
-         * @type {GroupedSearchBar[]} All the grouped search bar widgets
-         */
-        this.groupedSearchBar = [];
-        /**
-         * @type {Result[]} All the result widgets
-         */
-        this.result = [];
-        /**
-         * @type {AggregationBar[]} All the aggregation bar widgets
-         */
-        this.aggregationBar = [];
-        this.client = client;
-    }
-    add(widget) {
-        switch (widget.discriminator) {
-            case 'AutocompleteBar':
-                this.autocompleteBar.push(widget);
-                break;
-            case 'GroupedSearchBar':
-                this.groupedSearchBar.push(widget);
-                break;
-            case 'Result':
-                this.result.push(widget);
-                break;
-            case 'AggregationBar':
-                this.aggregationBar.push(widget);
-                break;
-            default:
-                // If the widget does not have an array throw an error
-                console.error(widget);
-                throw new Error('Unsupported widget: ' + widget.discriminator);
-        }
-        widget.setClient(this.client)
-            .build();
-    }
-    addMultiple(widgets) {
-        widgets.forEach((widget) => {
-            this.add(widget);
-        });
-    }
-}
-exports.WidgetCollection = WidgetCollection;
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(16), exports);
-__exportStar(__webpack_require__(22), exports);
-__exportStar(__webpack_require__(24), exports);
-__exportStar(__webpack_require__(26), exports);
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Switch = void 0;
-const switch_html_1 = __importDefault(__webpack_require__(17));
-const BaseClasses_1 = __webpack_require__(0);
-const mustache_1 = __importDefault(__webpack_require__(1));
-const Helpers_1 = __webpack_require__(2);
-class Switch extends BaseClasses_1.Aggregation {
-    constructor(options = {}) {
-        super(options);
-        this.discriminator = 'Switch';
-        this.onValue = 'On';
-        this.offValue = 'Off';
-        this.setOnValue(options.on_value || this.getOnValue());
-        this.setOffValue(options.off_value || this.getOffValue());
-        this.setAttributeValue(options.attribute_value || this.getAttributeValue());
-        this.value = {
-            field: this.getAttribute(),
-            value: '',
-            is_aggregation: true,
-            exclude_from_search: true,
-        };
-    }
-    setAttributeValue(attributeValue) {
-        this.attributeValue = attributeValue;
-        return this;
-    }
-    getAttributeValue() {
-        return this.attributeValue.toString();
-    }
-    setOnValue(onValue) {
-        this.onValue = onValue;
-        return this;
-    }
-    getOnValue() {
-        return this.onValue;
-    }
-    setOffValue(offValue) {
-        this.offValue = offValue;
-        return this;
-    }
-    getOffValue() {
-        return this.offValue;
-    }
-    getTemplate() {
-        if (this.template) {
-            return this.template;
-        }
-        return switch_html_1.default;
-    }
-    render() {
-        const template = this.getTemplate();
-        return mustache_1.default.render(template, {
-            title: this.getTitle(),
-            class_title: this.getClassTitle(),
-            name: this.getClassTitle(),
-            on_value: this.getOnValue(),
-            off_value: this.getOffValue(),
-            collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
-            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
-        });
-    }
-    /**
-     * Add listeners, set the default value
-     */
-    executeJS() {
-        const title = this.getTitle();
-        const prevVal = Helpers_1.URIHelper.getSearchParam(title);
-        // eslint-disable-next-line max-len
-        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
-            .forEach((element) => {
-            // Set the default value
-            element.checked = (Helpers_1.URIHelper.getSearchParam(title) === this.getAttributeValue());
-            element.addEventListener('change', () => {
-                this.handle(element);
-            });
-            if (element.checked) {
-                this.hasActiveAggregation = true;
-                Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {
-                    'name': this.getAttribute(),
-                    'hasActive': this.hasActiveAggregation,
-                });
-            }
-        });
-        // eslint-disable-next-line max-len
-        document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.getClassTitle()}`)
-            .forEach((element) => {
-            if (this.getCollapsible()) {
-                element.querySelector('.needletail-aggregation-switch-title')
-                    .addEventListener('click', (e) => {
-                    if (element.classList.contains('needletail-collapsed')) {
-                        element.classList.remove('needletail-collapsed');
-                    }
-                    else {
-                        element.classList.add('needletail-collapsed');
-                    }
-                });
-            }
-        });
-        this.values[prevVal] = prevVal;
-        this.value = {
-            field: this.getAttribute(),
-            value: prevVal,
-            is_aggregation: true,
-        };
-    }
-    handle(element, skipHistory = false) {
-        const attributeValue = this.getAttributeValue();
-        if (!skipHistory) {
-            Helpers_1.URIHelper.addToHistory(this.getTitle(), attributeValue, true);
-        }
-        if (this.values[attributeValue]) {
-            delete this.values[attributeValue];
-        }
-        else {
-            this.values[attributeValue] = attributeValue;
-        }
-        this.value = {
-            field: this.getAttribute(),
-            value: (this.values[attributeValue]) ? attributeValue : '',
-            is_aggregation: true,
-        };
-        this.hasActiveAggregation = true;
-        if (!this.values[attributeValue]) {
-            this.value = {
-                field: this.getAttribute(),
-                value: '',
-                is_aggregation: true,
-                exclude_from_search: true,
-            };
-            this.hasActiveAggregation = false;
-        }
-        Helpers_1.Events.emit(Helpers_1.Events.onBeforeResultRequest, {});
-        Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {
-            'name': this.getAttribute(),
-            'hasActive': this.hasActiveAggregation,
-        });
-    }
-    reset() {
-        // eslint-disable-next-line max-len
-        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
-            .forEach((element) => {
-            if (element.checked) {
-                element.checked = false;
-                this.handle(element);
-            }
-        });
-    }
-}
-exports.Switch = Switch;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-aggregation needletail-aggregation-switch needletail-aggregation-switch-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-switch-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <span class=\"needletail-aggregation-boolean-label\">{{ off_value }}</span> <label class=\"needletail-aggregation-switch-container\"> <input type=\"checkbox\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-switch-input needletail-aggregation-switch-input-{{ name }}\"> <span class=\"needletail-aggregation-switch-slider\"></span> </label> <span class=\"needletail-aggregation-boolean-label\">{{ on_value }}</span> </div> </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Aggregation = void 0;
 class Aggregation {
     constructor(options = {}) {
@@ -1743,12 +1770,13 @@ exports.Aggregation = Aggregation;
 
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 8762:
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Widget = void 0;
 class Widget {
     constructor(options = {}) {
@@ -1800,12 +1828,231 @@ exports.Widget = Widget;
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 6108:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Client = void 0;
+const js_1 = __webpack_require__(775);
+const Collections_1 = __webpack_require__(7288);
+class Client extends js_1.Client {
+    constructor(readKey, baseUrl = null) {
+        super(readKey, baseUrl);
+        this.widgets = new Collections_1.WidgetCollection(this);
+    }
+    /**
+     * Add a widget to the client
+     * @param {WidgetOptions} widget
+     * @return {Client}
+     */
+    addWidget(widget) {
+        this.widgets.add(widget);
+        return this;
+    }
+    /**
+     * Add multiple widgets at the same time
+     * @param {WidgetOptions[]} widgets
+     * @return {Client}
+     */
+    addMultipleWidgets(widgets) {
+        this.widgets.addMultiple(widgets);
+        return this;
+    }
+}
+exports.Client = Client;
+
+
+/***/ }),
+
+/***/ 6137:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WidgetCollection = void 0;
+class WidgetCollection {
+    constructor(client) {
+        /**
+         * @type {AutocompleteBar[]} All the autocomplete bar widgets
+         */
+        this.autocompleteBar = [];
+        /**
+         * @type {GroupedSearchBar[]} All the grouped search bar widgets
+         */
+        this.groupedSearchBar = [];
+        /**
+         * @type {Result[]} All the result widgets
+         */
+        this.result = [];
+        /**
+         * @type {AggregationBar[]} All the aggregation bar widgets
+         */
+        this.aggregationBar = [];
+        this.client = client;
+    }
+    add(widget) {
+        switch (widget.discriminator) {
+            case 'AutocompleteBar':
+                this.autocompleteBar.push(widget);
+                break;
+            case 'GroupedSearchBar':
+                this.groupedSearchBar.push(widget);
+                break;
+            case 'Result':
+                this.result.push(widget);
+                break;
+            case 'AggregationBar':
+                this.aggregationBar.push(widget);
+                break;
+            default:
+                // If the widget does not have an array throw an error
+                console.error(widget);
+                throw new Error('Unsupported widget: ' + widget.discriminator);
+        }
+        widget.setClient(this.client)
+            .build();
+    }
+    addMultiple(widgets) {
+        widgets.forEach((widget) => {
+            this.add(widget);
+        });
+    }
+}
+exports.WidgetCollection = WidgetCollection;
+
+
+/***/ }),
+
+/***/ 7673:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Events = void 0;
+class Events {
+    static emit(name, data = {}) {
+        const event = new CustomEvent(name, {
+            'detail': data,
+        });
+        document.dispatchEvent(event);
+    }
+}
+/**
+ * Called when the grouped search bar is submitted
+ */
+Events.onSubmitGroupedSearch = 'onSubmitGroupedSearch';
+/**
+ * Called when the grouped search bar starts searching
+ */
+Events.onGroupedSearch = 'onGroupedSearch';
+/**
+ * Called before the grouped search bar starts searching
+ */
+Events.onBeforeGroupedSearch = 'onBeforeGroupedSearch';
+/**
+ * Called after the grouped search bar finishes searching
+ */
+Events.onAfterGroupedSearch = 'onAfterGroupedSearch';
+/**
+ * When the arrow up or down is pressed
+ */
+Events.onArrowMovementGroupedSearch = 'onArrowMovementGroupedSearch';
+/**
+ * Called when the autocomplete bar is submitted
+ */
+Events.onSubmitSearch = 'onSubmitSearch';
+/**
+ * Called when the autocomplete bar starts searching
+ */
+Events.onSearch = 'onSearch';
+/**
+ * Called before the autocomplete bar starts searching
+ */
+Events.onBeforeSearch = 'onBeforeSearch';
+/**
+ * Called after the autocomplete bar finishes searching
+ */
+Events.onAfterSearch = 'onAfterSearch';
+/**
+ * When the arrow up or down is pressed
+ */
+Events.onArrowMovementSearch = 'onArrowMovementSearch';
+Events.onForceResultBlur = 'onForceResultBlur';
+/**
+ * When the result should be updated
+ */
+Events.onResultRequest = 'onResultRequest';
+/**
+ * Before the results are updated
+ */
+Events.onBeforeResultRequest = 'onBeforeResultRequest';
+/**
+ * After the results are updated
+ */
+Events.onAfterResultRequest = 'onAfterResultRequest';
+/**
+ * When a page gets changed
+ */
+Events.onPageChange = 'onPageChange';
+Events.onClickResult = 'onClickResult';
+/**
+ * When any of the aggregations are updated
+ */
+Events.onAggsUpdate = 'onAggsUpdate';
+Events.onAggregationValueChange = 'onAggregationValueChange';
+Events.autocompleteBarFinished = 'autocompleteBarFinished';
+Events.groupedSearchBarFinished = 'groupedSearchBarFinished';
+Events.resultFinished = 'resultFinished';
+Events.aggregationFinished = 'aggregationFinished';
+exports.Events = Events;
+
+
+/***/ }),
+
+/***/ 6121:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.optional = void 0;
+class Optional {
+    constructor(value) {
+        this.value = value;
+        if (typeof this.value === 'object' &&
+            this.value !== null) {
+            return new Proxy(this.value, {
+                get(target, name, receiver) {
+                    return Reflect.get(target, name, receiver);
+                },
+            });
+        }
+    }
+}
+function optional(value = null, callback = null) {
+    if (callback === null) {
+        return new Optional(value);
+    }
+    else if (value !== null) {
+        return callback(value);
+    }
+}
+exports.optional = optional;
+
+
+/***/ }),
+
+/***/ 8637:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.URIHelper = void 0;
 class URIHelper {
     static addToHistory(name, value, deleteOnExist = false) {
@@ -1845,52 +2092,370 @@ exports.URIHelper = URIHelper;
 
 
 /***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 4753:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.optional = void 0;
-class Optional {
-    constructor(value) {
-        this.value = value;
-        if (typeof this.value === 'object' &&
-            this.value !== null) {
-            return new Proxy(this.value, {
-                get(target, name, receiver) {
-                    return Reflect.get(target, name, receiver);
-                },
-            });
-        }
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-}
-function optional(value = null, callback = null) {
-    if (callback === null) {
-        return new Optional(value);
-    }
-    else if (value !== null) {
-        return callback(value);
-    }
-}
-exports.optional = optional;
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(8944), exports);
+__exportStar(__webpack_require__(1142), exports);
+__exportStar(__webpack_require__(4716), exports);
+__exportStar(__webpack_require__(8987), exports);
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 7624:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(2894), exports);
+__exportStar(__webpack_require__(8762), exports);
+
+
+/***/ }),
+
+/***/ 7288:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6137), exports);
+
+
+/***/ }),
+
+/***/ 844:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(8637), exports);
+__exportStar(__webpack_require__(6121), exports);
+__exportStar(__webpack_require__(7673), exports);
+
+
+/***/ }),
+
+/***/ 3910:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(8485), exports);
+__exportStar(__webpack_require__(4226), exports);
+__exportStar(__webpack_require__(4488), exports);
+__exportStar(__webpack_require__(2260), exports);
+
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6108), exports);
+__exportStar(__webpack_require__(4753), exports);
+__exportStar(__webpack_require__(3910), exports);
+__exportStar(__webpack_require__(7673), exports);
+
+
+/***/ }),
+
+/***/ 2260:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AggregationBar = void 0;
+const BaseClasses_1 = __webpack_require__(7624);
+const aggregation_bar_html_1 = __importDefault(__webpack_require__(5581));
+const clear_filters_html_1 = __importDefault(__webpack_require__(757));
+const mustache_1 = __importDefault(__webpack_require__(466));
+const Helpers_1 = __webpack_require__(844);
+class AggregationBar extends BaseClasses_1.Widget {
+    constructor(options = {}) {
+        super(options);
+        this.discriminator = 'AggregationBar';
+        this.useClearFilters = false;
+        this.clearFiltersTop = false;
+        this.clearFiltersBottom = false;
+        this.clearFiltersText = 'Clear filters';
+        this.clearFiltersHideOnNoneActive = true;
+        this.aggregationActives = {};
+        this.fields = [];
+        this.setUseClearFilters((0, Helpers_1.optional)(options.clear_filters).use || this.getUseClearFilters());
+        this.setClearFiltersTop((0, Helpers_1.optional)(options.clear_filters).top || this.getClearFiltersTop());
+        this.setClearFiltersBottom((0, Helpers_1.optional)(options.clear_filters).bottom || this.getClearFiltersBottom());
+        this.setClearFiltersText((0, Helpers_1.optional)(options.clear_filters).text || this.getClearFiltersText());
+        this.setClearFiltersHideOnNoneActive((0, Helpers_1.optional)(options.clear_filters).hide_on_none_active ||
+            this.getClearFiltersHideOnNoneActive());
+    }
+    setUseClearFilters(useClearFilters) {
+        this.useClearFilters = useClearFilters;
+        return this;
+    }
+    getUseClearFilters() {
+        return this.useClearFilters;
+    }
+    setClearFiltersTop(clearFiltersTop) {
+        this.clearFiltersTop = clearFiltersTop;
+        return this;
+    }
+    getClearFiltersTop() {
+        return this.clearFiltersTop;
+    }
+    setClearFiltersBottom(clearFiltersBottom) {
+        this.clearFiltersBottom = clearFiltersBottom;
+        return this;
+    }
+    getClearFiltersBottom() {
+        return this.clearFiltersBottom;
+    }
+    setClearFiltersText(clearFiltersText) {
+        this.clearFiltersText = clearFiltersText;
+        return this;
+    }
+    getClearFiltersText() {
+        return this.clearFiltersText;
+    }
+    setClearFiltersHideOnNoneActive(hideOnNoneActive) {
+        this.clearFiltersHideOnNoneActive = hideOnNoneActive;
+        return this;
+    }
+    getClearFiltersHideOnNoneActive() {
+        return this.clearFiltersHideOnNoneActive;
+    }
+    addField(field) {
+        this.fields.push(field);
+        return this;
+    }
+    addMultipleFields(fields) {
+        fields.forEach((field) => {
+            this.fields.push(field);
+        });
+        return this;
+    }
+    getTemplate() {
+        if (this.template) {
+            return this.template;
+        }
+        return aggregation_bar_html_1.default;
+    }
+    setDiscriminator(discriminator) {
+        this.discriminator = discriminator;
+        return this;
+    }
+    getDiscriminator() {
+        return this.discriminator;
+    }
+    render() {
+        const template = this.getTemplate();
+        const fields = [];
+        this.fields.forEach((field) => {
+            const renderedField = field.render();
+            fields.push(renderedField);
+        });
+        const rendered = mustache_1.default.render(template, {
+            fields: fields,
+            clear_filters: this.renderClearFilters(),
+            show_clear_filters_top: this.getClearFiltersTop(),
+            show_clear_filters_bottom: this.getClearFiltersBottom(),
+        });
+        return document.createRange().createContextualFragment(rendered);
+    }
+    setClearFiltersTemplate(template) {
+        this.clearFiltersTemplate = template;
+        return this;
+    }
+    getClearFiltersTemplate() {
+        if (this.clearFiltersTemplate) {
+            return this.clearFiltersTemplate;
+        }
+        return clear_filters_html_1.default;
+    }
+    renderClearFilters() {
+        const template = this.getClearFiltersTemplate();
+        return mustache_1.default.render(template, {
+            text: this.getClearFiltersText(),
+            hidden: (this.getClearFiltersHideOnNoneActive()) ? 'needletail-hidden' : '',
+        });
+    }
+    /**
+     * Execute the JS for all the added fields
+     */
+    executeJS() {
+        const elements = document.getElementsByClassName('needletail-clear-filters');
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', () => {
+                this.fields.forEach((field) => {
+                    field.reset();
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            this.fields.forEach((field) => {
+                // Dirty second fix, but works
+                setTimeout(() => {
+                    field.setDefaultCollapsed(false);
+                }, 1000);
+            });
+            Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {});
+        });
+        document.addEventListener(Helpers_1.Events.onAggregationValueChange, (e) => {
+            this.aggregationActives[e.detail.name] = e.detail.hasActive;
+            const clearFilters = document.getElementsByClassName('needletail-clear-filters');
+            let hasShown = false;
+            this.fields.forEach((field) => {
+                let title = field.getTitle();
+                if (field.discriminator === 'Range') {
+                    title = field.getTitle() + '[min]';
+                }
+                if (!hasShown && Helpers_1.URIHelper.getSearchParam(title)) {
+                    for (let i = 0; i < clearFilters.length; i++) {
+                        clearFilters[i].classList.remove('needletail-hidden');
+                    }
+                    hasShown = true;
+                }
+            });
+            if (!hasShown) {
+                for (let i = 0; i < clearFilters.length; i++) {
+                    clearFilters[i].classList.add('needletail-hidden');
+                }
+            }
+        });
+        this.fields.forEach((field) => {
+            field.executeJS();
+        });
+        Helpers_1.Events.emit(Helpers_1.Events.aggregationFinished, {
+            name: this.getDiscriminator(),
+        });
+    }
+    getValues() {
+        return this.fields.reduce((res, field) => {
+            if (Object.keys(field.value).length > 0) {
+                res.push(field.value);
+            }
+            return res;
+        }, []);
+    }
+}
+exports.AggregationBar = AggregationBar;
+
+
+/***/ }),
+
+/***/ 1142:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Checkbox = void 0;
-const checkbox_html_1 = __importDefault(__webpack_require__(23));
-const BaseClasses_1 = __webpack_require__(0);
-const mustache_1 = __importDefault(__webpack_require__(1));
-const Helpers_1 = __webpack_require__(2);
+const checkbox_html_1 = __importDefault(__webpack_require__(2213));
+const BaseClasses_1 = __webpack_require__(7624);
+const mustache_1 = __importDefault(__webpack_require__(466));
+const Helpers_1 = __webpack_require__(844);
 class Checkbox extends BaseClasses_1.Aggregation {
     constructor(options = {}) {
         super(options);
@@ -2252,29 +2817,21 @@ exports.Checkbox = Checkbox;
 
 
 /***/ }),
-/* 23 */
-/***/ (function(module, exports) {
 
-// Module
-var code = "<div class=\"needletail-aggregation needletail-aggregation-checkbox needletail-aggregation-checkbox-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-checkbox-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> {{#options}} <label class=\"needletail-aggregation-checkbox-option {{#show_more_options}}needletail-hidden{{/show_more_options}}\"> <input type=\"checkbox\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-checkbox-option-input needletail-aggregation-checkbox-option-input-{{ name }}\"> <span class=\"needletail-aggregation-checkbox-option-checkmark\"></span> <span class=\"needletail-aggregation-checkbox-option-label\">{{ value }}</span> <span class=\"needletail-aggregation-checkbox-option-count\">{{ count }}</span> </label> {{/options}} {{#show_more_options}} <div class=\"needletail-show-more-options\">{{{ show_more_options_text }}}</div> <div class=\"needletail-show-less-options needletail-hidden\">{{{ show_less_options_text }}}</div> {{/show_more_options}} </div> </div> ";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 4716:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Radio = void 0;
-const radio_html_1 = __importDefault(__webpack_require__(25));
-const BaseClasses_1 = __webpack_require__(0);
-const mustache_1 = __importDefault(__webpack_require__(1));
-const Helpers_1 = __webpack_require__(2);
+const radio_html_1 = __importDefault(__webpack_require__(9256));
+const BaseClasses_1 = __webpack_require__(7624);
+const mustache_1 = __importDefault(__webpack_require__(466));
+const Helpers_1 = __webpack_require__(844);
 class Radio extends BaseClasses_1.Aggregation {
     constructor(options = {}) {
         super(options);
@@ -2536,31 +3093,23 @@ exports.Radio = Radio;
 
 
 /***/ }),
-/* 25 */
-/***/ (function(module, exports) {
 
-// Module
-var code = "<div class=\"needletail-aggregation needletail-aggregation-radio needletail-aggregation-radio-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-radio-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> {{#options}} <label class=\"needletail-aggregation-radio-option {{#show_more_options}}needletail-hidden{{/show_more_options}}\"> <input type=\"radio\" name=\"{{ name }}\" value=\"{{ value }}\" class=\"needletail-aggregation-radio-option-input needletail-aggregation-radio-option-input-{{ name }}\"> <span class=\"needletail-aggregation-radio-option-checkmark\"></span> <span class=\"needletail-aggregation-radio-option-label\">{{ value }}</span> <span class=\"needletail-aggregation-radio-option-count\">{{ count }}</span> </label> {{/options}} {{#show_more_options}} <div class=\"needletail-show-more-options\">{{{ show_more_options_text }}}</div> <div class=\"needletail-show-less-options needletail-hidden\">{{{ show_less_options_text }}}</div> {{/show_more_options}} </div> </div> ";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 8987:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Slider = void 0;
-const slider_html_1 = __importDefault(__webpack_require__(27));
-const slider_range_html_1 = __importDefault(__webpack_require__(28));
-const BaseClasses_1 = __webpack_require__(0);
-const mustache_1 = __importDefault(__webpack_require__(1));
-const debounce_1 = __importDefault(__webpack_require__(3));
-const Helpers_1 = __webpack_require__(2);
+const slider_html_1 = __importDefault(__webpack_require__(4131));
+const slider_range_html_1 = __importDefault(__webpack_require__(6345));
+const BaseClasses_1 = __webpack_require__(7624);
+const mustache_1 = __importDefault(__webpack_require__(466));
+const debounce_1 = __importDefault(__webpack_require__(3279));
+const Helpers_1 = __webpack_require__(844);
 class Slider extends BaseClasses_1.Aggregation {
     constructor(options = {}) {
         super(options);
@@ -2997,423 +3546,170 @@ exports.Slider = Slider;
 
 
 /***/ }),
-/* 27 */
-/***/ (function(module, exports) {
 
-// Module
-var code = "<div class=\"needletail-aggregation needletail-aggregation-slider needletail-aggregation-slider-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-slider-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <div class=\"needletail-aggregation-slider-container\"> <input type=\"range\" name=\"{{ name }}\" min=\"{{ min }}\" max=\"{{ max }}\" value=\"{{ value }}\" class=\"needletail-aggregation-slider-input needletail-aggregation-slider-input-{{ name }}\"> </div> </div> </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-aggregation needletail-aggregation-slider needletail-aggregation-slider-{{ class_title }} {{ collapsible }} {{ collapsed }}\"> <div class=\"needletail-aggregation-slider-title\"> {{ title }} </div> <div class=\"needletail-collapsible-container\"> <div class=\"needletail-aggregation-slider-container__range\"> {{#inputs_top}} <div class=\"needletail-aggregation-slider-inputs top\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-min {{ display_only }}\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-max {{ display_only }}\"> </div> {{/inputs_top}} <div class=\"needletail-aggregation-slider-range-container\"> <div class=\"needletail-aggregation-slider-range\"> <div class=\"needletail-aggregation-slider-range-left\"></div> <div class=\"needletail-aggregation-slider-range-divider\"></div> <div class=\"needletail-aggregation-slider-range-right\"></div> </div> </div> {{#inputs_bottom}} <div class=\"needletail-aggregation-slider-inputs bottom\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-min {{ display_only }}\"> <input type=\"number\" class=\"needletail-aggregation-slider-input-max {{ display_only }}\"> </div> {{/inputs_bottom}} </div> </div> </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(6);
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-module.exports = now;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(31)))
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseTrim = __webpack_require__(33),
-    isObject = __webpack_require__(5),
-    isSymbol = __webpack_require__(35);
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = baseTrim(value);
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var trimmedEndIndex = __webpack_require__(34);
-
-/** Used to match leading whitespace. */
-var reTrimStart = /^\s+/;
-
-/**
- * The base implementation of `_.trim`.
- *
- * @private
- * @param {string} string The string to trim.
- * @returns {string} Returns the trimmed string.
- */
-function baseTrim(string) {
-  return string
-    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
-    : string;
-}
-
-module.exports = baseTrim;
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
-/** Used to match a single whitespace character. */
-var reWhitespace = /\s/;
-
-/**
- * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
- * character of `string`.
- *
- * @private
- * @param {string} string The string to inspect.
- * @returns {number} Returns the index of the last non-whitespace character.
- */
-function trimmedEndIndex(string) {
-  var index = string.length;
-
-  while (index-- && reWhitespace.test(string.charAt(index))) {}
-  return index;
-}
-
-module.exports = trimmedEndIndex;
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(36),
-    isObjectLike = __webpack_require__(39);
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(7),
-    getRawTag = __webpack_require__(37),
-    objectToString = __webpack_require__(38);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(7);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-module.exports = getRawTag;
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-module.exports = objectToString;
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 8944:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(41), exports);
-__exportStar(__webpack_require__(44), exports);
-__exportStar(__webpack_require__(48), exports);
-__exportStar(__webpack_require__(53), exports);
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Switch = void 0;
+const switch_html_1 = __importDefault(__webpack_require__(8306));
+const BaseClasses_1 = __webpack_require__(7624);
+const mustache_1 = __importDefault(__webpack_require__(466));
+const Helpers_1 = __webpack_require__(844);
+class Switch extends BaseClasses_1.Aggregation {
+    constructor(options = {}) {
+        super(options);
+        this.discriminator = 'Switch';
+        this.onValue = 'On';
+        this.offValue = 'Off';
+        this.setOnValue(options.on_value || this.getOnValue());
+        this.setOffValue(options.off_value || this.getOffValue());
+        this.setAttributeValue(options.attribute_value || this.getAttributeValue());
+        this.value = {
+            field: this.getAttribute(),
+            value: '',
+            is_aggregation: true,
+            exclude_from_search: true,
+        };
+    }
+    setAttributeValue(attributeValue) {
+        this.attributeValue = attributeValue;
+        return this;
+    }
+    getAttributeValue() {
+        return this.attributeValue.toString();
+    }
+    setOnValue(onValue) {
+        this.onValue = onValue;
+        return this;
+    }
+    getOnValue() {
+        return this.onValue;
+    }
+    setOffValue(offValue) {
+        this.offValue = offValue;
+        return this;
+    }
+    getOffValue() {
+        return this.offValue;
+    }
+    getTemplate() {
+        if (this.template) {
+            return this.template;
+        }
+        return switch_html_1.default;
+    }
+    render() {
+        const template = this.getTemplate();
+        return mustache_1.default.render(template, {
+            title: this.getTitle(),
+            class_title: this.getClassTitle(),
+            name: this.getClassTitle(),
+            on_value: this.getOnValue(),
+            off_value: this.getOffValue(),
+            collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
+            collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
+        });
+    }
+    /**
+     * Add listeners, set the default value
+     */
+    executeJS() {
+        const title = this.getTitle();
+        const prevVal = Helpers_1.URIHelper.getSearchParam(title);
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
+            .forEach((element) => {
+            // Set the default value
+            element.checked = (Helpers_1.URIHelper.getSearchParam(title) === this.getAttributeValue());
+            element.addEventListener('change', () => {
+                this.handle(element);
+            });
+            if (element.checked) {
+                this.hasActiveAggregation = true;
+                Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {
+                    'name': this.getAttribute(),
+                    'hasActive': this.hasActiveAggregation,
+                });
+            }
+        });
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation.needletail-aggregation-switch.needletail-aggregation-switch-${this.getClassTitle()}`)
+            .forEach((element) => {
+            if (this.getCollapsible()) {
+                element.querySelector('.needletail-aggregation-switch-title')
+                    .addEventListener('click', (e) => {
+                    if (element.classList.contains('needletail-collapsed')) {
+                        element.classList.remove('needletail-collapsed');
+                    }
+                    else {
+                        element.classList.add('needletail-collapsed');
+                    }
+                });
+            }
+        });
+        this.values[prevVal] = prevVal;
+        this.value = {
+            field: this.getAttribute(),
+            value: prevVal,
+            is_aggregation: true,
+        };
+    }
+    handle(element, skipHistory = false) {
+        const attributeValue = this.getAttributeValue();
+        if (!skipHistory) {
+            Helpers_1.URIHelper.addToHistory(this.getTitle(), attributeValue, true);
+        }
+        if (this.values[attributeValue]) {
+            delete this.values[attributeValue];
+        }
+        else {
+            this.values[attributeValue] = attributeValue;
+        }
+        this.value = {
+            field: this.getAttribute(),
+            value: (this.values[attributeValue]) ? attributeValue : '',
+            is_aggregation: true,
+        };
+        this.hasActiveAggregation = true;
+        if (!this.values[attributeValue]) {
+            this.value = {
+                field: this.getAttribute(),
+                value: '',
+                is_aggregation: true,
+                exclude_from_search: true,
+            };
+            this.hasActiveAggregation = false;
+        }
+        Helpers_1.Events.emit(Helpers_1.Events.onBeforeResultRequest, {});
+        Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {
+            'name': this.getAttribute(),
+            'hasActive': this.hasActiveAggregation,
+        });
+    }
+    reset() {
+        // eslint-disable-next-line max-len
+        document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
+            .forEach((element) => {
+            if (element.checked) {
+                element.checked = false;
+                this.handle(element);
+            }
+        });
+    }
+}
+exports.Switch = Switch;
 
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
+
+/***/ 8485:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3429,14 +3725,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AutocompleteBar = void 0;
-const BaseClasses_1 = __webpack_require__(0);
-const autocomplete_bar_html_1 = __importDefault(__webpack_require__(42));
-const autocomplete_bar_results_html_1 = __importDefault(__webpack_require__(43));
-const mustache_1 = __importDefault(__webpack_require__(1));
-const debounce_1 = __importDefault(__webpack_require__(3));
-const Helpers_1 = __webpack_require__(2);
+const BaseClasses_1 = __webpack_require__(7624);
+const autocomplete_bar_html_1 = __importDefault(__webpack_require__(4773));
+const autocomplete_bar_results_html_1 = __importDefault(__webpack_require__(5542));
+const mustache_1 = __importDefault(__webpack_require__(466));
+const debounce_1 = __importDefault(__webpack_require__(3279));
+const Helpers_1 = __webpack_require__(844);
 class AutocompleteBar extends BaseClasses_1.Widget {
     constructor(options = {}) {
         super(options);
@@ -4096,26 +4392,9 @@ exports.AutocompleteBar = AutocompleteBar;
 
 
 /***/ }),
-/* 42 */
-/***/ (function(module, exports) {
 
-// Module
-var code = "<div class=\"needletail-autocomplete-bar needletail-autocomplete-bar-{{ name }}\"> <input type=\"text\" class=\"needletail-autocomplete-bar-input needletail-empty\" autocomplete=\"off\" spellcheck=\"false\" placeholder=\"{{ placeholder }}\"> {{{ results }}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-autocomplete-bar-results\"> {{#initial_input}} <div class=\"needletail-autocomplete-bar-result needletail-initial-input\" data-attribute=\"{{ initial_input }}\"> {{ initial_input }} </div> {{/initial_input}} {{#results}} <div class=\"needletail-autocomplete-bar-result\" data-attribute=\"{{ raw.title }}\"> {{#highlight.title}}{{{ highlight.title }}}{{/highlight.title}}{{^highlight.title}}{{ title }}{{/highlight.title}} </div> {{/results}} {{^results}} <div class=\"needletail-autocomplete-bar-no-result\"> {{{ no_result_message }}} </div> {{/results}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 4226:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4131,15 +4410,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GroupedSearchBar = void 0;
-const BaseClasses_1 = __webpack_require__(0);
-const grouped_search_bar_html_1 = __importDefault(__webpack_require__(45));
-const grouped_search_bar_results_html_1 = __importDefault(__webpack_require__(46));
-const grouped_search_bar_results_default_html_1 = __importDefault(__webpack_require__(47));
-const mustache_1 = __importDefault(__webpack_require__(1));
-const debounce_1 = __importDefault(__webpack_require__(3));
-const Helpers_1 = __webpack_require__(2);
+const BaseClasses_1 = __webpack_require__(7624);
+const grouped_search_bar_html_1 = __importDefault(__webpack_require__(7512));
+const grouped_search_bar_results_html_1 = __importDefault(__webpack_require__(3070));
+const grouped_search_bar_results_default_html_1 = __importDefault(__webpack_require__(7302));
+const mustache_1 = __importDefault(__webpack_require__(466));
+const debounce_1 = __importDefault(__webpack_require__(3279));
+const Helpers_1 = __webpack_require__(844);
 class GroupedSearchBar extends BaseClasses_1.Widget {
     constructor(options = {}) {
         super(options);
@@ -4777,35 +5056,9 @@ exports.GroupedSearchBar = GroupedSearchBar;
 
 
 /***/ }),
-/* 45 */
-/***/ (function(module, exports) {
 
-// Module
-var code = "<div class=\"needletail-grouped-search-bar needletail-grouped-search-bar-{{ name }}\"> <input type=\"text\" class=\"needletail-grouped-search-bar-input needletail-empty\" autocomplete=\"off\" spellcheck=\"false\" placeholder=\"{{ placeholder }}\"> {{{ results }}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-grouped-search-bar-results\"> <div class=\"needletail-grouped-search-bar-result-results\"> {{#initial_input}} <div class=\"needletail-grouped-search-bar-result needletail-initial-input\" data-attribute=\"{{ initial_input }}\"> {{{ initial_input }}} </div> {{/initial_input}} </div> {{#results}} {{{ . }}} {{/results}} {{^results}} <div class=\"needletail-grouped-search-bar-no-result\"> {{{ no_result_message }}} </div> {{/results}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-grouped-search-bar-result-title\"> {{ key }} </div> <div class=\"needletail-grouped-search-bar-result-results\"> {{#results}} <div class=\"needletail-grouped-search-bar-result\" data-attribute=\"{{ raw.title }}\"> {{#highlight.title}}{{{ highlight.title }}}{{/highlight.title}}{{^highlight.title}}{{ title }}{{/highlight.title}} </div> {{/results}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 4488:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4821,16 +5074,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Result = void 0;
-const BaseClasses_1 = __webpack_require__(0);
-const result_html_1 = __importDefault(__webpack_require__(49));
-const result_results_html_1 = __importDefault(__webpack_require__(50));
-const result_sort_select_html_1 = __importDefault(__webpack_require__(51));
-const skeleton_html_1 = __importDefault(__webpack_require__(52));
-const mustache_1 = __importDefault(__webpack_require__(1));
-const Helpers_1 = __webpack_require__(2);
-const debounce_1 = __importDefault(__webpack_require__(3));
+const BaseClasses_1 = __webpack_require__(7624);
+const result_html_1 = __importDefault(__webpack_require__(9567));
+const result_results_html_1 = __importDefault(__webpack_require__(8506));
+const result_sort_select_html_1 = __importDefault(__webpack_require__(9660));
+const skeleton_html_1 = __importDefault(__webpack_require__(4148));
+const mustache_1 = __importDefault(__webpack_require__(466));
+const Helpers_1 = __webpack_require__(844);
+const debounce_1 = __importDefault(__webpack_require__(3279));
 class Result extends BaseClasses_1.Widget {
     constructor(options = {}) {
         super(options);
@@ -5607,246 +5860,89 @@ class Result extends BaseClasses_1.Widget {
 exports.Result = Result;
 
 
-/***/ }),
-/* 49 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-result\"> <div class=\"needletail-total-results\"> {{ total_results_text }} </div> {{#use_sort_select}} {{{ sort_select }}} {{/use_sort_select}} <div class=\"needletail-result-results {{ hide_on_initial_request }}\"> {{{results}}} </div> {{#infinite_scroll}} <div class=\"needletail-loader infinity-scroll\"></div> {{/infinite_scroll}} <div class=\"needletail-result-pagination {{ hide_pagination }}\"> {{#first_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-first {{ disable_first_button }}\" data-page=\"{{ first_page }}\">{{{ first_button }}}</div> {{/first_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-previous {{ disable_previous_button }}\" data-page=\"{{ previous_page }}\">{{{ previous_button }}}</div> {{#pages}} <div class=\"needletail-result-pagination-page {{active}}\" data-offset=\"{{offset}}\" data-page=\"{{page}}\"> {{page}} </div> {{/pages}} <div class=\"needletail-result-pagination-page needletail-result-pagination-next {{ disable_next_button }}\" data-page=\"{{ next_page }}\">{{{ next_button }}}</div> {{#last_button}} <div class=\"needletail-result-pagination-page needletail-result-pagination-last {{ disable_last_button }}\" data-page=\"{{ last_page }}\">{{{ last_button }}}</div> {{/last_button}} </div> </div> ";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "{{#results}} <div class=\"needletail-result-result\"> <div class=\"needletail-result-title\">{{ title }}</div> <div class=\"needletail-result-body\">{{ body }}</div> </div> {{/results}} {{^results}} <div class=\"needletail-result-no-result\"> {{{ no_result_message }}} </div> {{/results}}";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<select class=\"needletail-sort-select\"> {{#options}} <option value=\"{{ name }}\" data-attribute=\"{{ attribute }}\" data-direction=\"{{ direction }}\">{{#display_name}}{{{ display_name }}}{{/display_name}}{{^display_name}}{{ name }}{{/display_name}}</option> {{/options}} </select>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-skeleton needletail-result\"> <ul class=\"needletail-skeleton-spacing needletail-skeleton-spacing--l\"> {{#records}} <li class=\"needletail-skeleton-base\"> <div class=\"needletail-skeleton-media\"> <span class=\"needletail-skeleton-box\" style=\"width:100px;height:100px\"></span> </div> <div class=\"needletail-skeleton-body\"> <div class=\"needletail-skeleton-spacing\"> <h3 class=\"needletail-skeleton-header\"> <span class=\"needletail-skeleton-box\" style=\"width:55%\"></span> </h3> <p> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:90%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:83%\"></span> <span class=\"needletail-skeleton-box\" style=\"width:80%\"></span> </p> </div> </div> </li> {{/records}} </ul> </div> ";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AggregationBar = void 0;
-const BaseClasses_1 = __webpack_require__(0);
-const aggregation_bar_html_1 = __importDefault(__webpack_require__(54));
-const clear_filters_html_1 = __importDefault(__webpack_require__(55));
-const mustache_1 = __importDefault(__webpack_require__(1));
-const Helpers_1 = __webpack_require__(2);
-class AggregationBar extends BaseClasses_1.Widget {
-    constructor(options = {}) {
-        super(options);
-        this.discriminator = 'AggregationBar';
-        this.useClearFilters = false;
-        this.clearFiltersTop = false;
-        this.clearFiltersBottom = false;
-        this.clearFiltersText = 'Clear filters';
-        this.clearFiltersHideOnNoneActive = true;
-        this.aggregationActives = {};
-        this.fields = [];
-        this.setUseClearFilters((0, Helpers_1.optional)(options.clear_filters).use || this.getUseClearFilters());
-        this.setClearFiltersTop((0, Helpers_1.optional)(options.clear_filters).top || this.getClearFiltersTop());
-        this.setClearFiltersBottom((0, Helpers_1.optional)(options.clear_filters).bottom || this.getClearFiltersBottom());
-        this.setClearFiltersText((0, Helpers_1.optional)(options.clear_filters).text || this.getClearFiltersText());
-        this.setClearFiltersHideOnNoneActive((0, Helpers_1.optional)(options.clear_filters).hide_on_none_active ||
-            this.getClearFiltersHideOnNoneActive());
-    }
-    setUseClearFilters(useClearFilters) {
-        this.useClearFilters = useClearFilters;
-        return this;
-    }
-    getUseClearFilters() {
-        return this.useClearFilters;
-    }
-    setClearFiltersTop(clearFiltersTop) {
-        this.clearFiltersTop = clearFiltersTop;
-        return this;
-    }
-    getClearFiltersTop() {
-        return this.clearFiltersTop;
-    }
-    setClearFiltersBottom(clearFiltersBottom) {
-        this.clearFiltersBottom = clearFiltersBottom;
-        return this;
-    }
-    getClearFiltersBottom() {
-        return this.clearFiltersBottom;
-    }
-    setClearFiltersText(clearFiltersText) {
-        this.clearFiltersText = clearFiltersText;
-        return this;
-    }
-    getClearFiltersText() {
-        return this.clearFiltersText;
-    }
-    setClearFiltersHideOnNoneActive(hideOnNoneActive) {
-        this.clearFiltersHideOnNoneActive = hideOnNoneActive;
-        return this;
-    }
-    getClearFiltersHideOnNoneActive() {
-        return this.clearFiltersHideOnNoneActive;
-    }
-    addField(field) {
-        this.fields.push(field);
-        return this;
-    }
-    addMultipleFields(fields) {
-        fields.forEach((field) => {
-            this.fields.push(field);
-        });
-        return this;
-    }
-    getTemplate() {
-        if (this.template) {
-            return this.template;
-        }
-        return aggregation_bar_html_1.default;
-    }
-    setDiscriminator(discriminator) {
-        this.discriminator = discriminator;
-        return this;
-    }
-    getDiscriminator() {
-        return this.discriminator;
-    }
-    render() {
-        const template = this.getTemplate();
-        const fields = [];
-        this.fields.forEach((field) => {
-            const renderedField = field.render();
-            fields.push(renderedField);
-        });
-        const rendered = mustache_1.default.render(template, {
-            fields: fields,
-            clear_filters: this.renderClearFilters(),
-            show_clear_filters_top: this.getClearFiltersTop(),
-            show_clear_filters_bottom: this.getClearFiltersBottom(),
-        });
-        return document.createRange().createContextualFragment(rendered);
-    }
-    setClearFiltersTemplate(template) {
-        this.clearFiltersTemplate = template;
-        return this;
-    }
-    getClearFiltersTemplate() {
-        if (this.clearFiltersTemplate) {
-            return this.clearFiltersTemplate;
-        }
-        return clear_filters_html_1.default;
-    }
-    renderClearFilters() {
-        const template = this.getClearFiltersTemplate();
-        return mustache_1.default.render(template, {
-            text: this.getClearFiltersText(),
-            hidden: (this.getClearFiltersHideOnNoneActive()) ? 'needletail-hidden' : '',
-        });
-    }
-    /**
-     * Execute the JS for all the added fields
-     */
-    executeJS() {
-        const elements = document.getElementsByClassName('needletail-clear-filters');
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', () => {
-                this.fields.forEach((field) => {
-                    field.reset();
-                });
-            });
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            this.fields.forEach((field) => {
-                // Dirty second fix, but works
-                setTimeout(() => {
-                    field.setDefaultCollapsed(false);
-                }, 1000);
-            });
-            Helpers_1.Events.emit(Helpers_1.Events.onAggregationValueChange, {});
-        });
-        document.addEventListener(Helpers_1.Events.onAggregationValueChange, (e) => {
-            this.aggregationActives[e.detail.name] = e.detail.hasActive;
-            const clearFilters = document.getElementsByClassName('needletail-clear-filters');
-            let hasShown = false;
-            this.fields.forEach((field) => {
-                let title = field.getTitle();
-                if (field.discriminator === 'Range') {
-                    title = field.getTitle() + '[min]';
-                }
-                if (!hasShown && Helpers_1.URIHelper.getSearchParam(title)) {
-                    for (let i = 0; i < clearFilters.length; i++) {
-                        clearFilters[i].classList.remove('needletail-hidden');
-                    }
-                    hasShown = true;
-                }
-            });
-            if (!hasShown) {
-                for (let i = 0; i < clearFilters.length; i++) {
-                    clearFilters[i].classList.add('needletail-hidden');
-                }
-            }
-        });
-        this.fields.forEach((field) => {
-            field.executeJS();
-        });
-        Helpers_1.Events.emit(Helpers_1.Events.aggregationFinished, {
-            name: this.getDiscriminator(),
-        });
-    }
-    getValues() {
-        return this.fields.reduce((res, field) => {
-            if (Object.keys(field.value).length > 0) {
-                res.push(field.value);
-            }
-            return res;
-        }, []);
-    }
-}
-exports.AggregationBar = AggregationBar;
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<div class=\"needletail-aggregation-bar\"> {{#show_clear_filters_top}} <div class=\"needletail-clear-filters-top\"> {{{ clear_filters }}} </div> {{/show_clear_filters_top}} {{#fields}} <div class=\"needletail-aggregation-item\"> {{{ . }}} </div> {{/fields}} {{#show_clear_filters_bottom}} <div class=\"needletail-clear-filters-bottom\"> {{{ clear_filters }}} </div> {{/show_clear_filters_bottom}} </div>";
-// Exports
-module.exports = code;
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports) {
-
-// Module
-var code = "<span class=\"needletail-clear-filters {{ hidden }}\">{{{ text }}}</span>";
-// Exports
-module.exports = code;
-
 /***/ })
-/******/ ]);
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "";
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	__webpack_require__(3665);
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__(15);
+/******/ 	
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
 });

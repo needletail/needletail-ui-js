@@ -10,7 +10,7 @@ import {Events, optional, URIHelper} from '../Imports/Helpers';
 
 export class AggregationBar extends Widget {
     discriminator: string = 'AggregationBar';
-    private fields: FieldOptions[]
+    private fields: FieldOptions[];
     useClearFilters: boolean = false;
     clearFiltersTop: boolean = false;
     clearFiltersBottom: boolean = false;

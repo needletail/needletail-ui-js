@@ -7,6 +7,7 @@ module.exports = {
         'needletail-ui': ['./src/Css/needletail.scss', './src/Needletail.ts'],
     },
     output: {
+        publicPath: '',
         path: __dirname,
         filename: '[name].min.js',
         libraryTarget: 'umd',
