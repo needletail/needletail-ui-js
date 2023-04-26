@@ -29,6 +29,7 @@ export class Client extends NeedletailClient {
      */
     addMultipleWidgets(widgets: WidgetOptions[]): Client {
         this.widgets.addMultiple(widgets);
+        console.log(1231);
         return this;
     }
 }
