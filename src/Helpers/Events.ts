@@ -73,6 +73,9 @@ export class Events {
     static resultFinished: string = 'resultFinished';
     static aggregationFinished: string = 'aggregationFinished';
 
+    static initializeSlider: string = 'initializeSlider';
+    static initializeSwitch: string = 'initializeSwitch';
+
     static emit(name: string, data: {} = {}) {
         const event = new CustomEvent(name, {
             'detail': data,

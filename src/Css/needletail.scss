@@ -549,7 +549,7 @@
 }
 
 .needletail-hide-on-initial-request {
-    display: none;
+    display: none !important;
 }
 
 .needletail-skeleton {
@@ -615,5 +615,16 @@
     .needletail-skeleton-body {
         flex-grow: 1;
         margin-left: 1em;
+    }
+
+    .needletail-skeleton-filter-heading {
+        margin-bottom: 12px;
+    }
+
+    .needletail-skeleton-filter-item {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        margin-bottom: 12px;
     }
 }

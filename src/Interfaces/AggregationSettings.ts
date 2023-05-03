@@ -9,6 +9,7 @@ export interface AggregationSettings {
     attribute?: string;
     collapsible?: boolean;
     default_collapsed?: boolean;
+    use_skeleton?: boolean;
 }
 
 /**
@@ -24,7 +25,8 @@ export interface CheckboxSettings extends AggregationSettings {
         less_text?: string;
         load?: number;
         never_hide_checked?: boolean;
-    }
+    },
+    skeleton_item_count?: number;
 }
 
 /**
@@ -38,7 +40,8 @@ export interface RadioSettings extends AggregationSettings {
         text?: string;
         less_text?: string;
         load?: number;
-    }
+    },
+    skeleton_item_count?: number;
 }
 
 /**

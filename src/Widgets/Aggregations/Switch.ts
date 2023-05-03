@@ -1,4 +1,5 @@
 import template from './../../Html/Aggregations/switch.html';
+import skeletonTemplate from './../../Html/Skeletons/switch.html';
 import {Aggregation} from './../../Imports/BaseClasses';
 import Mustache from 'mustache';
 import {Events, URIHelper} from '../../Imports/Helpers';
@@ -61,6 +62,22 @@ export class Switch extends Aggregation {
         return template;
     }
 
+    getSkeletonTemplate(): string {
+        if (this.skeletonTemplate) {
+            return this.skeletonTemplate;
+        }
+
+        return skeletonTemplate;
+    }
+
+    renderSkeleton(): string {
+        const rendered = Mustache.render(this.getSkeletonTemplate(), {
+            class_title: this.getClassTitle(),
+        });
+
+        return rendered;
+    }
+
     render(): string {
         const template = this.getTemplate();
         return Mustache.render(template, {
@@ -78,6 +95,27 @@ export class Switch extends Aggregation {
      * Add listeners, set the default value
      */
     executeJS() {
+        if (this.getUseSkeleton()) {
+            document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
+                const textElement = this.render();
+                const node = document.createRange().createContextualFragment(textElement);
+
+                document.querySelectorAll(`.needletail-aggregation-switch-${this.getClassTitle()}`).forEach((element) => {
+                    element.replaceWith(node);
+                    this.initialize();
+                    Events.emit(Events.initializeSwitch);
+                });
+            });
+        } else {
+            this.initialize();
+
+            document.addEventListener('DOMContentLoaded', () => {
+                Events.emit(Events.initializeSwitch);
+            });
+        }
+    }
+
+    initialize() {
         const title = this.getTitle();
         const prevVal = URIHelper.getSearchParam(title);
 

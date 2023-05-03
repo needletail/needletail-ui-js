@@ -2,7 +2,7 @@ import {Widget} from './../Imports/BaseClasses';
 import template from './../Html/result.html';
 import resultTemplate from './../Html/result_results.html';
 import resultSortSelect from './../Html/result_sort_select.html';
-import skeletonTemplate from './../Html/skeleton.html';
+import resultSkeletonTemplate from './../Html/Skeletons/result.html';
 import Mustache from 'mustache';
 // eslint-disable-next-line no-unused-vars
 import {ResultSettings} from '../Imports/Interfaces';
@@ -79,7 +79,7 @@ export class Result extends Widget {
     totalResultsText: string = ':count total results';
     extraOptions: {} = {};
     useSkeleton: boolean = false;
-    skeletonTemplate: string;
+    resultSkeletonTemplate: string;
 
     constructor(options: ResultSettings = {}) {
         super(options);
@@ -115,7 +115,7 @@ export class Result extends Widget {
         this.setExtraOptions(options.extra_options || {});
         this.setUseSkeleton((typeof optional(options).use_skeleton !== 'undefined') ?
             optional(options).use_skeleton : this.getUseSkeleton());
-        this.setSkeletonTemplate(optional(options).skeleton_template || this.getSkeletonTemplate());
+        this.setResultSkeletonTemplate(optional(options).skeleton_template || this.getResultSkeletonTemplate());
     }
 
     getUseSkeleton(): boolean {
@@ -127,16 +127,16 @@ export class Result extends Widget {
         return this;
     }
 
-    getSkeletonTemplate(): string {
-        if (this.skeletonTemplate) {
-            return this.skeletonTemplate;
+    getResultSkeletonTemplate(): string {
+        if (this.resultSkeletonTemplate) {
+            return this.resultSkeletonTemplate;
         }
 
-        return skeletonTemplate;
+        return resultSkeletonTemplate;
     }
 
-    setSkeletonTemplate(template: string): Result {
-        this.skeletonTemplate = template;
+    setResultSkeletonTemplate(template: string): Result {
+        this.resultSkeletonTemplate = template;
         return this;
     }
 
@@ -470,12 +470,12 @@ export class Result extends Widget {
         return this.extraOptions;
     }
 
-    renderSkeleton(): Node {
+    renderResultSkeleton(): Node {
         const options = {
             records: new Array(this.getPerPage()).fill(null),
         };
 
-        const rendered = Mustache.render(this.getSkeletonTemplate(), options);
+        const rendered = Mustache.render(this.getResultSkeletonTemplate(), options);
 
         return document.createRange().createContextualFragment(rendered);
     }
@@ -575,7 +575,7 @@ export class Result extends Widget {
             }
 
             if (this.getUseSkeleton()) {
-                const skeletonNode: Node = this.renderSkeleton();
+                const skeletonNode: Node = this.renderResultSkeleton();
                 document.querySelectorAll(this.getEl()).forEach((element) => {
                     const child = element.querySelector('.needletail-result');
 

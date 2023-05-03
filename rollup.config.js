@@ -20,7 +20,7 @@ export default {
             include: "src/**/*.html",
         }),
         postcss({
-            extract: true,
+            extract: 'needletail.min.css',
             plugins: [cssnano()],
             parser: scss,
             stringifier: scss,
