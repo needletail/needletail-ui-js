@@ -13,6 +13,11 @@ export default {
         format: 'es',
         plugins: [],
     },
+    external: [
+        '@needletail/js',
+        'mustache',
+        'lodash/debounce',
+    ],
     plugins: [
         eslint(),
         typescript(), 

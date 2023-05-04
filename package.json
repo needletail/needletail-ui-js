@@ -1,6 +1,6 @@
 {
   "name": "@needletail/ui",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "Needletail.js is a library to build high performance instant search experiences using Needletail",
   "browser": "needletail-ui.min.js",
   "author": "support@needletail.io",
@@ -13,7 +13,6 @@
     "eslint-fix": "eslint \"src/**/*\" --fix"
   },
   "devDependencies": {
-    "@needletail/js": "^3.1.0",
     "@rollup/plugin-eslint": "^9.0.3",
     "@rollup/plugin-html": "^1.0.2",
     "@rollup/plugin-terser": "^0.4.1",
@@ -25,8 +24,6 @@
     "cssnano": "^6.0.0",
     "eslint": "^8.0",
     "eslint-config-google": "^0.14.0",
-    "lodash": "^4.17.21",
-    "mustache": "^4.2.0",
     "node-sass": "^8.0.0",
     "postcss-scss": "^4.0.6",
     "rollup": "^3.21.0",
@@ -35,5 +32,10 @@
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.62.1",
     "typescript": "^5.0"
+  },
+  "dependencies": {
+    "@needletail/js": "^3.1.0",
+    "mustache": "^4.2.0",
+    "lodash": "^4.17.21"
   }
 }
