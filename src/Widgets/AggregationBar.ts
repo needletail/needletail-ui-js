@@ -10,13 +10,16 @@ import {Events, optional, URIHelper} from '../Imports/Helpers';
 
 export class AggregationBar extends Widget {
     discriminator: string = 'AggregationBar';
-    private fields: FieldOptions[]
+    private fields: FieldOptions[];
     useClearFilters: boolean = false;
     clearFiltersTop: boolean = false;
     clearFiltersBottom: boolean = false;
     clearFiltersText: string = 'Clear filters';
     clearFiltersTemplate: string;
     clearFiltersHideOnNoneActive: boolean = true;
+    useSkeleton: boolean = false;
+    aggregationSkeletonTemplate: string;
+
     private aggregationActives: { [key: string]: boolean } = {};
 
     constructor(options: AggregationBarSettings = {}) {
@@ -29,6 +32,17 @@ export class AggregationBar extends Widget {
         this.setClearFiltersText(optional(options.clear_filters).text || this.getClearFiltersText());
         this.setClearFiltersHideOnNoneActive(optional(options.clear_filters).hide_on_none_active ||
             this.getClearFiltersHideOnNoneActive());
+        this.setUseSkeleton((typeof optional(options).use_skeleton !== 'undefined') ?
+            optional(options).use_skeleton : this.getUseSkeleton());
+    }
+
+    getUseSkeleton(): boolean {
+        return this.useSkeleton;
+    }
+
+    setUseSkeleton(useSkeleton: boolean): AggregationBar {
+        this.useSkeleton = useSkeleton;
+        return this;
     }
 
     setUseClearFilters(useClearFilters: boolean): AggregationBar {
@@ -77,12 +91,15 @@ export class AggregationBar extends Widget {
     }
 
     addField(field: FieldOptions): AggregationBar {
+        field.parent = this;
         this.fields.push(field);
         return this;
     }
 
     addMultipleFields(fields: FieldOptions[]): AggregationBar {
         fields.forEach((field: FieldOptions) => {
+            field.parent = this;
+
             this.fields.push(field);
         });
         return this;
@@ -110,7 +127,13 @@ export class AggregationBar extends Widget {
         const fields: string[] = [];
 
         this.fields.forEach((field: FieldOptions) => {
-            const renderedField = field.render();
+            let renderedField: string = '';
+            if (field.getUseSkeleton()) {
+                renderedField = field.renderSkeleton();
+            } else {
+                renderedField = field.render();
+            }
+            
             fields.push(renderedField);
         });
 

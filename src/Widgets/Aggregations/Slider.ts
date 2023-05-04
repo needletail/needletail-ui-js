@@ -1,5 +1,6 @@
 import template from './../../Html/Aggregations/slider.html';
 import templateRange from './../../Html/Aggregations/slider_range.html';
+import skeletonTemplate from './../../Html/Skeletons/slider.html';
 import {Aggregation} from './../../Imports/BaseClasses';
 import Mustache from 'mustache';
 import _debounce from 'lodash/debounce';
@@ -162,6 +163,22 @@ export class Slider extends Aggregation {
         return template;
     }
 
+    getSkeletonTemplate(): string {
+        if (this.skeletonTemplate) {
+            return this.skeletonTemplate;
+        }
+
+        return skeletonTemplate;
+    }
+
+    renderSkeleton(): string {
+        const rendered = Mustache.render(this.getSkeletonTemplate(), {
+            class_title: this.getClassTitle(),
+        });
+
+        return rendered;
+    }
+
     render(): string {
         const template = this.getTemplate();
         return Mustache.render(template, {
@@ -183,6 +200,27 @@ export class Slider extends Aggregation {
      * Add listeners, set the default value
      */
     executeJS() {
+        if (this.getUseSkeleton()) {
+            document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
+                const textElement = this.render();
+                const node = document.createRange().createContextualFragment(textElement);
+
+                document.querySelectorAll(`.needletail-aggregation-slider-${this.getClassTitle()}`).forEach((element) => {
+                    element.replaceWith(node);
+                    this.initialize();
+                    Events.emit(Events.initializeSlider);
+                });
+            });
+        } else {
+            this.initialize();
+
+            document.addEventListener('DOMContentLoaded', () => {
+                Events.emit(Events.initializeSlider);
+            });
+        }
+    }
+
+    initialize() {
         const title = this.getTitle();
         const prevVal = URIHelper.getSearchParam(title);
 
@@ -190,7 +228,7 @@ export class Slider extends Aggregation {
         document.querySelectorAll(`.needletail-aggregation-slider-input.needletail-aggregation-slider-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {
                 element.value = prevVal || this.getDefaultValue().toString();
-                document.addEventListener('DOMContentLoaded', () => {
+                document.addEventListener(Events.initializeSlider, () => {
                     this.handle(element, true);
                 });
 
@@ -200,7 +238,7 @@ export class Slider extends Aggregation {
             });
 
         document.querySelectorAll('.needletail-aggregation-slider-container__range').forEach((element: HTMLInputElement) => {
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener(Events.initializeSlider, () => {
                 this.elements[this.getClassTitle()] = {
                     slider: element.querySelector('.needletail-aggregation-slider-range'),
                     inputMin: element.querySelector('.needletail-aggregation-slider-input-min'),

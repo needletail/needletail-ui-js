@@ -1,5 +1,6 @@
 import template from './../../Html/Aggregations/checkbox.html';
 import {Aggregation} from './../../Imports/BaseClasses';
+import skeletonTemplate from './../../Html/Skeletons/checkbox.html';
 import Mustache from 'mustache';
 import {Events, optional, URIHelper} from '../../Imports/Helpers';
 // eslint-disable-next-line no-unused-vars
@@ -15,6 +16,7 @@ export class Checkbox extends Aggregation {
     optionOrder: string[] = [];
     neverHideChecked: boolean = true;
     showSelectedZero: boolean = true;
+    skeletonItemCount: number = 10;
 
     constructor(options: CheckboxSettings = {}) {
         super(options);
@@ -28,6 +30,7 @@ export class Checkbox extends Aggregation {
             options.show_more_options.less_text : this.getShowLessOptionsText());
         this.setShowMoreOptionsLoad(optional(options.show_more_options).load ?
             options.show_more_options.load : this.getShowMoreOptionsLoad());
+        this.setSkeletonItemCount(options.skeleton_item_count || this.getSkeletonItemCount());
         this.setOptionOrder(options.option_order || this.getOptionOrder());
         this.setNeverHideChecked(optional(options.show_more_options).never_hide_checked ?
             options.show_more_options.never_hide_checked : this.getNeverHideChecked());
@@ -40,6 +43,15 @@ export class Checkbox extends Aggregation {
             is_aggregation: true,
             exclude_from_search: true,
         };
+    }
+
+    setSkeletonItemCount(skeletonItemCount: number): Checkbox {
+        this.skeletonItemCount = skeletonItemCount;
+        return this;
+    }
+
+    getSkeletonItemCount(): number {
+        return this.skeletonItemCount;
     }
 
     setOptionOrder(optionOrder: string[]): Checkbox {
@@ -122,6 +134,22 @@ export class Checkbox extends Aggregation {
 
     getHideOnEmpty(): boolean {
         return this.hideOnEmpty;
+    }
+
+    getSkeletonTemplate(): string {
+        if (this.skeletonTemplate) {
+            return this.skeletonTemplate;
+        }
+
+        return skeletonTemplate;
+    }
+
+    renderSkeleton(): string {
+        const rendered = Mustache.render(this.getSkeletonTemplate(), {
+            class_title: this.getClassTitle(),
+            options: new Array(this.getSkeletonItemCount()).fill(null),
+        });
+        return rendered;
     }
 
     render(options: {}[] = []): string {
