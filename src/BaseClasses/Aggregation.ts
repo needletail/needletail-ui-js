@@ -2,7 +2,7 @@
 import {AggregationSettings} from '../Imports/Interfaces';
 import Mustache from 'mustache';
 import {optional} from '../Imports/Helpers';
-import { AggregationBar } from '../Widgets/AggregationBar';
+import {AggregationBar} from '../Widgets/AggregationBar';
 
 export class Aggregation {
     /**

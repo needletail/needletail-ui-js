@@ -133,7 +133,7 @@ export class AggregationBar extends Widget {
             } else {
                 renderedField = field.render();
             }
-            
+
             fields.push(renderedField);
         });
 
