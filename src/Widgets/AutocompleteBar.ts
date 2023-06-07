@@ -593,6 +593,11 @@ export class AutocompleteBar extends Widget {
                 return;
             }
 
+            if (e.detail.value.length < this.getMinimumCharacters()) {
+                e.preventDefault();
+                return;
+            }
+
             e.detail.extra_search_values = {};
 
             // Start the actual search
