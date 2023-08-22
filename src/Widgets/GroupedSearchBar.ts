@@ -408,7 +408,13 @@ export class GroupedSearchBar extends Widget {
                         // eslint-disable-next-line max-len
                         const initialInput = document.querySelectorAll(`${this.getEl()} .needletail-grouped-search-bar-result.needletail-initial-input`);
                         initialInput.forEach((r: Element) => {
-                            r.innerHTML = element.value;
+                            const valueElement = r.querySelector('.needletail-initial-input-value');
+                            if (valueElement) {
+                                valueElement.innerHTML = element.value;
+                            } else {
+                                r.innerHTML = element.value;
+                            }
+
                             r.setAttribute('data-attribute', element.value);
                         });
 

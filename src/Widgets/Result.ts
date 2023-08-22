@@ -891,13 +891,15 @@ export class Result extends Widget {
 
             if (this.initialRequest) {
                 const element: any = elements.item(parseInt(URIHelper.getSearchParam('index')));
-                const position = element.offsetTop;
-                const offsetPosition = position - this.getScrollOffset();
+                if (element) {
+                    const position = element.offsetTop;
+                    const offsetPosition = position - this.getScrollOffset();
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: this.getInfiniteScroll() ? 'smooth' : 'auto',
-                });
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: this.getInfiniteScroll() ? 'smooth' : 'auto',
+                    });
+                }
             }
 
             this.stopLoader('infinity-scroll');
