@@ -395,11 +395,19 @@ export class GroupedSearchBar extends Widget {
 
                 element.addEventListener('focus', () => {
                     element.classList.add('active');
+
+                    Events.emit(Events.groupedSearchOpened, {
+                        query: this.getQuery(),
+                    });
                 });
 
                 element.addEventListener('blur', () => {
                     setTimeout(() => {
                         element.classList.remove('active');
+
+                        Events.emit(Events.groupedSearchClosed, {
+                            query: this.getQuery(),
+                        });
                     }, 100);
                 });
 

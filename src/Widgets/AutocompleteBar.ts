@@ -441,11 +441,19 @@ export class AutocompleteBar extends Widget {
 
                 element.addEventListener('focus', () => {
                     element.classList.add('active');
+
+                    Events.emit(Events.searchOpened, {
+                        query: this.getQuery(),
+                    });
                 });
 
                 element.addEventListener('blur', () => {
                     setTimeout(() => {
                         element.classList.remove('active');
+
+                        Events.emit(Events.searchClosed, {
+                            query: this.getQuery(),
+                        });
                     }, 100);
 
                     if (this.getForceUseOfResult()) {

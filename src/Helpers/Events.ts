@@ -20,6 +20,9 @@ export class Events {
      */
     static onArrowMovementGroupedSearch: string = 'onArrowMovementGroupedSearch';
 
+    static groupedSearchOpened: string = 'groupedSearchOpened';
+    static groupedSearchClosed: string = 'groupedSearchClosed';
+
     /**
      * Called when the autocomplete bar is submitted
      */
@@ -41,6 +44,8 @@ export class Events {
      */
     static onArrowMovementSearch: string = 'onArrowMovementSearch';
     static onForceResultBlur: string = 'onForceResultBlur';
+    static searchOpened: string = 'searchOpened';
+    static searchClosed: string = 'searchClosed';
 
     /**
      * When the result should be updated
