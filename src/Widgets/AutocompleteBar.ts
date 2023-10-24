@@ -468,7 +468,7 @@ export class AutocompleteBar extends Widget {
                             return;
                         }
 
-                        if (this.selectedResult === -1) {
+                        if (this.selectedResult === -1 && element.value !== '') {
                             this.selectedResult = 0;
 
                             this.switchActiveClass(results);
