@@ -101,9 +101,9 @@ export class Result extends Widget {
         this.setResultTemplate(options.result_template);
         this.setGroupBy(options.group_by || '');
         this.setSortSelect(options.sort_select || {});
-        this.setSortSelectDefault(options.sort_select_default || '');
-        this.setSortBy(options.sort_by || '');
-        this.setSortDirection(options.sort_direction || this.getSortDirection());
+        this.setSortSelectDefault(URIHelper.getSearchParam('default') || options.sort_select_default || '');
+        this.setSortBy(URIHelper.getSearchParam('sort') || options.sort_by || '');
+        this.setSortDirection(URIHelper.getSearchParam('direction') || options.sort_direction || this.getSortDirection());
         this.setSortMode(options.sort_mode || this.getSortMode());
         this.setNoResultMessage(options.no_result_message || this.getNoResultMessage());
         this.setBuckets(options.buckets || []);
@@ -873,6 +873,9 @@ export class Result extends Widget {
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
                     URIHelper.addToHistory('page', '1');
+                    URIHelper.addToHistory('direction', this.getSortDirection());
+                    URIHelper.addToHistory('sort', this.getSortBy());
+                    URIHelper.addToHistory('default', this.getSortSelectDefault());
                     this.infinityPage = 1;
                     this.hardReset = true;
 
