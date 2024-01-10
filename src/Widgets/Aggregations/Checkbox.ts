@@ -178,6 +178,7 @@ export class Checkbox extends Aggregation {
             show_more_options: this.getUseShowMoreOptions(),
             show_more_options_text: this.getShowMoreOptionsText(),
             show_less_options_text: this.getShowLessOptionsText(),
+            checked_count: URIHelper.getSearchParams(this.getTitle()),
         });
     }
 
