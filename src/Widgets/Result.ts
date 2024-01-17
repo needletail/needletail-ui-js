@@ -892,7 +892,7 @@ export class Result extends Widget {
                 });
             });
 
-            if (this.initialRequest) {
+            if (this.initialRequest && URIHelper.getSearchParam('index') !== null) {
                 const element: any = elements.item(parseInt(URIHelper.getSearchParam('index')));
                 if (element) {
                     const position = element.offsetTop;
