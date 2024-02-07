@@ -14,6 +14,7 @@ export class Checkbox extends Aggregation {
     showLessOptionsText: string = 'Show less options';
     showMoreOptionsLoad: number = 10;
     optionOrder: string[] = [];
+    filterOptions: string[] = [];
     neverHideChecked: boolean = true;
     showSelectedZero: boolean = true;
     skeletonItemCount: number = 10;
@@ -32,6 +33,7 @@ export class Checkbox extends Aggregation {
             options.show_more_options.load : this.getShowMoreOptionsLoad());
         this.setSkeletonItemCount(options.skeleton_item_count || this.getSkeletonItemCount());
         this.setOptionOrder(options.option_order || this.getOptionOrder());
+        this.setFilterOptions(options.filter_options || this.getFilterOptions());
         this.setNeverHideChecked(optional(options.show_more_options).never_hide_checked ?
             options.show_more_options.never_hide_checked : this.getNeverHideChecked());
         this.setShowSelectedZero((typeof options.show_selected_zero !== 'undefined') ?
@@ -63,6 +65,17 @@ export class Checkbox extends Aggregation {
 
     getOptionOrder(): string[] {
         return this.optionOrder;
+    }
+
+    setFilterOptions(filterOptions: string[]): Checkbox {
+        this.filterOptions = filterOptions.map((o: string) => {
+            return o.toLowerCase();
+        });
+        return this;
+    }
+
+    getFilterOptions(): string[] {
+        return this.filterOptions;
     }
 
     setShowSelectedZero(showSelectedZero: boolean): Checkbox {
@@ -166,6 +179,12 @@ export class Checkbox extends Aggregation {
                     indexB = 9999;
                 }
                 return indexA - indexB;
+            });
+        }
+
+        if (this.getFilterOptions().length > 0) {
+            options = options.filter((o: {value: string}) => {
+                return this.getFilterOptions().indexOf(o.value.toLowerCase()) > -1;
             });
         }
 

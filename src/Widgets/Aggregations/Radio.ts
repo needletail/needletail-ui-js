@@ -14,6 +14,7 @@ export class Radio extends Aggregation {
     showLessOptionsText: string = 'Show less options';
     showMoreOptionsLoad: number = 10;
     optionOrder: string[] = [];
+    filterOptions: string[] = [];
     skeletonItemCount: number = 10;
 
     constructor(options: RadioSettings = {}) {
@@ -30,6 +31,7 @@ export class Radio extends Aggregation {
             options.show_more_options.load : this.getShowMoreOptionsLoad());
         this.setSkeletonItemCount(options.skeleton_item_count || this.getSkeletonItemCount());
         this.setOptionOrder(options.option_order || this.getOptionOrder());
+        this.setFilterOptions(options.filter_options || this.getFilterOptions());
 
         this.value = {
             field: this.getAttribute(),
@@ -57,6 +59,17 @@ export class Radio extends Aggregation {
 
     getOptionOrder(): string[] {
         return this.optionOrder;
+    }
+
+    setFilterOptions(filterOptions: string[]): Radio {
+        this.filterOptions = filterOptions.map((o: string) => {
+            return o.toLowerCase();
+        });
+        return this;
+    }
+
+    getFilterOptions(): string[] {
+        return this.filterOptions;
     }
 
     setUseShowMoreOptions(useShowMoreOptions: boolean): Radio {
@@ -143,6 +156,12 @@ export class Radio extends Aggregation {
                     indexB = 9999;
                 }
                 return indexA - indexB;
+            });
+        }
+
+        if (this.getFilterOptions().length > 0) {
+            options = options.filter((o: {value: string}) => {
+                return this.getFilterOptions().indexOf(o.value.toLowerCase()) > -1;
             });
         }
 
