@@ -666,12 +666,14 @@ export class GroupedSearchBar extends Widget {
             }
 
             // Render the results
-            let options = {};
+            let options: any = {
+                initial_input: (this.getInitialInput()) ? e.detail.value : '',
+            };
 
             if (e.detail.search_result && Object.keys(e.detail.search_result).length > 0) {
                 options = {
                     results: e.detail.search_result,
-                    initial_input: e.detail.value,
+                    initial_input: (this.getInitialInput()) ? e.detail.value : '',
                 };
             }
 

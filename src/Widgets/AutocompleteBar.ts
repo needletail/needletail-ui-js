@@ -703,7 +703,7 @@ export class AutocompleteBar extends Widget {
             let options: {results: any[], initial_input: string} = {
                 results: [],
                 // eslint-disable-next-line camelcase
-                initial_input: '',
+                initial_input: (this.getInitialInput()) ? e.detail.value : '',
             };
 
             if (e.detail.search_result && e.detail.search_result.length > 0 &&
