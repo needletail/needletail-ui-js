@@ -20,9 +20,9 @@ export default {
     ],
     plugins: [
         eslint(),
-        typescript(), 
+        typescript(),
         html({
-            include: "src/**/*.html",
+            include: 'src/**/*.html',
         }),
         postcss({
             extract: 'needletail.min.css',
@@ -30,6 +30,5 @@ export default {
             parser: scss,
             stringifier: scss,
         }),
-        terser()
-    ]
-}
+    ],
+};

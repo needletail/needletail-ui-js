@@ -190,7 +190,9 @@ export class AggregationBar extends Widget {
                 }, 1000);
             });
 
-            Events.emit(Events.onAggregationValueChange, {});
+            Events.emit(Events.onAggregationValueChange, {
+                initial: true,
+            });
         });
 
         document.addEventListener(Events.onAggregationValueChange, (e: CustomEvent) => {

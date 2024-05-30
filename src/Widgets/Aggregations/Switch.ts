@@ -132,6 +132,7 @@ export class Switch extends Aggregation {
                 if (element.checked) {
                     this.hasActiveAggregation = true;
                     Events.emit(Events.onAggregationValueChange, {
+                        'initial': true,
                         'name': this.getAttribute(),
                         'hasActive': this.hasActiveAggregation,
                     });
@@ -193,8 +194,10 @@ export class Switch extends Aggregation {
 
         Events.emit(Events.onBeforeResultRequest, {});
         Events.emit(Events.onAggregationValueChange, {
+            'initial': false,
             'name': this.getAttribute(),
             'hasActive': this.hasActiveAggregation,
+            'value': this.value.value,
         });
     }
 

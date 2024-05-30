@@ -401,8 +401,11 @@ export class Slider extends Aggregation {
 
         Events.emit(Events.onBeforeResultRequest, {});
         Events.emit(Events.onAggregationValueChange, {
+            'initial': false,
             'name': this.getAttribute(),
             'hasActive': this.hasActiveAggregation,
+            'value': this.value.value,
+            'lastValue': element.value,
         });
     }
 
@@ -436,6 +439,8 @@ export class Slider extends Aggregation {
         Events.emit(Events.onAggregationValueChange, {
             'name': this.getAttribute(),
             'hasActive': this.hasActiveAggregation,
+            'value': this.value.value,
+            'lastValue': inputMin.value + ':' + inputMax.value,
         });
     }
 
@@ -448,6 +453,7 @@ export class Slider extends Aggregation {
 
                 URIHelper.addToHistory(this.getTitle(), element.value, true);
                 Events.emit(Events.onAggregationValueChange, {
+                    'initial': true,
                     'name': this.getAttribute(),
                     'hasActive': false,
                 });
@@ -473,6 +479,7 @@ export class Slider extends Aggregation {
                 URIHelper.addToHistory(this.getTitle() + '[min]', inputMin.value, true);
                 URIHelper.addToHistory(this.getTitle() + '[max]', inputMax.value, true);
                 Events.emit(Events.onAggregationValueChange, {
+                    'initial': true,
                     'name': this.getAttribute(),
                     'hasActive': false,
                 });

@@ -419,8 +419,10 @@ export class Checkbox extends Aggregation {
             }
 
             Events.emit(Events.onAggregationValueChange, {
+                'initial': true,
                 'name': this.getAttribute(),
                 'hasActive': this.hasActiveAggregation,
+                'value': Object.keys(this.values),
             });
         }
     }
@@ -456,8 +458,11 @@ export class Checkbox extends Aggregation {
 
         Events.emit(Events.onBeforeResultRequest, {});
         Events.emit(Events.onAggregationValueChange, {
+            'initial': false,
             'name': this.getAttribute(),
             'hasActive': this.hasActiveAggregation,
+            'value': this.value.value,
+            'lastValue': element.value,
         });
     }
 
