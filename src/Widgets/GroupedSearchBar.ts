@@ -553,12 +553,17 @@ export class GroupedSearchBar extends Widget {
                             });
                         });
 
+                        let extraSearchValue = e.detail.extra_search_values;
+                        if (val.extra_search_values) {
+                            extraSearchValue = val.extra_search_values;
+                        }
+
                         buckets[val.name] = {
                             search: {
                                 should: {
                                     fuzzy: search,
                                 },
-                                ...e.detail.extra_search_values,
+                                ...extraSearchValue,
                             },
                             sort: val.sort || this.getSortBy(),
                             direction: val.direction || this.getSortDirection(),

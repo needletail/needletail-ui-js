@@ -30,5 +30,6 @@ export default {
             parser: scss,
             stringifier: scss,
         }),
+        terser(),
     ],
 };
