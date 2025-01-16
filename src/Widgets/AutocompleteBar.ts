@@ -433,7 +433,7 @@ export class AutocompleteBar extends Widget {
 
                 element.value = (prevVal) ? prevVal : '';
                 // On load call the handle function to trigger a search
-                document.addEventListener('DOMContentLoaded', () => {
+                document.addEventListener(Events.initNeedletail, () => {
                     if (this.getSearchOnContentLoaded()) {
                         this.handle(element);
                     }

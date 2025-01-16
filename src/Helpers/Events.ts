@@ -1,4 +1,5 @@
 export class Events {
+    static initNeedletail: string = 'initNeedletail';
     /**
      * Called when the grouped search bar is submitted
      */

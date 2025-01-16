@@ -182,7 +182,7 @@ export class AggregationBar extends Widget {
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener(Events.initNeedletail, () => {
             this.fields.forEach((field: FieldOptions) => {
                 // Dirty second fix, but works
                 setTimeout(() => {

@@ -109,7 +109,7 @@ export class Switch extends Aggregation {
         } else {
             this.initialize();
 
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener(Events.initNeedletail, () => {
                 Events.emit(Events.initializeSwitch);
             });
         }
