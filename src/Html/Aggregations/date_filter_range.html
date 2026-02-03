@@ -1,0 +1,51 @@
+<div
+    class="needletail-aggregation needletail-aggregation-date-filter needletail-aggregation-date-filter-{{ class_title }} {{ collapsible }} {{ collapsed }}"
+    data-attribute="{{ attribute }}"
+    data-mode="{{ mode }}"
+    data-param-exact="{{ param_exact }}"
+    data-param-min="{{ param_min }}"
+    data-param-max="{{ param_max }}"
+    data-selector-exact="{{ selector_exact }}"
+    data-selector-from="{{ selector_from }}"
+    data-selector-to="{{ selector_to }}"
+>
+    <div class="needletail-aggregation-date-filter-title">
+        {{ title }}
+    </div>
+    <div class="needletail-collapsible-container">
+        <div class="needletail-aggregation-date-filter-inputs">
+            <input
+                type="{{ input_type }}"
+                name="{{ name }}[min]"
+                class="needletail-aggregation-date-filter-input needletail-aggregation-date-filter-input-from needletail-aggregation-date-filter-input-from-{{ name }}"
+                value="{{ from }}"
+                min="{{ min_date }}"
+                max="{{ max_date }}"
+                list="needletail-aggregation-date-filter-datalist-{{ class_title }}"
+                aria-label="{{ label_from }}"
+            >
+            <input
+                type="{{ input_type }}"
+                name="{{ name }}[max]"
+                class="needletail-aggregation-date-filter-input needletail-aggregation-date-filter-input-to needletail-aggregation-date-filter-input-to-{{ name }}"
+                value="{{ to }}"
+                min="{{ min_date }}"
+                max="{{ max_date }}"
+                list="needletail-aggregation-date-filter-datalist-{{ class_title }}"
+                aria-label="{{ label_to }}"
+            >
+        </div>
+
+        {{#use_aggregation_values}}
+            <datalist id="needletail-aggregation-date-filter-datalist-{{ class_title }}">
+                {{#available_dates}}
+                    <option value="{{ value }}"></option>
+                {{/available_dates}}
+            </datalist>
+            <script
+                type="application/json"
+                class="needletail-aggregation-date-filter-available-values-json needletail-aggregation-date-filter-available-values-json-{{ name }}"
+            >{{{ available_values_json }}}</script>
+        {{/use_aggregation_values}}
+    </div>
+</div>

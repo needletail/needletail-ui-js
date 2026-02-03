@@ -623,15 +623,29 @@ export class Result extends Widget {
             const aggregationValues = aggregationBars.map((bar: AggregationBar) => {
                 return bar.getValues();
             });
+            // eslint-disable-next-line prefer-spread
+            const flatAggregationValues = [].concat.apply([], aggregationValues);
+
+            const matchAggregationValues: any[] = [];
+            const rangeAggregationValues: any[] = [];
+
+            flatAggregationValues.forEach((val: any) => {
+                if (val && typeof val === 'object' && ('gte' in val || 'lte' in val)) {
+                    rangeAggregationValues.push(val);
+                } else {
+                    matchAggregationValues.push(val);
+                }
+            });
 
             e.detail.buckets = buckets;
             e.detail.search_values = {};
             e.detail.equals_search_values = {
-                'match': [
-                    // eslint-disable-next-line prefer-spread
-                    ...[].concat.apply([], aggregationValues),
-                ],
+                match: matchAggregationValues,
             };
+
+            if (rangeAggregationValues.length > 0) {
+                e.detail.equals_search_values.range = rangeAggregationValues;
+            }
             e.detail.extra_search_values = {};
             e.detail.should_search_values = {
                 'fuzzy': [

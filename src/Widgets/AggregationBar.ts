@@ -202,13 +202,12 @@ export class AggregationBar extends Widget {
             let hasShown = false;
 
             this.fields.forEach((field: FieldOptions) => {
-                let title = field.getTitle();
+                const title = field.getTitle();
+                const hasBase = URIHelper.getSearchParam(title);
+                const hasMin = URIHelper.getSearchParam(title + '[min]');
+                const hasMax = URIHelper.getSearchParam(title + '[max]');
 
-                if (field.discriminator === 'Range') {
-                    title = field.getTitle() + '[min]';
-                }
-
-                if (!hasShown && URIHelper.getSearchParam(title)) {
+                if (!hasShown && (hasBase || hasMin || hasMax)) {
                     for (let i = 0; i < clearFilters.length; i++) {
                         clearFilters[i].classList.remove('needletail-hidden');
                     }

@@ -81,6 +81,7 @@ export class Events {
 
     static initializeSlider: string = 'initializeSlider';
     static initializeSwitch: string = 'initializeSwitch';
+    static initializeDateFilter: string = 'initializeDateFilter';
 
     static emit(name: string, data: {} = {}) {
         const event = new CustomEvent(name, {

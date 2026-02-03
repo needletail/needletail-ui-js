@@ -1,0 +1,55 @@
+<div
+    class="needletail-aggregation needletail-aggregation-date-filter needletail-aggregation-date-filter-{{ class_title }} {{ collapsible }} {{ collapsed }}"
+    data-attribute="{{ attribute }}"
+    data-mode="{{ mode }}"
+    data-param-exact="{{ param_exact }}"
+    data-param-min="{{ param_min }}"
+    data-param-max="{{ param_max }}"
+    data-selector-exact="{{ selector_exact }}"
+    data-selector-from="{{ selector_from }}"
+    data-selector-to="{{ selector_to }}"
+>
+    <div class="needletail-aggregation-date-filter-title">
+        {{ title }}
+    </div>
+    <div class="needletail-collapsible-container">
+        {{#only_aggregation_values}}
+            <select
+                name="{{ name }}"
+                class="needletail-aggregation-date-filter-exact-select needletail-aggregation-date-filter-exact-select-{{ name }}"
+            >
+                <option value="">{{ any_label }}</option>
+                {{#available_dates}}
+                    <option value="{{ value }}">{{ value }} ({{ count }})</option>
+                {{/available_dates}}
+            </select>
+        {{/only_aggregation_values}}
+
+        {{^only_aggregation_values}}
+            <input
+                type="{{ input_type }}"
+                name="{{ name }}"
+                class="needletail-aggregation-date-filter-input needletail-aggregation-date-filter-input-exact needletail-aggregation-date-filter-input-exact-{{ name }}"
+                value="{{ exact }}"
+                min="{{ min_date }}"
+                max="{{ max_date }}"
+                list="needletail-aggregation-date-filter-datalist-{{ class_title }}"
+            >
+
+            {{#use_aggregation_values}}
+                <datalist id="needletail-aggregation-date-filter-datalist-{{ class_title }}">
+                    {{#available_dates}}
+                        <option value="{{ value }}"></option>
+                    {{/available_dates}}
+                </datalist>
+            {{/use_aggregation_values}}
+        {{/only_aggregation_values}}
+
+        {{#use_aggregation_values}}
+            <script
+                type="application/json"
+                class="needletail-aggregation-date-filter-available-values-json needletail-aggregation-date-filter-available-values-json-{{ name }}"
+            >{{{ available_values_json }}}</script>
+        {{/use_aggregation_values}}
+    </div>
+</div>

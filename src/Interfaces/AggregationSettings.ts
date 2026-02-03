@@ -69,3 +69,28 @@ export interface SwitchSettings extends AggregationSettings {
     off_value?: string;
     attribute_value?: string;
 }
+
+/**
+ * Contains the specific settings for the date filter aggregation
+ */
+export interface DateFilterSettings extends AggregationSettings {
+    mode?: 'range' | 'exact';
+    range?: boolean;
+    min_date?: string;
+    max_date?: string;
+    default_from?: string;
+    default_to?: string;
+    default_exact?: string;
+    input_type?: 'date' | 'datetime-local';
+    only_aggregation_values?: boolean;
+    use_aggregation_values?: boolean;
+    exact_query?: 'match' | 'range_day';
+    any_label?: string;
+    label_from?: string;
+    label_to?: string;
+    selectors?: {
+        from?: string;
+        to?: string;
+        exact?: string;
+    };
+}

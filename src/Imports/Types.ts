@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {AutocompleteBar, GroupedSearchBar, Result, AggregationBar} from '../Imports/Widgets';
-import {Switch, Checkbox, Radio, Slider} from '../Imports/Aggregations';
+import {Switch, Checkbox, Radio, Slider, DateFilter} from '../Imports/Aggregations';
 
 export type WidgetOptions =
     | AutocompleteBar
@@ -12,4 +12,5 @@ export type FieldOptions =
     | Switch
     | Checkbox
     | Radio
-    | Slider;
+    | Slider
+    | DateFilter;
