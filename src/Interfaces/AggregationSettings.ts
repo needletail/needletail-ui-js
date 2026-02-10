@@ -68,6 +68,7 @@ export interface SwitchSettings extends AggregationSettings {
     on_value?: string;
     off_value?: string;
     attribute_value?: string;
+    default_on?: boolean;
 }
 
 /**

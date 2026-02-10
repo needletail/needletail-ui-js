@@ -61,6 +61,7 @@ declare module '@needletail/ui' {
         on_value?: string;
         off_value?: string;
         attribute_value?: string;
+        default_on?: boolean;
     }
 
     export interface DateFilterSettings extends AggregationSettings {

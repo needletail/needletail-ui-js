@@ -11,20 +11,39 @@ export class Switch extends Aggregation {
     onValue: string = 'On';
     offValue: string = 'Off';
     attributeValue: string;
+    defaultOn: boolean = false;
 
     constructor(options: SwitchSettings = {}) {
         super(options);
 
         this.setOnValue(options.on_value || this.getOnValue());
         this.setOffValue(options.off_value || this.getOffValue());
-        this.setAttributeValue(options.attribute_value || this.getAttributeValue());
+        this.setAttributeValue((typeof options.attribute_value !== 'undefined') ?
+            options.attribute_value : this.getOnValue());
+        this.setDefaultOn((typeof options.default_on !== 'undefined') ?
+            options.default_on : this.getDefaultOn());
+
+        // Ensure the initial value is correct for the very first request (even when using skeletons)
+        const title = this.getTitle();
+        const urlVal = URIHelper.getSearchParam(title);
+        const attributeValue = this.getAttributeValue();
+        const hasUrlValue = (urlVal !== null && urlVal !== '');
+        const isOn = (hasUrlValue) ? (urlVal === attributeValue) : this.getDefaultOn();
+
+        this.values = {};
+        this.hasActiveAggregation = isOn;
 
         this.value = {
             field: this.getAttribute(),
-            value: '',
+            value: (isOn) ? attributeValue : '',
             is_aggregation: true,
-            exclude_from_search: true,
         };
+
+        if (!isOn) {
+            this.value.exclude_from_search = true;
+        } else {
+            this.values[attributeValue] = attributeValue;
+        }
     }
 
     setAttributeValue(attributeValue: string): Switch {
@@ -33,7 +52,16 @@ export class Switch extends Aggregation {
     }
 
     getAttributeValue(): string {
-        return this.attributeValue.toString();
+        return String(this.attributeValue ?? '');
+    }
+
+    setDefaultOn(defaultOn: boolean): Switch {
+        this.defaultOn = defaultOn;
+        return this;
+    }
+
+    getDefaultOn(): boolean {
+        return this.defaultOn;
     }
 
     setOnValue(onValue: string): Switch {
@@ -117,26 +145,20 @@ export class Switch extends Aggregation {
 
     initialize() {
         const title = this.getTitle();
-        const prevVal = URIHelper.getSearchParam(title);
+        const urlVal = URIHelper.getSearchParam(title);
+        const attributeValue = this.getAttributeValue();
+        const hasUrlValue = (urlVal !== null && urlVal !== '');
+        const isOn = (hasUrlValue) ? (urlVal === attributeValue) : this.getDefaultOn();
 
         // eslint-disable-next-line max-len
         document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {
                 // Set the default value
-                element.checked = (URIHelper.getSearchParam(title) === this.getAttributeValue());
+                element.checked = isOn;
 
                 element.addEventListener('change', () => {
                     this.handle(element);
                 });
-
-                if (element.checked) {
-                    this.hasActiveAggregation = true;
-                    Events.emit(Events.onAggregationValueChange, {
-                        'initial': true,
-                        'name': this.getAttribute(),
-                        'hasActive': this.hasActiveAggregation,
-                    });
-                }
             });
 
         // eslint-disable-next-line max-len
@@ -154,42 +176,55 @@ export class Switch extends Aggregation {
                 }
             });
 
-        this.values[prevVal] = prevVal;
-        this.value = {
-            field: this.getAttribute(),
-            value: prevVal,
-            is_aggregation: true,
-        };
-    }
+        // Sync internal state for initial request building
+        this.values = {};
+        this.hasActiveAggregation = isOn;
 
-    handle(element: any, skipHistory = false) {
-        const attributeValue = this.getAttributeValue();
-        if (!skipHistory) {
-            URIHelper.addToHistory(this.getTitle(), attributeValue, true);
-        }
-
-        if (this.values[attributeValue]) {
-            delete this.values[attributeValue];
-        } else {
+        if (isOn) {
             this.values[attributeValue] = attributeValue;
-        }
+            this.value = {
+                field: this.getAttribute(),
+                value: attributeValue,
+                is_aggregation: true,
+            };
 
-        this.value = {
-            field: this.getAttribute(),
-            value: (this.values[attributeValue]) ? attributeValue : '',
-            is_aggregation: true,
-        };
-
-        this.hasActiveAggregation = true;
-        if (!this.values[attributeValue]) {
+            Events.emit(Events.onAggregationValueChange, {
+                'initial': true,
+                'name': this.getAttribute(),
+                'hasActive': this.hasActiveAggregation,
+                'value': attributeValue,
+            });
+        } else {
             this.value = {
                 field: this.getAttribute(),
                 value: '',
                 is_aggregation: true,
                 exclude_from_search: true,
             };
+        }
+    }
 
-            this.hasActiveAggregation = false;
+    handle(element: any, skipHistory = false) {
+        const attributeValue = this.getAttributeValue();
+        if (!skipHistory) {
+            URIHelper.addToHistory(this.getTitle(), (element.checked) ? attributeValue : '');
+        }
+
+        if (element.checked) {
+            this.values[attributeValue] = attributeValue;
+        } else if (this.values[attributeValue]) {
+            delete this.values[attributeValue];
+        }
+
+        this.value = {
+            field: this.getAttribute(),
+            value: (element.checked) ? attributeValue : '',
+            is_aggregation: true,
+        };
+
+        this.hasActiveAggregation = element.checked;
+        if (!element.checked) {
+            this.value.exclude_from_search = true;
         }
 
         Events.emit(Events.onBeforeResultRequest, {});
@@ -202,11 +237,17 @@ export class Switch extends Aggregation {
     }
 
     reset() {
+        const desired = this.getDefaultOn();
+        let didHandle = false;
+
         // eslint-disable-next-line max-len
         document.querySelectorAll(`.needletail-aggregation-switch-input.needletail-aggregation-switch-input-${this.getClassTitle()}`)
             .forEach((element: HTMLInputElement) => {
-                if (element.checked) {
-                    element.checked = false;
+                const shouldHandle = (!didHandle && element.checked !== desired);
+                element.checked = desired;
+
+                if (shouldHandle) {
+                    didHandle = true;
                     this.handle(element);
                 }
             });
