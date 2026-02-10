@@ -1,0 +1,34 @@
+<div class="needletail-aggregation needletail-aggregation-multi-date needletail-aggregation-multi-date-{{ class_title }} {{ collapsible }} {{ collapsed }}">
+    <div class="needletail-aggregation-multi-date-title">
+        {{ title }}
+    </div>
+    <div class="needletail-collapsible-container">
+        <div class="needletail-aggregation-multi-date-controls">
+            <input
+                type="{{ input_type }}"
+                class="needletail-aggregation-multi-date-input needletail-aggregation-multi-date-input-{{ name }}"
+                placeholder="{{ any_label }}"
+                aria-label="{{ any_label }}"
+                min="{{ min_date }}"
+                max="{{ max_date }}"
+            >
+            <button type="button" class="needletail-aggregation-multi-date-add">
+                {{{ add_label }}}
+            </button>
+        </div>
+
+        <div class="needletail-aggregation-multi-date-selected">
+            {{#selected}}
+                <button
+                    type="button"
+                    class="needletail-aggregation-multi-date-chip"
+                    data-value="{{ value }}"
+                    aria-label="Remove {{ value }}"
+                >
+                    <span class="needletail-aggregation-multi-date-chip-label">{{ value }}</span>
+                    <span class="needletail-aggregation-multi-date-chip-remove" aria-hidden="true">×</span>
+                </button>
+            {{/selected}}
+        </div>
+    </div>
+</div>

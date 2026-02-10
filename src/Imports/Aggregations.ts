@@ -3,3 +3,7 @@ export * from '../Widgets/Aggregations/Checkbox';
 export * from '../Widgets/Aggregations/Radio';
 export * from '../Widgets/Aggregations/Slider';
 export * from '../Widgets/Aggregations/DateFilter';
+export * from '../Widgets/Aggregations/DropdownSelect';
+export * from '../Widgets/Aggregations/DatePresets';
+export * from '../Widgets/Aggregations/MultiDate';
+export * from '../Widgets/Aggregations/GeoRadius';

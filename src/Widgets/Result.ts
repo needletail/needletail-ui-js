@@ -12,6 +12,7 @@ import {AutocompleteBar} from './AutocompleteBar';
 // eslint-disable-next-line no-unused-vars
 import {AggregationBar} from './AggregationBar';
 import _debounce from 'lodash/debounce';
+import {routeEqualsAggregationValues} from '../Helpers/QueryOptionRouter';
 
 export class Result extends Widget {
     /**
@@ -81,6 +82,11 @@ export class Result extends Widget {
     useSkeleton: boolean = false;
     resultSkeletonTemplate: string;
 
+    applyMode: boolean = false;
+    private appliedSnapshot: { pathname: string; search: string } = URIHelper.snapshot();
+    private dirty: boolean = false;
+    private navKeys: string[] = ['page', 'sort', 'direction', 'default', 'index'];
+
     constructor(options: ResultSettings = {}) {
         super(options);
 
@@ -111,7 +117,8 @@ export class Result extends Widget {
         this.setInfiniteScroll(optional(options.pagination).infinite_scroll || this.getInfiniteScroll());
         this.setBottomScrollOffset(optional(options.pagination).bottom_scroll_offset || this.getBottomScrollOffset());
         this.setLoader(options.loader || this.getLoader());
-        this.setTotalResultsText(options.total_results_text || this.getTotalResultsText());
+        this.setTotalResultsText((typeof options.total_results_text !== 'undefined') ?
+            options.total_results_text : this.totalResultsText);
         this.setExtraOptions(options.extra_options || {});
         this.setUseSkeleton((typeof optional(options).use_skeleton !== 'undefined') ?
             optional(options).use_skeleton : this.getUseSkeleton());
@@ -569,9 +576,39 @@ export class Result extends Widget {
     }
 
     executeJS() {
-        document.addEventListener(Events.onBeforeResultRequest, _debounce((e: CustomEvent) => {
-            if (!e.detail.query) {
-                e.detail.query = this.getQuery();
+        document.addEventListener(Events.onUrlChange, () => {
+            this.updateDirtyState();
+        });
+
+        document.addEventListener(Events.onApplyFilters, () => {
+            if (!this.isApplyModeEnabled()) {
+                return;
+            }
+
+            // Apply pending changes and request results.
+            Events.emit(Events.onBeforeResultRequest, {
+                query: this.getQuery(),
+                trigger: 'apply',
+            });
+        });
+
+        document.addEventListener(Events.onCancelFilters, () => {
+            if (!this.isApplyModeEnabled()) {
+                return;
+            }
+
+            // Restore last applied state and request results (keeps UI consistent).
+            URIHelper.restore(this.appliedSnapshot, true);
+            this.syncAggregationStateFromUrl();
+            Events.emit(Events.onBeforeResultRequest, {
+                query: this.getQuery(),
+                trigger: 'cancel',
+            });
+        });
+
+        const emitResultRequest = _debounce((detail: any) => {
+            if (!detail.query) {
+                detail.query = this.getQuery();
             }
 
             if (this.getUseSkeleton()) {
@@ -625,37 +662,80 @@ export class Result extends Widget {
             });
             // eslint-disable-next-line prefer-spread
             const flatAggregationValues = [].concat.apply([], aggregationValues);
+            const equalsSearchValues = routeEqualsAggregationValues(flatAggregationValues);
 
-            const matchAggregationValues: any[] = [];
-            const rangeAggregationValues: any[] = [];
+            detail.buckets = buckets;
+            detail.search_values = {};
+            // `geo_point` is a query option but is not part of `search.equals` in the Needletail JS client.
+            // We move it to `extra_search_values` so it ends up at `search.geo_point`.
+            const extraSearchValues: any = {};
+            const geoPoints = (equalsSearchValues as any).geo_point;
+            if (Array.isArray(geoPoints) && geoPoints.length > 0) {
+                const lastGeoPoint = geoPoints[geoPoints.length - 1] || {};
+                const cleanedGeoPoint = {
+                    ...lastGeoPoint,
+                };
+                // Keep the payload minimal (no UI-only metadata).
+                delete (cleanedGeoPoint as any).is_aggregation;
+                delete (cleanedGeoPoint as any).exclude_from_search;
+                delete (cleanedGeoPoint as any).value;
 
-            flatAggregationValues.forEach((val: any) => {
-                if (val && typeof val === 'object' && ('gte' in val || 'lte' in val)) {
-                    rangeAggregationValues.push(val);
-                } else {
-                    matchAggregationValues.push(val);
-                }
-            });
-
-            e.detail.buckets = buckets;
-            e.detail.search_values = {};
-            e.detail.equals_search_values = {
-                match: matchAggregationValues,
-            };
-
-            if (rangeAggregationValues.length > 0) {
-                e.detail.equals_search_values.range = rangeAggregationValues;
+                extraSearchValues.geo_point = cleanedGeoPoint;
+                delete (equalsSearchValues as any).geo_point;
             }
-            e.detail.extra_search_values = {};
-            e.detail.should_search_values = {
+
+            detail.equals_search_values = equalsSearchValues;
+            detail.extra_search_values = extraSearchValues;
+            detail.should_search_values = {
                 'fuzzy': [
                     // eslint-disable-next-line prefer-spread
                     ...[].concat.apply([], autocompleteValues),
                 ],
             };
 
-            Events.emit(Events.onResultRequest, e.detail);
-        }, 100));
+            Events.emit(Events.onResultRequest, detail);
+        }, 100);
+
+        document.addEventListener(Events.onBeforeResultRequest, (e: CustomEvent) => {
+            const detail = {
+                ...(e.detail || {}),
+            };
+
+            // Keep aggregation values consistent with URL (chips/back/forward/cancel).
+            this.syncAggregationStateFromUrl();
+
+            const trigger: string = detail.trigger || '';
+            const isNavTrigger = (trigger === 'pagination' || trigger === 'sort' || trigger === 'infinite_scroll');
+
+            // Apply-mode gate: ignore filter-driven requests until Apply is clicked.
+            if (this.isApplyModeEnabled()) {
+                this.updateDirtyState();
+                const allowedTriggers: string[] = ['initial', 'apply', 'cancel', 'pagination', 'sort', 'infinite_scroll'];
+
+                if (allowedTriggers.indexOf(trigger) === -1) {
+                    // A filter changed; apply-mode will request only on Apply.
+                    return;
+                }
+
+                // Pagination/sort while dirty should cancel pending changes and navigate with applied filters.
+                if (isNavTrigger) {
+                    if (this.dirty) {
+                        this.restoreAppliedAndApplyNavigation(detail);
+                    } else {
+                        this.applyNavigation(detail);
+                    }
+                }
+
+                // This request will be the new applied state (nav keys don't affect dirty comparisons).
+                this.appliedSnapshot = URIHelper.snapshot();
+                this.setDirty(false);
+            } else if (isNavTrigger) {
+                // Normal mode: navigation updates URL immediately.
+                this.applyNavigation(detail);
+            }
+
+            emitResultRequest(detail);
+        });
 
         document.addEventListener(Events.onResultRequest, _debounce(async (e: CustomEvent) => {
             let currentPage = 1;
@@ -864,7 +944,6 @@ export class Result extends Widget {
                             paginationElement.addEventListener('click', (e) => {
                                 const currentPage = URIHelper.getSearchParam('page');
                                 const pageNumber = paginationElement.getAttribute('data-page');
-                                URIHelper.addToHistory('page', pageNumber);
 
                                 Events.emit(Events.onPageChange, {
                                     current_page: currentPage,
@@ -872,6 +951,8 @@ export class Result extends Widget {
                                 });
                                 Events.emit(Events.onBeforeResultRequest, {
                                     query: this.getQuery(),
+                                    trigger: 'pagination',
+                                    page: pageNumber,
                                 });
                             });
                         });
@@ -886,15 +967,16 @@ export class Result extends Widget {
                     this.setSortSelectDefault(e.target.value);
                     this.setSortBy(e.target.options[e.target.selectedIndex].getAttribute('data-attribute'));
                     this.setSortDirection(e.target.options[e.target.selectedIndex].getAttribute('data-direction') || 'asc');
-                    URIHelper.addToHistory('page', '1');
-                    URIHelper.addToHistory('direction', this.getSortDirection());
-                    URIHelper.addToHistory('sort', this.getSortBy());
-                    URIHelper.addToHistory('default', this.getSortSelectDefault());
                     this.infinityPage = 1;
                     this.hardReset = true;
 
                     Events.emit(Events.onBeforeResultRequest, {
                         query: this.getQuery(),
+                        trigger: 'sort',
+                        page: '1',
+                        direction: this.getSortDirection(),
+                        sort: this.getSortBy(),
+                        default: this.getSortSelectDefault(),
                     });
                 });
             }
@@ -938,11 +1020,12 @@ export class Result extends Widget {
                 if (scrollTop + clientHeight >= scrollHeight - this.getBottomScrollOffset() &&
                     this.totalPages >= this.infinityPage + 1) {
                     this.infinityPage++;
-                    URIHelper.addToHistory('page', this.infinityPage.toString());
 
                     this.startLoader('infinity-scroll');
                     Events.emit(Events.onBeforeResultRequest, {
                         query: this.getQuery(),
+                        trigger: 'infinite_scroll',
+                        page: this.infinityPage.toString(),
                     });
                 }
             }, 200));
@@ -958,6 +1041,296 @@ export class Result extends Widget {
 
         Events.emit(Events.onBeforeResultRequest, {
             query: this.getQuery(),
+            trigger: 'initial',
+        });
+    }
+
+    isApplyModeEnabled(): boolean {
+        return Boolean(this.client && this.client.widgets && this.client.widgets.applyFilters &&
+            this.client.widgets.applyFilters.length > 0);
+    }
+
+    setDirty(dirty: boolean) {
+        const next = Boolean(dirty);
+        if (this.dirty === next) {
+            return;
+        }
+
+        this.dirty = next;
+        Events.emit(Events.filtersDirtyStateChange, {
+            dirty: this.dirty,
+        });
+    }
+
+    canonicalizeFilterParams(search: string): string {
+        const params = new URLSearchParams(search || '');
+        this.navKeys.forEach((key: string) => {
+            params.delete(key);
+        });
+
+        const entries: { key: string; value: string }[] = [];
+        params.forEach((value: string, key: string) => {
+            entries.push({key: key, value: value});
+        });
+
+        entries.sort((a, b) => {
+            if (a.key === b.key) {
+                return a.value.localeCompare(b.value);
+            }
+            return a.key.localeCompare(b.key);
+        });
+
+        return entries.map((e) => `${encodeURIComponent(e.key)}=${encodeURIComponent(e.value)}`).join('&');
+    }
+
+    updateDirtyState() {
+        if (!this.isApplyModeEnabled()) {
+            return;
+        }
+
+        const current = URIHelper.snapshot();
+        const applied = this.appliedSnapshot;
+
+        const currentFilter = this.canonicalizeFilterParams(current.search);
+        const appliedFilter = this.canonicalizeFilterParams(applied.search);
+        this.setDirty(currentFilter !== appliedFilter);
+    }
+
+    restoreAppliedAndApplyNavigation(detail: any) {
+        // Cancel pending filter changes first.
+        URIHelper.restore(this.appliedSnapshot, true);
+
+        // Then apply the navigation params (page/sort/direction/default).
+        this.applyNavigation(detail, true);
+
+        // Sync aggregation values back to the (restored) URL so pending selections are discarded.
+        this.syncAggregationStateFromUrl();
+    }
+
+    applyNavigation(detail: any, replace: boolean = false) {
+        if (detail && detail.page) {
+            URIHelper.setParam('page', String(detail.page), replace);
+        }
+
+        if (detail && (detail.trigger === 'sort')) {
+            URIHelper.setParam('direction', String(detail.direction || ''), replace);
+            URIHelper.setParam('sort', String(detail.sort || ''), replace);
+            URIHelper.setParam('default', String(detail.default || ''), replace);
+        }
+    }
+
+    syncAggregationStateFromUrl() {
+        if (!this.client || !this.client.widgets) {
+            return;
+        }
+
+        const aggregationBars = this.client.widgets.aggregationBar;
+        if (!aggregationBars || aggregationBars.length === 0) {
+            return;
+        }
+
+        aggregationBars.forEach((bar: AggregationBar) => {
+            const fields: any[] = (typeof (bar as any).getFields === 'function') ? (bar as any).getFields() : [];
+
+            fields.forEach((field: any) => {
+                if (!field || typeof field.getTitle !== 'function' || typeof field.getAttribute !== 'function') {
+                    return;
+                }
+
+                const title = field.getTitle();
+                const attribute = field.getAttribute();
+                const discriminator = field.discriminator || '';
+
+                if (discriminator === 'Checkbox') {
+                    const params = (URIHelper.getSearchParams(title) || []).filter((v: string) => Boolean(v));
+                    field.values = {};
+                    params.forEach((v: string) => {
+                        field.values[v] = v;
+                    });
+
+                    if (params.length === 0) {
+                        field.value = {
+                            field: attribute,
+                            value: '',
+                            is_aggregation: true,
+                            exclude_from_search: true,
+                        };
+                        field.hasActiveAggregation = false;
+                    } else {
+                        field.value = {
+                            field: attribute,
+                            value: params,
+                            is_aggregation: true,
+                        };
+                        field.hasActiveAggregation = true;
+                    }
+                    return;
+                }
+
+                if (discriminator === 'MultiDate') {
+                    if (typeof field.syncStateFromUrl === 'function') {
+                        field.syncStateFromUrl();
+                        return;
+                    }
+
+                    const params = (URIHelper.getSearchParams(title) || []).filter((v: string) => Boolean(v));
+                    if (params.length === 0) {
+                        field.value = {
+                            field: attribute,
+                            value: '',
+                            is_aggregation: true,
+                            exclude_from_search: true,
+                        };
+                        field.hasActiveAggregation = false;
+                    } else {
+                        field.value = {
+                            field: attribute,
+                            value: params,
+                            is_aggregation: true,
+                        };
+                        field.hasActiveAggregation = true;
+                    }
+                    return;
+                }
+
+                if (discriminator === 'Radio' || discriminator === 'DropdownSelect' || discriminator === 'Switch') {
+                    const val = URIHelper.getSearchParam(title) || '';
+                    if (!val) {
+                        field.value = {
+                            field: attribute,
+                            value: '',
+                            is_aggregation: true,
+                            exclude_from_search: true,
+                        };
+                        field.hasActiveAggregation = false;
+                    } else {
+                        field.value = {
+                            field: attribute,
+                            value: val,
+                            is_aggregation: true,
+                        };
+                        field.hasActiveAggregation = true;
+                    }
+                    return;
+                }
+
+                if (discriminator === 'Range') {
+                    const isRangeSlider = (typeof field.getRangeSlider === 'function') ? field.getRangeSlider() : false;
+                    const type = (typeof field.getType === 'function') ? field.getType() : 'to';
+
+                    if (isRangeSlider) {
+                        const minParam = URIHelper.getSearchParam(`${title}[min]`) || '';
+                        const maxParam = URIHelper.getSearchParam(`${title}[max]`) || '';
+                        const minDefault = (typeof field.getDefaultRangeMin === 'function') ?
+                            field.getDefaultRangeMin() : (typeof field.getMin === 'function' ? field.getMin() : '');
+                        const maxDefault = (typeof field.getDefaultRangeMax === 'function') ?
+                            field.getDefaultRangeMax() : (typeof field.getMax === 'function' ? field.getMax() : '');
+
+                        if (!minParam && !maxParam) {
+                            const min = (typeof field.getMin === 'function') ? field.getMin() : '';
+                            const max = (typeof field.getMax === 'function') ? field.getMax() : '';
+                            field.value = {
+                                field: attribute,
+                                value: `${min}:${max}`,
+                                type: type,
+                                is_aggregation: true,
+                                exclude_from_search: true,
+                            };
+                            field.hasActiveAggregation = false;
+                        } else {
+                            const min = minParam || String(minDefault);
+                            const max = maxParam || String(maxDefault);
+                            field.value = {
+                                field: attribute,
+                                value: `${min}:${max}`,
+                                type: type,
+                                is_aggregation: true,
+                            };
+                            field.hasActiveAggregation = true;
+                        }
+
+                        return;
+                    }
+
+                    const val = URIHelper.getSearchParam(title) || '';
+                    if (!val) {
+                        const dv = (typeof field.getDefaultValue === 'function') ? field.getDefaultValue() : '';
+                        field.value = {
+                            field: attribute,
+                            value: dv,
+                            type: type,
+                            is_aggregation: true,
+                            exclude_from_search: true,
+                        };
+                        field.hasActiveAggregation = false;
+                    } else {
+                        field.value = {
+                            field: attribute,
+                            value: val,
+                            type: type,
+                            is_aggregation: true,
+                        };
+                        field.hasActiveAggregation = true;
+                    }
+                    return;
+                }
+
+                if (discriminator === 'DateFilter') {
+                    const mode = (typeof field.getMode === 'function') ? field.getMode() : 'range';
+
+                    if (mode === 'exact') {
+                        const exact = URIHelper.getSearchParam(field.getParamExact()) || '';
+                        if (typeof field.setExactValue === 'function') {
+                            field.setExactValue(exact);
+                        }
+                        return;
+                    }
+
+                    const from = URIHelper.getSearchParam(field.getParamMin()) || '';
+                    const to = URIHelper.getSearchParam(field.getParamMax()) || '';
+                    if (typeof field.setRangeValue === 'function') {
+                        field.setRangeValue(from, to);
+                    }
+                    return;
+                }
+
+                if (discriminator === 'DatePresets') {
+                    const from = (typeof field.getCurrentFrom === 'function') ? field.getCurrentFrom() :
+                        (URIHelper.getSearchParam(`${title}[min]`) || '');
+                    const to = (typeof field.getCurrentTo === 'function') ? field.getCurrentTo() :
+                        (URIHelper.getSearchParam(`${title}[max]`) || '');
+
+                    if (!from && !to) {
+                        field.value = {
+                            field: attribute,
+                            value: '',
+                            is_aggregation: true,
+                            exclude_from_search: true,
+                        };
+                        field.hasActiveAggregation = false;
+                    } else {
+                        const next: any = {
+                            field: attribute,
+                            is_aggregation: true,
+                        };
+                        if (from) {
+                            next.gte = from;
+                        }
+                        if (to) {
+                            next.lte = to;
+                        }
+                        field.value = next;
+                        field.hasActiveAggregation = true;
+                    }
+                    return;
+                }
+
+                if (discriminator === 'GeoRadius') {
+                    if (typeof field.updateValueFromUrl === 'function') {
+                        field.updateValueFromUrl();
+                    }
+                }
+            });
         });
     }
 

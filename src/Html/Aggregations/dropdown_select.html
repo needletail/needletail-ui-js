@@ -1,0 +1,13 @@
+<div class="needletail-aggregation needletail-aggregation-dropdown-select needletail-aggregation-dropdown-select-{{ class_title }} {{ collapsible }} {{ collapsed }}">
+    <div class="needletail-aggregation-dropdown-select-title">
+        {{ title }}
+    </div>
+    <div class="needletail-collapsible-container">
+        <select class="needletail-aggregation-dropdown-select-input needletail-aggregation-dropdown-select-input-{{ name }}">
+            <option value="">{{ any_label }}</option>
+            {{#options}}
+                <option value="{{ value }}">{{ value }} ({{ count }})</option>
+            {{/options}}
+        </select>
+    </div>
+</div>

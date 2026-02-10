@@ -1,0 +1,16 @@
+<div class="needletail-aggregation-geo-radius-results">
+    {{#results}}
+        <div
+            class="needletail-aggregation-geo-radius-result"
+            data-label="{{ label }}"
+            data-lat="{{ lat }}"
+            data-lng="{{ lng }}"
+        >
+            <span class="needletail-aggregation-geo-radius-result-label">{{ label }}</span>
+        </div>
+    {{/results}}
+
+    {{^results}}
+        <div class="needletail-aggregation-geo-radius-no-result">{{ no_result_message }}</div>
+    {{/results}}
+</div>

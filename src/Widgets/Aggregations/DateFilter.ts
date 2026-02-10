@@ -395,6 +395,15 @@ export class DateFilter extends Aggregation {
             });
         }
 
+        // Keep UI in sync when URL is changed externally (chips/back/forward/apply-mode cancel).
+        document.addEventListener(Events.onUrlChange, () => {
+            this.syncFromUrl();
+            Events.emit(Events.initializeDateFilter, {
+                name: this.getAttribute(),
+                mode: this.getMode(),
+            });
+        });
+
         if (this.getUseSkeleton()) {
             document.addEventListener(Events.onAfterResultRequest, (e: CustomEvent) => {
                 const textElement = this.render();
@@ -585,6 +594,52 @@ export class DateFilter extends Aggregation {
                 'hasActive': this.hasActiveAggregation,
             });
         }
+    }
+
+    syncFromUrl() {
+        const mode = this.getMode();
+        const urlExact = URIHelper.getSearchParam(this.getParamExact()) || '';
+        const urlFrom = URIHelper.getSearchParam(this.getParamMin()) || '';
+        const urlTo = URIHelper.getSearchParam(this.getParamMax()) || '';
+
+        document.querySelectorAll(this.getRootSelector())
+            .forEach((element) => {
+                if (mode === 'range') {
+                    const fromInput = element.querySelector(this.getSelectorFrom()) as HTMLInputElement;
+                    const toInput = element.querySelector(this.getSelectorTo()) as HTMLInputElement;
+
+                    const from = urlFrom || this.getDefaultFrom() || '';
+                    const to = urlTo || this.getDefaultTo() || '';
+
+                    if (fromInput && fromInput.value !== from) {
+                        fromInput.value = from;
+                    }
+                    if (toInput && toInput.value !== to) {
+                        toInput.value = to;
+                    }
+
+                    this.setRangeValue(from, to);
+                    return;
+                }
+
+                let exact = urlExact || this.getDefaultExact() || '';
+                if (this.getOnlyAggregationValues() && this.availableValues.size > 0 && exact &&
+                    !this.availableValues.has(exact)) {
+                    exact = '';
+                }
+
+                const exactInput = element.querySelector(this.getSelectorExactInput()) as HTMLInputElement;
+                if (exactInput && exactInput.value !== exact) {
+                    exactInput.value = exact;
+                }
+
+                const exactSelect = element.querySelector(this.getSelectorExactSelect()) as HTMLSelectElement;
+                if (exactSelect && exactSelect.value !== exact) {
+                    exactSelect.value = exact;
+                }
+
+                this.setExactValue(exact);
+            });
     }
 
     setInactiveValue() {

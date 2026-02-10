@@ -22,6 +22,22 @@ export interface AggregationBarSettings extends WidgetSettings {
 }
 
 /**
+ * Contains the specific settings for the apply filters widget
+ */
+export interface ApplyFiltersSettings extends WidgetSettings {
+    text?: string;
+    cancel_text?: string;
+    show_cancel?: boolean;
+}
+
+/**
+ * Contains the specific settings for the active filters widget
+ */
+export interface ActiveFiltersSettings extends WidgetSettings {
+    exclude_params?: string[];
+}
+
+/**
  * Contains the specific settings for the autocomplete bar widget
  */
 export interface AutocompleteBarSettings extends WidgetSettings {

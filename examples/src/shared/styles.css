@@ -1,0 +1,204 @@
+:root {
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+body {
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.ex-header {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.ex-nav a {
+    margin-right: 12px;
+    color: #2c80ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ex-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 16px;
+}
+
+.ex-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.ex-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.ex-card-title {
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.ex-config {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.ex-config-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.ex-config-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f1f5f9;
+    cursor: pointer;
+}
+
+.ex-config-toggle-left,
+.ex-config-toggle-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ex-config-toggle-title {
+    font-weight: 900;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.ex-config-toggle-meta {
+    font-weight: 700;
+    font-size: 12px;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+}
+
+.ex-config-toggle-action {
+    font-weight: 800;
+    font-size: 12px;
+    color: #2c80ff;
+}
+
+.ex-config-toggle-chevron {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid #334155;
+    border-bottom: 2px solid #334155;
+    transform: rotate(45deg);
+    transition: transform 0.12s ease;
+}
+
+.ex-config-shell:not(.ex-config-shell--collapsed) .ex-config-toggle-chevron {
+    transform: rotate(-135deg);
+}
+
+.ex-config-panel {
+    padding-top: 2px;
+}
+
+.ex-config-shell--collapsed .ex-config-panel {
+    display: none;
+}
+
+.ex-config-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.ex-label {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 600;
+}
+
+.ex-input {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+}
+
+.ex-config-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.ex-button {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.ex-button-secondary {
+    background: #f1f5f9;
+}
+
+.ex-config-hint {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.ex-panel {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.ex-panel-title {
+    padding: 10px 12px;
+    background: #f1f5f9;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.ex-panel-body {
+    margin: 0;
+    padding: 12px;
+    max-height: 240px;
+    overflow: auto;
+    font-size: 12px;
+    background: #ffffff;
+}
+
+@media (max-width: 900px) {
+    .ex-grid {
+        grid-template-columns: 1fr;
+    }
+    .ex-config-row {
+        grid-template-columns: 1fr;
+    }
+
+    .ex-config-toggle {
+        border-radius: 10px;
+    }
+}
+

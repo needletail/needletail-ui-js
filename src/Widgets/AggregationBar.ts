@@ -239,4 +239,8 @@ export class AggregationBar extends Widget {
             return res;
         }, []);
     }
+
+    getFields(): FieldOptions[] {
+        return this.fields;
+    }
 }

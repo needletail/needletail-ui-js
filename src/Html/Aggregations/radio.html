@@ -3,6 +3,14 @@
         {{ title }}
     </div>
     <div class="needletail-collapsible-container">
+        {{#use_search}}
+            <input
+                type="search"
+                class="needletail-aggregation-options-search-input needletail-aggregation-options-search-input-{{ name }}"
+                placeholder="{{ search_placeholder }}"
+                aria-label="{{ search_placeholder }}"
+            >
+        {{/use_search}}
         {{#options}}
             <label class="needletail-aggregation-radio-option {{#show_more_options}}needletail-hidden{{/show_more_options}}">
                 <input type="radio" name="{{ name }}" value="{{ value }}" class="needletail-aggregation-radio-option-input needletail-aggregation-radio-option-input-{{ name }}">

@@ -3,6 +3,8 @@ import {Aggregation} from './../../Imports/BaseClasses';
 import skeletonTemplate from './../../Html/Skeletons/checkbox.html';
 import Mustache from 'mustache';
 import {Events, optional, URIHelper} from '../../Imports/Helpers';
+import {applyFilterOptions, applyOptionOrder} from '../../Helpers/AggregationOptionUtils';
+import _debounce from 'lodash/debounce';
 // eslint-disable-next-line no-unused-vars
 import {CheckboxSettings} from '../../Imports/Interfaces';
 
@@ -18,6 +20,10 @@ export class Checkbox extends Aggregation {
     neverHideChecked: boolean = true;
     showSelectedZero: boolean = true;
     skeletonItemCount: number = 10;
+    useSearch: boolean = false;
+    searchPlaceholder: string = 'Search...';
+    searchDebounce: number = 150;
+    searchMinOptions: number = 15;
 
     constructor(options: CheckboxSettings = {}) {
         super(options);
@@ -39,6 +45,12 @@ export class Checkbox extends Aggregation {
         this.setShowSelectedZero((typeof options.show_selected_zero !== 'undefined') ?
             options.show_selected_zero : this.getShowSelectedZero());
 
+        this.setUseSearch((typeof optional(options.search).use !== 'undefined') ?
+            optional(options.search).use : this.getUseSearch());
+        this.setSearchPlaceholder(optional(options.search).placeholder || this.getSearchPlaceholder());
+        this.setSearchDebounce(optional(options.search).debounce || this.getSearchDebounce());
+        this.setSearchMinOptions(optional(options.search).min_options || this.getSearchMinOptions());
+
         this.value = {
             field: this.getAttribute(),
             value: '',
@@ -54,6 +66,42 @@ export class Checkbox extends Aggregation {
 
     getSkeletonItemCount(): number {
         return this.skeletonItemCount;
+    }
+
+    setUseSearch(useSearch: boolean): Checkbox {
+        this.useSearch = useSearch;
+        return this;
+    }
+
+    getUseSearch(): boolean {
+        return this.useSearch;
+    }
+
+    setSearchPlaceholder(searchPlaceholder: string): Checkbox {
+        this.searchPlaceholder = searchPlaceholder;
+        return this;
+    }
+
+    getSearchPlaceholder(): string {
+        return this.searchPlaceholder;
+    }
+
+    setSearchDebounce(searchDebounce: number): Checkbox {
+        this.searchDebounce = searchDebounce;
+        return this;
+    }
+
+    getSearchDebounce(): number {
+        return this.searchDebounce;
+    }
+
+    setSearchMinOptions(searchMinOptions: number): Checkbox {
+        this.searchMinOptions = searchMinOptions;
+        return this;
+    }
+
+    getSearchMinOptions(): number {
+        return this.searchMinOptions;
     }
 
     setOptionOrder(optionOrder: string[]): Checkbox {
@@ -167,30 +215,15 @@ export class Checkbox extends Aggregation {
 
     render(options: {}[] = []): string {
         const template = this.getTemplate();
+        options = applyOptionOrder(options, this.getOptionOrder());
+        options = applyFilterOptions(options, this.getFilterOptions());
 
-        if (this.getOptionOrder()) {
-            options.sort((a: {value: string}, b: {value: string}) => {
-                let indexA = this.getOptionOrder().indexOf(a.value.toLowerCase());
-                let indexB = this.getOptionOrder().indexOf(b.value.toLowerCase());
-                if (indexA === -1) {
-                    indexA = 9999;
-                }
-                if (indexB === -1) {
-                    indexB = 9999;
-                }
-                return indexA - indexB;
-            });
-        }
-
-        if (this.getFilterOptions().length > 0) {
-            options = options.filter((o: {value: string}) => {
-                return this.getFilterOptions().indexOf(o.value.toLowerCase()) > -1;
-            });
-        }
+        const useSearch = (this.getUseSearch() && options.length >= this.getSearchMinOptions());
 
         return Mustache.render(template, {
             title: this.getTitle(),
             class_title: this.getClassTitle(),
+            name: this.getClassTitle(),
             options: options,
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
             collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
@@ -198,6 +231,8 @@ export class Checkbox extends Aggregation {
             show_more_options_text: this.getShowMoreOptionsText(),
             show_less_options_text: this.getShowLessOptionsText(),
             checked_count: URIHelper.getSearchParams(this.getTitle()).length,
+            use_search: useSearch,
+            search_placeholder: this.getSearchPlaceholder(),
         });
     }
 
@@ -325,6 +360,8 @@ export class Checkbox extends Aggregation {
                             this.handle(element);
                         });
                     });
+
+                this.initializeSearch();
 
                 // Set the default value for the aggregation
                 const params = URIHelper.getSearchParams(title);
@@ -475,5 +512,78 @@ export class Checkbox extends Aggregation {
                     this.handle(element);
                 }
             });
+    }
+
+    initializeSearch() {
+        const classTitle = this.getClassTitle();
+        const rootSelector = '.needletail-aggregation.needletail-aggregation-checkbox' +
+            `.needletail-aggregation-checkbox-${classTitle}`;
+        const inputSelector = `.needletail-aggregation-options-search-input-${classTitle}`;
+
+        document.querySelectorAll(rootSelector).forEach((root) => {
+            const searchInput = root.querySelector(inputSelector) as HTMLInputElement;
+            if (!searchInput) {
+                return;
+            }
+
+            const showMoreOptionsElement = root.querySelector('.needletail-show-more-options') as HTMLElement;
+            const showLessOptionsElement = root.querySelector('.needletail-show-less-options') as HTMLElement;
+            const optionElements: NodeListOf<HTMLElement> =
+                root.querySelectorAll('.needletail-aggregation-checkbox-option');
+
+            // Track the pre-search expanded state so clearing search can restore it.
+            let expandedBeforeSearch = false;
+
+            const applySearch = () => {
+                const q = (searchInput.value || '').trim().toLowerCase();
+
+                if (q) {
+                    if (showLessOptionsElement) {
+                        expandedBeforeSearch = !showLessOptionsElement.classList.contains('needletail-hidden');
+                    }
+
+                    if (showMoreOptionsElement) {
+                        showMoreOptionsElement.classList.add('needletail-hidden');
+                    }
+                    if (showLessOptionsElement) {
+                        showLessOptionsElement.classList.add('needletail-hidden');
+                    }
+
+                    optionElements.forEach((opt) => {
+                        opt.classList.remove('needletail-hidden');
+                        const label = opt.querySelector('.needletail-aggregation-checkbox-option-label') as HTMLElement;
+                        const input = opt.querySelector('.needletail-aggregation-checkbox-option-input') as HTMLInputElement;
+                        const text = (label ? label.textContent : '').toLowerCase();
+                        const isChecked = Boolean(input && input.checked);
+
+                        if (text.indexOf(q) > -1 || (isChecked && this.getNeverHideChecked())) {
+                            opt.classList.remove('needletail-search-hidden');
+                        } else {
+                            opt.classList.add('needletail-search-hidden');
+                        }
+                    });
+
+                    return;
+                }
+
+                // Clear search: restore show-more state and visibility.
+                optionElements.forEach((opt) => {
+                    opt.classList.remove('needletail-search-hidden');
+                });
+
+                if (!this.getUseShowMoreOptions()) {
+                    return;
+                }
+
+                if (expandedBeforeSearch && showMoreOptionsElement) {
+                    showMoreOptionsElement.click();
+                } else if (showLessOptionsElement) {
+                    showLessOptionsElement.click();
+                }
+            };
+
+            const handler = _debounce(applySearch, this.getSearchDebounce());
+            searchInput.addEventListener('input', handler);
+        });
     }
 }

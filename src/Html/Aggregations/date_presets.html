@@ -1,0 +1,43 @@
+<div class="needletail-aggregation needletail-aggregation-date-presets needletail-aggregation-date-presets-{{ class_title }} {{ collapsible }} {{ collapsed }}">
+    <div class="needletail-aggregation-date-presets-title">
+        {{ title }}
+    </div>
+    <div class="needletail-collapsible-container">
+        <div class="needletail-aggregation-date-presets-options">
+            {{#presets}}
+                <button
+                    type="button"
+                    class="needletail-aggregation-date-presets-option {{ active_class }}"
+                    data-preset="{{ key }}"
+                >
+                    {{{ label }}}
+                </button>
+            {{/presets}}
+        </div>
+
+        {{#show_custom}}
+            <div class="needletail-aggregation-date-presets-custom {{ custom_hidden_class }}">
+                <div class="needletail-aggregation-date-presets-inputs">
+                    <input
+                        type="{{ input_type }}"
+                        class="needletail-aggregation-date-presets-input needletail-aggregation-date-presets-input-from"
+                        value="{{ from }}"
+                        min="{{ min_date }}"
+                        max="{{ max_date }}"
+                        placeholder="{{ label_from }}"
+                        aria-label="{{ label_from }}"
+                    >
+                    <input
+                        type="{{ input_type }}"
+                        class="needletail-aggregation-date-presets-input needletail-aggregation-date-presets-input-to"
+                        value="{{ to }}"
+                        min="{{ min_date }}"
+                        max="{{ max_date }}"
+                        placeholder="{{ label_to }}"
+                        aria-label="{{ label_to }}"
+                    >
+                </div>
+            </div>
+        {{/show_custom}}
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="needletail-aggregation needletail-aggregation-geo-radius needletail-aggregation-geo-radius-{{ class_title }} {{ collapsible }} {{ collapsed }}">
+    <div class="needletail-aggregation-geo-radius-title">
+        {{ title }}
+    </div>
+
+    <div class="needletail-collapsible-container">
+        <div class="needletail-aggregation-geo-radius-location">
+            <div class="needletail-aggregation-geo-radius-location-input-wrapper">
+                <input
+                    type="text"
+                    class="needletail-aggregation-geo-radius-input needletail-aggregation-geo-radius-input-{{ name }}"
+                    placeholder="{{ location_placeholder }}"
+                    aria-label="{{ location_placeholder }}"
+                    value="{{ location_value }}"
+                    autocomplete="off"
+                >
+
+                {{#show_geolocation}}
+                    <button
+                        type="button"
+                        class="needletail-aggregation-geo-radius-geolocate"
+                        aria-label="{{ geolocate_label }}"
+                        title="{{ geolocate_label }}"
+                    >
+                        ⌖
+                    </button>
+                {{/show_geolocation}}
+            </div>
+
+            <div class="needletail-aggregation-geo-radius-suggestions needletail-hidden"></div>
+        </div>
+
+        <div class="needletail-aggregation-geo-radius-distance-wrapper">
+            <select class="needletail-aggregation-geo-radius-distance needletail-aggregation-geo-radius-distance-{{ name }}">
+                {{#distances}}
+                    <option value="{{ value }}">{{ label }}</option>
+                {{/distances}}
+            </select>
+        </div>
+    </div>
+</div>

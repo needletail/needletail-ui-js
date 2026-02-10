@@ -27,6 +27,13 @@ export default {
         postcss({
             extract: 'needletail.min.css',
             plugins: [cssnano()],
+            use: {
+                // Silence Dart Sass deprecation noise coming from the legacy JS API used by rollup-plugin-postcss.
+                // Note: rollup-plugin-postcss itself still uses the legacy API internally; this only hides the warning.
+                sass: {
+                    silenceDeprecations: ['legacy-js-api'],
+                },
+            },
             parser: scss,
             stringifier: scss,
         }),

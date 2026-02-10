@@ -10,14 +10,16 @@ export class Switch extends Aggregation {
     discriminator: string = 'Switch';
     onValue: string = 'On';
     offValue: string = 'Off';
-    attributeValue: string;
+    attributeValue: string = '';
 
     constructor(options: SwitchSettings = {}) {
         super(options);
 
         this.setOnValue(options.on_value || this.getOnValue());
         this.setOffValue(options.off_value || this.getOffValue());
-        this.setAttributeValue(options.attribute_value || this.getAttributeValue());
+        const attributeValue = (typeof options.attribute_value !== 'undefined') ?
+            options.attribute_value : this.getOnValue();
+        this.setAttributeValue(attributeValue);
 
         this.value = {
             field: this.getAttribute(),
@@ -33,7 +35,7 @@ export class Switch extends Aggregation {
     }
 
     getAttributeValue(): string {
-        return this.attributeValue.toString();
+        return String(this.attributeValue || this.getOnValue());
     }
 
     setOnValue(onValue: string): Switch {

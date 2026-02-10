@@ -5,6 +5,8 @@ import Mustache from 'mustache';
 // eslint-disable-next-line no-unused-vars
 import {RadioSettings} from '../../Imports/Interfaces';
 import {Events, optional, URIHelper} from '../../Imports/Helpers';
+import {applyFilterOptions, applyOptionOrder} from '../../Helpers/AggregationOptionUtils';
+import _debounce from 'lodash/debounce';
 
 export class Radio extends Aggregation {
     discriminator: string = 'Radio';
@@ -16,6 +18,10 @@ export class Radio extends Aggregation {
     optionOrder: string[] = [];
     filterOptions: string[] = [];
     skeletonItemCount: number = 10;
+    useSearch: boolean = false;
+    searchPlaceholder: string = 'Search...';
+    searchDebounce: number = 150;
+    searchMinOptions: number = 15;
 
     constructor(options: RadioSettings = {}) {
         super(options);
@@ -33,6 +39,12 @@ export class Radio extends Aggregation {
         this.setOptionOrder(options.option_order || this.getOptionOrder());
         this.setFilterOptions(options.filter_options || this.getFilterOptions());
 
+        this.setUseSearch((typeof optional(options.search).use !== 'undefined') ?
+            optional(options.search).use : this.getUseSearch());
+        this.setSearchPlaceholder(optional(options.search).placeholder || this.getSearchPlaceholder());
+        this.setSearchDebounce(optional(options.search).debounce || this.getSearchDebounce());
+        this.setSearchMinOptions(optional(options.search).min_options || this.getSearchMinOptions());
+
         this.value = {
             field: this.getAttribute(),
             value: '',
@@ -48,6 +60,42 @@ export class Radio extends Aggregation {
 
     getSkeletonItemCount(): number {
         return this.skeletonItemCount;
+    }
+
+    setUseSearch(useSearch: boolean): Radio {
+        this.useSearch = useSearch;
+        return this;
+    }
+
+    getUseSearch(): boolean {
+        return this.useSearch;
+    }
+
+    setSearchPlaceholder(searchPlaceholder: string): Radio {
+        this.searchPlaceholder = searchPlaceholder;
+        return this;
+    }
+
+    getSearchPlaceholder(): string {
+        return this.searchPlaceholder;
+    }
+
+    setSearchDebounce(searchDebounce: number): Radio {
+        this.searchDebounce = searchDebounce;
+        return this;
+    }
+
+    getSearchDebounce(): number {
+        return this.searchDebounce;
+    }
+
+    setSearchMinOptions(searchMinOptions: number): Radio {
+        this.searchMinOptions = searchMinOptions;
+        return this;
+    }
+
+    getSearchMinOptions(): number {
+        return this.searchMinOptions;
     }
 
     setOptionOrder(optionOrder: string[]): Radio {
@@ -144,36 +192,23 @@ export class Radio extends Aggregation {
 
     render(options: {}[] = []): string {
         const template = this.getTemplate();
+        options = applyOptionOrder(options, this.getOptionOrder());
+        options = applyFilterOptions(options, this.getFilterOptions());
 
-        if (this.getOptionOrder()) {
-            options.sort((a: {value: string}, b: {value: string}) => {
-                let indexA = this.getOptionOrder().indexOf(a.value.toLowerCase());
-                let indexB = this.getOptionOrder().indexOf(b.value.toLowerCase());
-                if (indexA === -1) {
-                    indexA = 9999;
-                }
-                if (indexB === -1) {
-                    indexB = 9999;
-                }
-                return indexA - indexB;
-            });
-        }
-
-        if (this.getFilterOptions().length > 0) {
-            options = options.filter((o: {value: string}) => {
-                return this.getFilterOptions().indexOf(o.value.toLowerCase()) > -1;
-            });
-        }
+        const useSearch = (this.getUseSearch() && options.length >= this.getSearchMinOptions());
 
         return Mustache.render(template, {
             title: this.getTitle(),
             class_title: this.getClassTitle(),
+            name: this.getClassTitle(),
             options: options,
             collapsible: (this.getCollapsible()) ? 'needletail-collapsible' : '',
             collapsed: (this.getCollapsible() && this.getDefaultCollapsed()) ? 'needletail-collapsed' : '',
             show_more_options: this.getUseShowMoreOptions(),
             show_more_options_text: this.getShowMoreOptionsText(),
             show_less_options_text: this.getShowLessOptionsText(),
+            use_search: useSearch,
+            search_placeholder: this.getSearchPlaceholder(),
         });
     }
 
@@ -294,6 +329,8 @@ export class Radio extends Aggregation {
                         });
                     });
 
+                this.initializeSearch();
+
                 // eslint-disable-next-line max-len
                 document.querySelectorAll(`.needletail-aggregation-radio-option-input.needletail-aggregation-radio-option-input-${this.getClassTitle()}`)
                     .forEach((element: HTMLInputElement) => {
@@ -359,5 +396,74 @@ export class Radio extends Aggregation {
                     this.handle(element, false, true);
                 }
             });
+    }
+
+    initializeSearch() {
+        const classTitle = this.getClassTitle();
+        const rootSelector = '.needletail-aggregation.needletail-aggregation-radio' +
+            `.needletail-aggregation-radio-${classTitle}`;
+        const inputSelector = `.needletail-aggregation-options-search-input-${classTitle}`;
+
+        document.querySelectorAll(rootSelector).forEach((root) => {
+            const searchInput = root.querySelector(inputSelector) as HTMLInputElement;
+            if (!searchInput) {
+                return;
+            }
+
+            const showMoreOptionsElement = root.querySelector('.needletail-show-more-options') as HTMLElement;
+            const showLessOptionsElement = root.querySelector('.needletail-show-less-options') as HTMLElement;
+            const optionElements: NodeListOf<HTMLElement> =
+                root.querySelectorAll('.needletail-aggregation-radio-option');
+
+            let expandedBeforeSearch = false;
+
+            const applySearch = () => {
+                const q = (searchInput.value || '').trim().toLowerCase();
+
+                if (q) {
+                    if (showLessOptionsElement) {
+                        expandedBeforeSearch = !showLessOptionsElement.classList.contains('needletail-hidden');
+                    }
+
+                    if (showMoreOptionsElement) {
+                        showMoreOptionsElement.classList.add('needletail-hidden');
+                    }
+                    if (showLessOptionsElement) {
+                        showLessOptionsElement.classList.add('needletail-hidden');
+                    }
+
+                    optionElements.forEach((opt) => {
+                        opt.classList.remove('needletail-hidden');
+                        const label = opt.querySelector('.needletail-aggregation-radio-option-label') as HTMLElement;
+                        const text = (label ? label.textContent : '').toLowerCase();
+
+                        if (text.indexOf(q) > -1) {
+                            opt.classList.remove('needletail-search-hidden');
+                        } else {
+                            opt.classList.add('needletail-search-hidden');
+                        }
+                    });
+
+                    return;
+                }
+
+                optionElements.forEach((opt) => {
+                    opt.classList.remove('needletail-search-hidden');
+                });
+
+                if (!this.getUseShowMoreOptions()) {
+                    return;
+                }
+
+                if (expandedBeforeSearch && showMoreOptionsElement) {
+                    showMoreOptionsElement.click();
+                } else if (showLessOptionsElement) {
+                    showLessOptionsElement.click();
+                }
+            };
+
+            const handler = _debounce(applySearch, this.getSearchDebounce());
+            searchInput.addEventListener('input', handler);
+        });
     }
 }

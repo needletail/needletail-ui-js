@@ -1,0 +1,17 @@
+<div class="needletail-active-filters">
+    {{#chips}}
+        <span class="needletail-active-filter-chip" data-type="{{ type }}" data-key="{{ key }}" data-value="{{ value }}">
+            <span class="needletail-active-filter-label">{{ label }}</span>
+            <button
+                type="button"
+                class="needletail-active-filter-remove"
+                aria-label="Remove filter {{ label }}"
+                data-type="{{ type }}"
+                data-key="{{ key }}"
+                data-value="{{ value }}"
+            >
+                ×
+            </button>
+        </span>
+    {{/chips}}
+</div>

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import {AutocompleteBar, GroupedSearchBar, Result, AggregationBar} from '../Imports/Widgets';
+import {AutocompleteBar, GroupedSearchBar, Result, AggregationBar, ApplyFilters, ActiveFilters} from '../Imports/Widgets';
 import {WidgetOptions} from '../Imports/Types';
 import {Client} from '../Client';
 
@@ -20,6 +20,14 @@ export class WidgetCollection {
      * @type {AggregationBar[]} All the aggregation bar widgets
      */
     aggregationBar: AggregationBar[] = [];
+    /**
+     * @type {ApplyFilters[]} All the apply filters widgets
+     */
+    applyFilters: ApplyFilters[] = [];
+    /**
+     * @type {ActiveFilters[]} All the active filters widgets
+     */
+    activeFilters: ActiveFilters[] = [];
     /**
      * @type {Client} The client used to make API calls
      */
@@ -42,6 +50,12 @@ export class WidgetCollection {
             break;
         case 'AggregationBar':
             this.aggregationBar.push(widget as AggregationBar);
+            break;
+        case 'ApplyFilters':
+            this.applyFilters.push(widget as ApplyFilters);
+            break;
+        case 'ActiveFilters':
+            this.activeFilters.push(widget as ActiveFilters);
             break;
         default:
             // If the widget does not have an array throw an error

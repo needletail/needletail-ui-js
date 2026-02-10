@@ -7,6 +7,16 @@ declare module '@needletail/ui' {
         el?: string;
     }
 
+    export interface ApplyFiltersSettings extends WidgetSettings {
+        text?: string;
+        cancel_text?: string;
+        show_cancel?: boolean;
+    }
+
+    export interface ActiveFiltersSettings extends WidgetSettings {
+        exclude_params?: string[];
+    }
+
     export interface AggregationSettings {
         title?: string;
         template?: string;
@@ -29,6 +39,12 @@ declare module '@needletail/ui' {
             load?: number;
             never_hide_checked?: boolean;
         };
+        search?: {
+            use?: boolean;
+            placeholder?: string;
+            debounce?: number;
+            min_options?: number;
+        };
         skeleton_item_count?: number;
     }
 
@@ -41,6 +57,12 @@ declare module '@needletail/ui' {
             text?: string;
             less_text?: string;
             load?: number;
+        };
+        search?: {
+            use?: boolean;
+            placeholder?: string;
+            debounce?: number;
+            min_options?: number;
         };
         skeleton_item_count?: number;
     }
@@ -83,6 +105,52 @@ declare module '@needletail/ui' {
             to?: string;
             exact?: string;
         };
+    }
+
+    export interface DropdownSelectSettings extends AggregationSettings {
+        hide_on_empty?: boolean;
+        option_order?: string[];
+        filter_options?: string[];
+        any_label?: string;
+    }
+
+    export interface DatePresetsSettings extends AggregationSettings {
+        presets?: {
+            key: 'today' | 'last_7_days' | 'this_month' | 'custom';
+            label: string;
+        }[];
+        show_custom?: boolean;
+        input_type?: 'date' | 'datetime-local';
+        min_date?: string;
+        max_date?: string;
+        any_label?: string;
+        label_from?: string;
+        label_to?: string;
+    }
+
+    export interface MultiDateSettings extends AggregationSettings {
+        input_type?: 'date' | 'datetime-local';
+        min_date?: string;
+        max_date?: string;
+        any_label?: string;
+        add_label?: string;
+    }
+
+    export interface GeoRadiusSettings extends AggregationSettings {
+        cities_bucket?: string;
+        cities_search_fields?: string[] | string;
+        display_field?: string;
+        lat_field?: string;
+        lng_field?: string;
+        distance_options?: { value: string; label: string }[];
+        default_distance?: string;
+        location_placeholder?: string;
+        show_geolocation?: boolean;
+        geolocate_label?: string;
+        min_chars?: number;
+        limit?: number;
+        debounce?: number;
+        no_result_message?: string;
     }
 
     export interface AggregationBarSettings extends WidgetSettings {
@@ -140,11 +208,20 @@ declare module '@needletail/ui' {
         static initializeSlider: string;
         static initializeSwitch: string;
         static initializeDateFilter: string;
+        static onUrlChange: string;
+        static onApplyFilters: string;
+        static onCancelFilters: string;
+        static filtersDirtyStateChange: string;
         static emit(name: string, data?: {}): void;
     }
 
     export class URIHelper {
         static addToHistory(name: string, value: string, deleteOnExist?: boolean): void;
+        static setParam(name: string, value: string, replace?: boolean): void;
+        static removeParam(name: string, replace?: boolean): void;
+        static removeParamValue(name: string, value: string, replace?: boolean): void;
+        static snapshot(): { pathname: string; search: string };
+        static restore(snapshot: { pathname: string; search: string }, replace?: boolean): void;
         static getSearchParam(name: string): string;
         static getSearchParams(name: string): string[];
     }
@@ -208,12 +285,36 @@ declare module '@needletail/ui' {
         constructor(options?: DateFilterSettings);
     }
 
+    export class DropdownSelect extends Aggregation {
+        discriminator: string;
+        constructor(options?: DropdownSelectSettings);
+    }
+
+    export class DatePresets extends Aggregation {
+        discriminator: string;
+        constructor(options?: DatePresetsSettings);
+    }
+
+    export class MultiDate extends Aggregation {
+        discriminator: string;
+        constructor(options?: MultiDateSettings);
+    }
+
+    export class GeoRadius extends Aggregation {
+        discriminator: string;
+        constructor(options?: GeoRadiusSettings);
+    }
+
     export type FieldOptions =
         | Switch
         | Checkbox
         | Radio
         | Slider
-        | DateFilter;
+        | DateFilter
+        | DropdownSelect
+        | DatePresets
+        | MultiDate
+        | GeoRadius;
 
     export class AggregationBar extends Widget {
         discriminator: string;
@@ -238,17 +339,31 @@ declare module '@needletail/ui' {
         constructor(options?: ResultSettings);
     }
 
+    export class ApplyFilters extends Widget {
+        discriminator: string;
+        constructor(options?: ApplyFiltersSettings);
+    }
+
+    export class ActiveFilters extends Widget {
+        discriminator: string;
+        constructor(options?: ActiveFiltersSettings);
+    }
+
     export type WidgetOptions =
         | AutocompleteBar
         | GroupedSearchBar
         | Result
-        | AggregationBar;
+        | AggregationBar
+        | ApplyFilters
+        | ActiveFilters;
 
     export class WidgetCollection {
         autocompleteBar: AutocompleteBar[];
         groupedSearchBar: GroupedSearchBar[];
         result: Result[];
         aggregationBar: AggregationBar[];
+        applyFilters: ApplyFilters[];
+        activeFilters: ActiveFilters[];
         add(widget: WidgetOptions): void;
         addMultiple(widgets: WidgetOptions[]): void;
     }

@@ -82,6 +82,10 @@ export class Events {
     static initializeSlider: string = 'initializeSlider';
     static initializeSwitch: string = 'initializeSwitch';
     static initializeDateFilter: string = 'initializeDateFilter';
+    static onUrlChange: string = 'onUrlChange';
+    static onApplyFilters: string = 'onApplyFilters';
+    static onCancelFilters: string = 'onCancelFilters';
+    static filtersDirtyStateChange: string = 'filtersDirtyStateChange';
 
     static emit(name: string, data: {} = {}) {
         const event = new CustomEvent(name, {
